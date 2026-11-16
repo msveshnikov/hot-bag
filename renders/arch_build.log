@@ -1,0 +1,319 @@
+INFO Draco is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
+17:40:33 | INFO: Starting glTF 2.0 export
+17:40:33 | INFO: Extracting primitive: house_a-colonly
+17:40:33 | INFO: Primitives created: 1
+17:40:33 | INFO: Extracting primitive: house_a_mesh
+17:40:33 | INFO: Primitives created: 17
+17:40:33 | INFO: Extracting primitive: INT_door_house_a_0
+17:40:33 | INFO: Primitives created: 2
+17:40:33 | INFO: Extracting primitive: INT_intercom_house_a_0.001
+17:40:33 | INFO: Primitives created: 1
+17:40:33 | INFO: Finished glTF 2.0 export in 0.15066027641296387 s
+
+built house_a
+17:40:34 | INFO: Starting glTF 2.0 export
+17:40:34 | INFO: Extracting primitive: house_b-colonly
+17:40:34 | INFO: Primitives created: 1
+17:40:34 | INFO: Extracting primitive: house_b_mesh
+17:40:34 | INFO: Primitives created: 18
+17:40:34 | INFO: Extracting primitive: INT_door_house_b_0
+17:40:34 | INFO: Primitives created: 2
+17:40:34 | INFO: Extracting primitive: INT_intercom_house_b_0.001
+17:40:34 | INFO: Primitives created: 1
+17:40:34 | INFO: Finished glTF 2.0 export in 0.07810449600219727 s
+
+built house_b
+17:40:35 | INFO: Starting glTF 2.0 export
+17:40:35 | INFO: Extracting primitive: house_c-colonly
+17:40:35 | INFO: Primitives created: 1
+17:40:35 | INFO: Extracting primitive: house_c_mesh
+17:40:35 | INFO: Primitives created: 16
+17:40:35 | INFO: Extracting primitive: INT_door_house_c_0
+17:40:35 | INFO: Primitives created: 2
+17:40:35 | INFO: Extracting primitive: INT_door_house_c_1
+17:40:35 | INFO: Primitives created: 2
+17:40:35 | INFO: Extracting primitive: INT_intercom_house_c_0.001
+17:40:35 | INFO: Primitives created: 1
+17:40:35 | INFO: Extracting primitive: INT_intercom_house_c_1.001
+17:40:35 | INFO: Primitives created: 1
+17:40:35 | INFO: Finished glTF 2.0 export in 0.07676148414611816 s
+
+built house_c
+17:40:37 | INFO: Starting glTF 2.0 export
+17:40:37 | INFO: Extracting primitive: house_d-colonly
+17:40:37 | INFO: Primitives created: 1
+17:40:37 | INFO: Extracting primitive: house_d_mesh
+17:40:37 | INFO: Primitives created: 20
+17:40:37 | INFO: Extracting primitive: INT_door_house_d_0
+17:40:37 | INFO: Primitives created: 2
+17:40:37 | INFO: Extracting primitive: INT_intercom_house_d_0.001
+17:40:37 | INFO: Primitives created: 1
+17:40:37 | INFO: Finished glTF 2.0 export in 0.09338760375976562 s
+
+built house_d
+17:40:39 | INFO: Starting glTF 2.0 export
+17:40:39 | INFO: Extracting primitive: house_e-colonly
+17:40:39 | INFO: Primitives created: 1
+17:40:39 | INFO: Extracting primitive: house_e_mesh
+17:40:39 | INFO: Primitives created: 16
+17:40:39 | INFO: Extracting primitive: INT_door_house_e_0
+17:40:39 | INFO: Primitives created: 2
+17:40:39 | INFO: Extracting primitive: INT_door_house_e_1
+17:40:39 | INFO: Primitives created: 2
+17:40:39 | INFO: Extracting primitive: INT_intercom_house_e_0.001
+17:40:39 | INFO: Primitives created: 1
+17:40:39 | INFO: Extracting primitive: INT_intercom_house_e_1.001
+17:40:39 | INFO: Primitives created: 1
+17:40:39 | INFO: Finished glTF 2.0 export in 0.08745861053466797 s
+
+built house_e
+17:40:40 | INFO: Starting glTF 2.0 export
+17:40:40 | INFO: Extracting primitive: house_f-colonly
+17:40:40 | INFO: Primitives created: 1
+17:40:40 | INFO: Extracting primitive: house_f_mesh
+17:40:40 | INFO: Primitives created: 19
+17:40:40 | INFO: Extracting primitive: INT_door_house_f_0
+17:40:40 | INFO: Primitives created: 2
+17:40:40 | INFO: Extracting primitive: INT_intercom_house_f_0.001
+17:40:40 | INFO: Primitives created: 1
+17:40:40 | INFO: Finished glTF 2.0 export in 0.10875153541564941 s
+
+built house_f
+17:40:42 | INFO: Starting glTF 2.0 export
+17:40:42 | INFO: Extracting primitive: house_g-colonly
+17:40:42 | INFO: Primitives created: 1
+17:40:42 | INFO: Extracting primitive: house_g_mesh
+17:40:42 | INFO: Primitives created: 19
+17:40:42 | INFO: Extracting primitive: INT_door_house_g_0
+17:40:42 | INFO: Primitives created: 2
+17:40:42 | INFO: Extracting primitive: INT_intercom_house_g_0.001
+17:40:42 | INFO: Primitives created: 1
+17:40:42 | INFO: Finished glTF 2.0 export in 0.08344316482543945 s
+
+built house_g
+17:40:45 | INFO: Starting glTF 2.0 export
+17:40:45 | INFO: Extracting primitive: house_h-colonly
+17:40:45 | INFO: Primitives created: 1
+17:40:45 | INFO: Extracting primitive: house_h_mesh
+17:40:45 | INFO: Primitives created: 16
+17:40:45 | INFO: Extracting primitive: INT_door_house_h_0
+17:40:45 | INFO: Primitives created: 2
+17:40:45 | INFO: Extracting primitive: INT_door_house_h_1
+17:40:45 | INFO: Primitives created: 2
+17:40:45 | INFO: Extracting primitive: INT_intercom_house_h_0.001
+17:40:45 | INFO: Primitives created: 1
+17:40:45 | INFO: Extracting primitive: INT_intercom_house_h_1.001
+17:40:45 | INFO: Primitives created: 1
+17:40:45 | INFO: Finished glTF 2.0 export in 0.0863957405090332 s
+
+built house_h
+17:40:47 | INFO: Starting glTF 2.0 export
+17:40:47 | INFO: Extracting primitive: house_i-colonly
+17:40:47 | INFO: Primitives created: 1
+17:40:47 | INFO: Extracting primitive: house_i_mesh
+17:40:47 | INFO: Primitives created: 17
+17:40:47 | INFO: Extracting primitive: INT_door_house_i_0
+17:40:47 | INFO: Primitives created: 2
+17:40:47 | INFO: Extracting primitive: INT_intercom_house_i_0.001
+17:40:47 | INFO: Primitives created: 1
+17:40:47 | INFO: Finished glTF 2.0 export in 0.07808351516723633 s
+
+built house_i
+17:40:50 | INFO: Starting glTF 2.0 export
+17:40:50 | INFO: Extracting primitive: house_j-colonly
+17:40:50 | INFO: Primitives created: 1
+17:40:50 | INFO: Extracting primitive: house_j_mesh
+17:40:50 | INFO: Primitives created: 18
+17:40:50 | INFO: Extracting primitive: INT_door_house_j_0
+17:40:50 | INFO: Primitives created: 2
+17:40:50 | INFO: Extracting primitive: INT_intercom_house_j_0.001
+17:40:50 | INFO: Primitives created: 1
+17:40:50 | INFO: Finished glTF 2.0 export in 0.09258842468261719 s
+
+built house_j
+17:40:53 | INFO: Starting glTF 2.0 export
+17:40:53 | INFO: Extracting primitive: house_k-colonly
+17:40:53 | INFO: Primitives created: 1
+17:40:53 | INFO: Extracting primitive: house_k_mesh
+17:40:53 | INFO: Primitives created: 20
+17:40:53 | INFO: Extracting primitive: INT_door_house_k_0
+17:40:53 | INFO: Primitives created: 2
+17:40:53 | INFO: Extracting primitive: INT_door_house_k_1
+17:40:53 | INFO: Primitives created: 2
+17:40:53 | INFO: Extracting primitive: INT_intercom_house_k_0.001
+17:40:53 | INFO: Primitives created: 1
+17:40:53 | INFO: Extracting primitive: INT_intercom_house_k_1.001
+17:40:53 | INFO: Primitives created: 1
+17:40:53 | INFO: Finished glTF 2.0 export in 0.10036182403564453 s
+
+built house_k
+17:40:55 | INFO: Starting glTF 2.0 export
+17:40:55 | INFO: Extracting primitive: house_l-colonly
+17:40:55 | INFO: Primitives created: 1
+17:40:55 | INFO: Extracting primitive: house_l_mesh
+17:40:55 | INFO: Primitives created: 16
+17:40:55 | INFO: Extracting primitive: INT_door_house_l_0
+17:40:55 | INFO: Primitives created: 2
+17:40:55 | INFO: Extracting primitive: INT_intercom_house_l_0.001
+17:40:55 | INFO: Primitives created: 1
+17:40:55 | INFO: Finished glTF 2.0 export in 0.07753491401672363 s
+
+built house_l
+17:40:55 | INFO: Starting glTF 2.0 export
+17:40:55 | INFO: Extracting primitive: ANIM_clock_hour
+17:40:55 | INFO: Primitives created: 1
+17:40:55 | INFO: Extracting primitive: ANIM_clock_minute
+17:40:55 | INFO: Primitives created: 1
+17:40:55 | INFO: Extracting primitive: clock_tower-colonly
+17:40:55 | INFO: Primitives created: 1
+17:40:55 | INFO: Extracting primitive: clock_tower_mesh
+17:40:55 | INFO: Primitives created: 10
+17:40:55 | INFO: Finished glTF 2.0 export in 0.04639172554016113 s
+
+built clock_tower
+17:40:55 | INFO: Starting glTF 2.0 export
+17:40:55 | INFO: Extracting primitive: INT_counter_pizza.001
+17:40:55 | INFO: Primitives created: 1
+17:40:55 | INFO: Extracting primitive: INT_door_restaurant_pizza
+17:40:55 | INFO: Primitives created: 2
+17:40:55 | INFO: Extracting primitive: restaurant_pizza-colonly
+17:40:55 | INFO: Primitives created: 1
+17:40:55 | INFO: Extracting primitive: restaurant_pizza_mesh
+17:40:56 | INFO: Primitives created: 13
+17:40:56 | INFO: Finished glTF 2.0 export in 0.0518648624420166 s
+
+built restaurant_pizza
+17:40:56 | INFO: Starting glTF 2.0 export
+17:40:56 | INFO: Extracting primitive: INT_counter_burger.001
+17:40:56 | INFO: Primitives created: 1
+17:40:56 | INFO: Extracting primitive: INT_door_restaurant_burger
+17:40:56 | INFO: Primitives created: 2
+17:40:56 | INFO: Extracting primitive: restaurant_burger-colonly
+17:40:56 | INFO: Primitives created: 1
+17:40:56 | INFO: Extracting primitive: restaurant_burger_mesh
+17:40:56 | INFO: Primitives created: 15
+17:40:56 | INFO: Finished glTF 2.0 export in 0.05980849266052246 s
+
+built restaurant_burger
+17:40:56 | INFO: Starting glTF 2.0 export
+17:40:56 | INFO: Extracting primitive: INT_counter_sushi.001
+17:40:56 | INFO: Primitives created: 1
+17:40:56 | INFO: Extracting primitive: INT_door_restaurant_sushi
+17:40:56 | INFO: Primitives created: 2
+17:40:56 | INFO: Extracting primitive: restaurant_sushi-colonly
+17:40:56 | INFO: Primitives created: 1
+17:40:56 | INFO: Extracting primitive: restaurant_sushi_mesh
+17:40:56 | INFO: Primitives created: 13
+17:40:56 | INFO: Finished glTF 2.0 export in 0.05157470703125 s
+
+built restaurant_sushi
+17:40:57 | INFO: Starting glTF 2.0 export
+17:40:57 | INFO: Extracting primitive: INT_counter_coffee.001
+17:40:57 | INFO: Primitives created: 1
+17:40:57 | INFO: Extracting primitive: INT_door_restaurant_coffee
+17:40:57 | INFO: Primitives created: 2
+17:40:57 | INFO: Extracting primitive: restaurant_coffee-colonly
+17:40:57 | INFO: Primitives created: 1
+17:40:57 | INFO: Extracting primitive: restaurant_coffee_mesh
+17:40:57 | INFO: Primitives created: 13
+17:40:57 | INFO: Finished glTF 2.0 export in 0.051676034927368164 s
+
+built restaurant_coffee
+17:40:57 | INFO: Starting glTF 2.0 export
+17:40:57 | INFO: Extracting primitive: INT_counter_cake.001
+17:40:57 | INFO: Primitives created: 1
+17:40:57 | INFO: Extracting primitive: INT_door_restaurant_cake
+17:40:57 | INFO: Primitives created: 2
+17:40:57 | INFO: Extracting primitive: restaurant_cake-colonly
+17:40:57 | INFO: Primitives created: 1
+17:40:57 | INFO: Extracting primitive: restaurant_cake_mesh
+17:40:57 | INFO: Primitives created: 14
+17:40:57 | INFO: Finished glTF 2.0 export in 0.054363250732421875 s
+
+built restaurant_cake
+17:40:57 | INFO: Starting glTF 2.0 export
+17:40:57 | INFO: Extracting primitive: courier_cafe-colonly
+17:40:57 | INFO: Primitives created: 1
+17:40:57 | INFO: Extracting primitive: courier_cafe_mesh
+17:40:57 | INFO: Primitives created: 8
+17:40:57 | INFO: Extracting primitive: INT_counter_cafe
+17:40:57 | INFO: Primitives created: 1
+17:40:57 | INFO: Finished glTF 2.0 export in 0.03369426727294922 s
+
+built courier_cafe
+17:40:57 | INFO: Starting glTF 2.0 export
+17:40:57 | INFO: Extracting primitive: garage_b-colonly
+17:40:57 | INFO: Primitives created: 1
+17:40:57 | INFO: Extracting primitive: garage_l-colonly
+17:40:57 | INFO: Primitives created: 1
+17:40:57 | INFO: Extracting primitive: garage_mesh
+17:40:57 | INFO: Primitives created: 9
+17:40:57 | INFO: Extracting primitive: garage_r-colonly
+17:40:57 | INFO: Primitives created: 1
+17:40:57 | INFO: Extracting primitive: INT_shop_garage.001
+17:40:57 | INFO: Primitives created: 1
+17:40:57 | INFO: Finished glTF 2.0 export in 0.0779421329498291 s
+
+built garage
+17:40:57 | INFO: Starting glTF 2.0 export
+17:40:57 | INFO: Extracting primitive: INT_shop_kiosk
+17:40:57 | INFO: Primitives created: 1
+17:40:57 | INFO: Extracting primitive: snack_kiosk-colonly
+17:40:57 | INFO: Primitives created: 1
+17:40:57 | INFO: Extracting primitive: snack_kiosk_mesh
+17:40:57 | INFO: Primitives created: 4
+17:40:57 | INFO: Finished glTF 2.0 export in 0.023744821548461914 s
+
+built snack_kiosk
+17:40:58 | INFO: Starting glTF 2.0 export
+17:40:58 | INFO: Extracting primitive: police_booth-colonly
+17:40:58 | INFO: Primitives created: 1
+17:40:58 | INFO: Extracting primitive: police_booth_mesh
+17:40:58 | INFO: Primitives created: 4
+17:40:58 | INFO: Finished glTF 2.0 export in 0.017662525177001953 s
+
+built police_booth
+17:40:58 | INFO: Starting glTF 2.0 export
+17:40:58 | INFO: Extracting primitive: bridge_stub_block-colonly
+17:40:58 | INFO: Primitives created: 1
+17:40:58 | INFO: Extracting primitive: bridge_stub_floor-colonly
+17:40:58 | INFO: Primitives created: 1
+17:40:58 | INFO: Extracting primitive: bridge_stub_mesh
+17:40:58 | INFO: Primitives created: 5
+17:40:58 | INFO: Extracting primitive: bridge_stub_parl-colonly
+17:40:58 | INFO: Primitives created: 1
+17:40:58 | INFO: Extracting primitive: bridge_stub_parr-colonly
+17:40:58 | INFO: Primitives created: 1
+17:40:58 | INFO: Finished glTF 2.0 export in 0.03707623481750488 s
+
+built bridge_stub
+17:40:58 | INFO: Starting glTF 2.0 export
+17:40:58 | INFO: Extracting primitive: parapet-colonly
+17:40:58 | INFO: Primitives created: 1
+17:40:58 | INFO: Extracting primitive: parapet_mesh
+17:40:58 | INFO: Primitives created: 2
+17:40:58 | INFO: Finished glTF 2.0 export in 0.01789999008178711 s
+
+built parapet
+17:40:58 | INFO: Starting glTF 2.0 export
+17:40:58 | INFO: Extracting primitive: stairs_wide_mesh
+17:40:58 | INFO: Primitives created: 1
+17:40:58 | INFO: Extracting primitive: stairs_wide_ramp-colonly
+17:40:58 | INFO: Primitives created: 1
+17:40:58 | INFO: Finished glTF 2.0 export in 0.019089698791503906 s
+
+built stairs_wide
+17:40:58 | INFO: Starting glTF 2.0 export
+17:40:58 | INFO: Extracting primitive: quay_wall-colonly
+17:40:58 | INFO: Primitives created: 1
+17:40:58 | INFO: Extracting primitive: quay_wall_mesh
+17:40:58 | INFO: Primitives created: 1
+17:40:58 | INFO: Finished glTF 2.0 export in 0.012953519821166992 s
+
+built quay_wall
+Info: Saved as "architecture.blend"
+DONE
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
+
+Blender quit

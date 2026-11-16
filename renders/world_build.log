@@ -1,0 +1,75 @@
+layout: 390 instances, 520 markers, 79 houses
+INFO Draco is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
+17:45:15 | INFO: Starting glTF 2.0 export
+17:45:15 | INFO: Extracting primitive: backdrop
+17:45:15 | INFO: Primitives created: 13
+17:45:15 | INFO: Extracting primitive: base_slab-col
+17:45:15 | INFO: Primitives created: 1
+17:45:15 | INFO: Extracting primitive: bounds-colonly
+17:45:15 | INFO: Primitives created: 1
+17:45:15 | INFO: Extracting primitive: curbs
+17:45:15 | INFO: Primitives created: 1
+17:45:15 | INFO: Extracting primitive: garden_walls-col
+17:45:15 | INFO: Primitives created: 1
+17:45:15 | INFO: Extracting primitive: ground_a-col
+17:45:15 | INFO: Primitives created: 1
+17:45:15 | INFO: Extracting primitive: ground_b-col
+17:45:15 | INFO: Primitives created: 1
+17:45:15 | INFO: Extracting primitive: ground_c-col
+17:45:15 | INFO: Primitives created: 1
+17:45:15 | INFO: Extracting primitive: ground_g-col
+17:45:15 | INFO: Primitives created: 1
+17:45:15 | INFO: Extracting primitive: ground_p-col
+17:45:15 | INFO: Primitives created: 1
+17:45:15 | INFO: Extracting primitive: ground_q-col
+17:45:15 | INFO: Primitives created: 1
+17:45:15 | INFO: Extracting primitive: ground_s-col
+17:45:15 | INFO: Primitives created: 1
+17:45:15 | INFO: Extracting primitive: ground_w
+17:45:15 | INFO: Primitives created: 1
+17:45:15 | INFO: Extracting primitive: ground_z-col
+17:45:15 | INFO: Primitives created: 1
+17:45:15 | INFO: Extracting primitive: quay_walls-col
+17:45:15 | INFO: Primitives created: 1
+17:45:15 | INFO: Extracting primitive: road_marks
+17:45:15 | INFO: Primitives created: 2
+17:45:15 | INFO: Finished glTF 2.0 export in 0.29474544525146484 s
+00:46.766  render           | Saved: 'C:\My-progs\Godot\wolt\renders\levels\old_town_square_day.png'
+00:52.125  render           | Saved: 'C:\My-progs\Godot\wolt\renders\levels\old_town_restaurants_day.png'
+00:58.547  render           | Saved: 'C:\My-progs\Godot\wolt\renders\levels\old_town_avenue_day.png'
+01:04.907  render           | Saved: 'C:\My-progs\Godot\wolt\renders\levels\old_town_base_day.png'
+01:10.313  render           | Saved: 'C:\My-progs\Godot\wolt\renders\levels\old_town_embankment_day.png'
+01:18.704  render           | Saved: 'C:\My-progs\Godot\wolt\renders\levels\old_town_square_night.png'
+01:26.938  render           | Saved: 'C:\My-progs\Godot\wolt\renders\levels\old_town_restaurants_night.png'
+01:34.594  render           | Saved: 'C:\My-progs\Godot\wolt\renders\levels\old_town_avenue_night.png'
+01:41.532  render           | Saved: 'C:\My-progs\Godot\wolt\renders\levels\old_town_base_night.png'
+01:49.000  render           | Saved: 'C:\My-progs\Godot\wolt\renders\levels\old_town_embankment_night.png'
+01:59.641  render           | Saved: 'C:\My-progs\Godot\wolt\renders\levels\old_town_square_rain.png'
+02:09.250  render           | Saved: 'C:\My-progs\Godot\wolt\renders\levels\old_town_restaurants_rain.png'
+02:18.797  render           | Saved: 'C:\My-progs\Godot\wolt\renders\levels\old_town_avenue_rain.png'
+02:27.375  render           | Saved: 'C:\My-progs\Godot\wolt\renders\levels\old_town_base_rain.png'
+02:35.579  render           | Saved: 'C:\My-progs\Godot\wolt\renders\levels\old_town_embankment_rain.png'
+02:44.782  render           | Saved: 'C:\My-progs\Godot\wolt\assets\levels\old_town_map.png'
+
+render C:\My-progs\Godot\wolt\renders\levels\old_town_square_day.png
+render C:\My-progs\Godot\wolt\renders\levels\old_town_restaurants_day.png
+render C:\My-progs\Godot\wolt\renders\levels\old_town_avenue_day.png
+render C:\My-progs\Godot\wolt\renders\levels\old_town_base_day.png
+render C:\My-progs\Godot\wolt\renders\levels\old_town_embankment_day.png
+render C:\My-progs\Godot\wolt\renders\levels\old_town_square_night.png
+render C:\My-progs\Godot\wolt\renders\levels\old_town_restaurants_night.png
+render C:\My-progs\Godot\wolt\renders\levels\old_town_avenue_night.png
+render C:\My-progs\Godot\wolt\renders\levels\old_town_base_night.png
+render C:\My-progs\Godot\wolt\renders\levels\old_town_embankment_night.png
+render C:\My-progs\Godot\wolt\renders\levels\old_town_square_rain.png
+render C:\My-progs\Godot\wolt\renders\levels\old_town_restaurants_rain.png
+render C:\My-progs\Godot\wolt\renders\levels\old_town_avenue_rain.png
+render C:\My-progs\Godot\wolt\renders\levels\old_town_base_rain.png
+render C:\My-progs\Godot\wolt\renders\levels\old_town_embankment_rain.png
+render C:\My-progs\Godot\wolt\assets\levels\old_town_map.png
+Info: Saved as "old_town.blend"
+DONE
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
+
+Blender quit

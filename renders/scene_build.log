@@ -1,0 +1,74 @@
+00:02.672  blend            | Read blend: "C:\My-progs\Godot\wolt\blender\old_town.blend"
+doors 98
+npcs 44 fx 53 regulars [('ded', 'S_3_0'), ('zina', 'N_28_0'), ('petya', 'A_18_0'), ('olya', 'W_3_0'), ('office', 'S_46_0'), ('tourist', 'W_1_1')]
+Info: Read library: 'C:\My-progs\Godot\wolt\blender\architecture.blend', '//architecture.blend', parent '<direct>'
+Info: Read library: 'C:\My-progs\Godot\wolt\blender\props.blend', '//props.blend', parent '<direct>'
+17:52:47 | INFO: Data are loaded, start creating Blender stuff
+17:52:47 | INFO: Blender create Mesh node oldman_body
+17:52:48 | INFO: glTF import finished in 0.62s
+17:52:48 | INFO: Data are loaded, start creating Blender stuff
+17:52:48 | INFO: Blender create Mesh node grandma_body
+17:52:48 | INFO: Blender create Mesh node hair
+17:52:48 | INFO: glTF import finished in 0.61s
+17:52:49 | INFO: Data are loaded, start creating Blender stuff
+17:52:49 | INFO: Blender create Mesh node hair
+17:52:49 | INFO: Blender create Mesh node office_body
+17:52:49 | INFO: glTF import finished in 0.61s
+17:52:49 | INFO: Data are loaded, start creating Blender stuff
+17:52:49 | INFO: Blender create Mesh node tourist_body
+17:52:50 | INFO: glTF import finished in 0.65s
+17:52:50 | INFO: Data are loaded, start creating Blender stuff
+17:52:50 | INFO: Blender create Mesh node hair
+17:52:50 | INFO: Blender create Mesh node student_body
+17:52:51 | INFO: glTF import finished in 0.63s
+17:52:51 | INFO: Data are loaded, start creating Blender stuff
+17:52:51 | INFO: Blender create Mesh node hair
+17:52:51 | INFO: Blender create Mesh node mom_body
+17:52:52 | INFO: glTF import finished in 0.69s
+17:52:52 | INFO: Data are loaded, start creating Blender stuff
+17:52:52 | INFO: Blender create Mesh node cook_body
+17:52:52 | INFO: glTF import finished in 0.70s
+17:52:53 | INFO: Data are loaded, start creating Blender stuff
+17:52:53 | INFO: Blender create Mesh node bag
+17:52:53 | INFO: Blender create Mesh node hair
+17:52:53 | INFO: Blender create Mesh node mentor_body
+17:52:53 | INFO: glTF import finished in 0.74s
+17:52:53 | INFO: Data are loaded, start creating Blender stuff
+17:52:54 | INFO: Blender create Mesh node police_body
+17:52:54 | INFO: glTF import finished in 0.72s
+17:52:54 | INFO: Data are loaded, start creating Blender stuff
+17:52:55 | INFO: Blender create Mesh node ACC_bag
+17:52:55 | INFO: Blender create Mesh node ACC_cap
+17:52:55 | INFO: Blender create Mesh node ACC_hair_bun
+17:52:55 | INFO: Blender create Mesh node ACC_hair_curly
+17:52:55 | INFO: Blender create Mesh node ACC_hair_ponytail
+17:52:55 | INFO: Blender create Mesh node ACC_hair_short
+17:52:55 | INFO: Blender create Mesh node ACC_helmet_bike
+17:52:55 | INFO: Blender create Mesh node ACC_helmet_half
+17:52:55 | INFO: Blender create Mesh node ACC_helmet_retro
+17:52:55 | INFO: Blender create Mesh node courier_m_body
+17:52:55 | INFO: Blender create Mesh node HELD_box
+17:52:55 | INFO: Blender create Mesh node HELD_phone
+17:52:55 | INFO: glTF import finished in 0.83s
+00:48.422  render           | Saved: 'C:\My-progs\Godot\wolt\renders\levels\populated_square_day.png'
+00:56.922  render           | Saved: 'C:\My-progs\Godot\wolt\renders\levels\populated_restaurants_day.png'
+01:04.187  render           | Saved: 'C:\My-progs\Godot\wolt\renders\levels\populated_base_day.png'
+01:14.609  render           | Saved: 'C:\My-progs\Godot\wolt\renders\levels\populated_square_evening.png'
+01:25.531  render           | Saved: 'C:\My-progs\Godot\wolt\renders\levels\populated_restaurants_evening.png'
+01:36.875  render           | Saved: 'C:\My-progs\Godot\wolt\renders\levels\populated_base_evening.png'
+01:47.515  render           | Saved: 'C:\My-progs\Godot\wolt\renders\levels\populated_square_night.png'
+01:58.531  render           | Saved: 'C:\My-progs\Godot\wolt\renders\levels\populated_restaurants_night.png'
+02:09.875  render           | Saved: 'C:\My-progs\Godot\wolt\renders\levels\populated_base_night.png'
+render C:\My-progs\Godot\wolt\renders\levels\populated_square_day.png
+render C:\My-progs\Godot\wolt\renders\levels\populated_restaurants_day.png
+render C:\My-progs\Godot\wolt\renders\levels\populated_base_day.png
+render C:\My-progs\Godot\wolt\renders\levels\populated_square_evening.png
+render C:\My-progs\Godot\wolt\renders\levels\populated_restaurants_evening.png
+render C:\My-progs\Godot\wolt\renders\levels\populated_base_evening.png
+render C:\My-progs\Godot\wolt\renders\levels\populated_square_night.png
+render C:\My-progs\Godot\wolt\renders\levels\populated_restaurants_night.png
+render C:\My-progs\Godot\wolt\renders\levels\populated_base_night.png
+DONE
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
+
+Blender quit

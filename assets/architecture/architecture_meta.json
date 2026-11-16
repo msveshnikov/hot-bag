@@ -1,0 +1,211 @@
+{
+ "house_a": {
+  "kind": "house",
+  "w": 8,
+  "d": 10,
+  "floors": 4,
+  "h": 12.6,
+  "doors": 1,
+  "ground": "plain",
+  "lift": false
+ },
+ "house_c": {
+  "kind": "house",
+  "w": 9,
+  "d": 10,
+  "floors": 4,
+  "h": 12.6,
+  "doors": 2,
+  "ground": "plain",
+  "lift": false
+ },
+ "clock_tower": {
+  "kind": "landmark",
+  "w": 8.6,
+  "d": 8.6,
+  "h": 40
+ },
+ "restaurant_pizza": {
+  "kind": "restaurant",
+  "food": "pizza",
+  "w": 6.6,
+  "d": 7.0,
+  "h": 4.4
+ },
+ "house_b": {
+  "kind": "house",
+  "w": 7,
+  "d": 10,
+  "floors": 5,
+  "h": 15.6,
+  "doors": 1,
+  "ground": "plain",
+  "lift": false
+ },
+ "house_d": {
+  "kind": "house",
+  "w": 8,
+  "d": 11,
+  "floors": 6,
+  "h": 18.6,
+  "doors": 1,
+  "ground": "cafe",
+  "lift": false
+ },
+ "house_e": {
+  "kind": "house",
+  "w": 10,
+  "d": 10,
+  "floors": 4,
+  "h": 12.6,
+  "doors": 2,
+  "ground": "plain",
+  "lift": false
+ },
+ "house_f": {
+  "kind": "house",
+  "w": 7,
+  "d": 9,
+  "floors": 5,
+  "h": 15.6,
+  "doors": 1,
+  "ground": "plain",
+  "lift": false
+ },
+ "house_g": {
+  "kind": "house",
+  "w": 8,
+  "d": 10,
+  "floors": 4,
+  "h": 12.6,
+  "doors": 1,
+  "ground": "shop",
+  "lift": false
+ },
+ "house_h": {
+  "kind": "house",
+  "w": 9,
+  "d": 11,
+  "floors": 5,
+  "h": 15.6,
+  "doors": 2,
+  "ground": "plain",
+  "lift": false
+ },
+ "house_i": {
+  "kind": "house",
+  "w": 7,
+  "d": 10,
+  "floors": 4,
+  "h": 12.6,
+  "doors": 1,
+  "ground": "plain",
+  "lift": false
+ },
+ "house_j": {
+  "kind": "house",
+  "w": 8,
+  "d": 10,
+  "floors": 6,
+  "h": 18.6,
+  "doors": 1,
+  "ground": "plain",
+  "lift": false
+ },
+ "house_k": {
+  "kind": "house",
+  "w": 10,
+  "d": 11,
+  "floors": 5,
+  "h": 15.6,
+  "doors": 2,
+  "ground": "cafe",
+  "lift": false
+ },
+ "house_l": {
+  "kind": "house",
+  "w": 8,
+  "d": 10,
+  "floors": 4,
+  "h": 12.6,
+  "doors": 1,
+  "ground": "plain",
+  "lift": false
+ },
+ "restaurant_burger": {
+  "kind": "restaurant",
+  "food": "burger",
+  "w": 6.6,
+  "d": 7.0,
+  "h": 4.4
+ },
+ "restaurant_sushi": {
+  "kind": "restaurant",
+  "food": "sushi",
+  "w": 6.6,
+  "d": 7.0,
+  "h": 4.4
+ },
+ "restaurant_coffee": {
+  "kind": "restaurant",
+  "food": "coffee",
+  "w": 6.6,
+  "d": 7.0,
+  "h": 4.4
+ },
+ "restaurant_cake": {
+  "kind": "restaurant",
+  "food": "cake",
+  "w": 6.6,
+  "d": 7.0,
+  "h": 4.4
+ },
+ "courier_cafe": {
+  "kind": "shop",
+  "w": 7.0,
+  "d": 5.0,
+  "h": 3.6
+ },
+ "garage": {
+  "kind": "shop",
+  "w": 8.0,
+  "d": 8.0,
+  "h": 4.8
+ },
+ "snack_kiosk": {
+  "kind": "shop",
+  "w": 3,
+  "d": 2.4,
+  "h": 3.5
+ },
+ "police_booth": {
+  "kind": "booth",
+  "w": 2.4,
+  "d": 2.4,
+  "h": 3.4
+ },
+ "bridge_stub": {
+  "kind": "bridge",
+  "w": 10.0,
+  "d": 26.0,
+  "h": 1
+ },
+ "parapet": {
+  "kind": "wall",
+  "w": 4,
+  "d": 0.8,
+  "h": 1.3
+ },
+ "stairs_wide": {
+  "kind": "stairs",
+  "w": 5.0,
+  "d": 4.800000000000001,
+  "h": 3.0
+ },
+ "quay_wall": {
+  "kind": "wall",
+  "w": 8.0,
+  "d": 1,
+  "h": 3.0
+ }
+}

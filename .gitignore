@@ -4,3 +4,4 @@ build/
 *.tmp
 autotest.log
 override.cfg
+*.import

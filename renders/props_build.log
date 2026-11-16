@@ -1,0 +1,271 @@
+INFO Draco is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
+17:22:17 | INFO: Starting glTF 2.0 export
+17:22:17 | INFO: Extracting primitive: tree_round-colonly
+17:22:17 | INFO: Primitives created: 1
+17:22:17 | INFO: Extracting primitive: tree_round_mesh
+17:22:17 | INFO: Primitives created: 3
+17:22:17 | INFO: Finished glTF 2.0 export in 0.07854771614074707 s
+
+built tree_round
+17:22:17 | INFO: Starting glTF 2.0 export
+17:22:17 | INFO: Extracting primitive: tree_round_b-colonly
+17:22:17 | INFO: Primitives created: 1
+17:22:17 | INFO: Extracting primitive: tree_round_b_mesh
+17:22:17 | INFO: Primitives created: 3
+17:22:17 | INFO: Finished glTF 2.0 export in 0.013087987899780273 s
+
+built tree_round_b
+17:22:17 | INFO: Starting glTF 2.0 export
+17:22:17 | INFO: Extracting primitive: bush_mesh
+17:22:17 | INFO: Primitives created: 2
+17:22:17 | INFO: Finished glTF 2.0 export in 0.008878946304321289 s
+
+built bush
+17:22:17 | INFO: Starting glTF 2.0 export
+17:22:17 | INFO: Extracting primitive: bench-colonly
+17:22:17 | INFO: Primitives created: 1
+17:22:17 | INFO: Extracting primitive: bench_mesh
+17:22:17 | INFO: Primitives created: 2
+17:22:17 | INFO: Finished glTF 2.0 export in 0.018967151641845703 s
+
+built bench
+17:22:17 | INFO: Starting glTF 2.0 export
+17:22:17 | INFO: Extracting primitive: lamp_post-colonly
+17:22:17 | INFO: Primitives created: 1
+17:22:17 | INFO: Extracting primitive: lamp_post_mesh
+17:22:17 | INFO: Primitives created: 2
+17:22:17 | INFO: Finished glTF 2.0 export in 0.01001286506652832 s
+
+built lamp_post
+17:22:17 | INFO: Starting glTF 2.0 export
+17:22:17 | INFO: Extracting primitive: TLAMP_green
+17:22:17 | INFO: Primitives created: 1
+17:22:17 | INFO: Extracting primitive: TLAMP_red
+17:22:17 | INFO: Primitives created: 1
+17:22:17 | INFO: Extracting primitive: TLAMP_yellow
+17:22:17 | INFO: Primitives created: 1
+17:22:17 | INFO: Extracting primitive: traffic_light-colonly
+17:22:17 | INFO: Primitives created: 1
+17:22:17 | INFO: Extracting primitive: traffic_light_mesh
+17:22:17 | INFO: Primitives created: 2
+17:22:17 | INFO: Finished glTF 2.0 export in 0.02106022834777832 s
+
+built traffic_light
+17:22:17 | INFO: Starting glTF 2.0 export
+17:22:17 | INFO: Extracting primitive: charger_station-colonly
+17:22:17 | INFO: Primitives created: 1
+17:22:17 | INFO: Extracting primitive: charger_station_mesh
+17:22:17 | INFO: Primitives created: 5
+17:22:17 | INFO: Extracting primitive: INT_charger.001
+17:22:17 | INFO: Primitives created: 1
+17:22:17 | INFO: Finished glTF 2.0 export in 0.021845340728759766 s
+
+built charger_station
+17:22:17 | INFO: Starting glTF 2.0 export
+17:22:17 | INFO: Extracting primitive: bike_rack-colonly
+17:22:17 | INFO: Primitives created: 1
+17:22:17 | INFO: Extracting primitive: bike_rack_mesh
+17:22:17 | INFO: Primitives created: 1
+17:22:17 | INFO: Finished glTF 2.0 export in 0.007767915725708008 s
+
+built bike_rack
+17:22:17 | INFO: Starting glTF 2.0 export
+17:22:17 | INFO: Extracting primitive: trash_bin-colonly
+17:22:17 | INFO: Primitives created: 1
+17:22:17 | INFO: Extracting primitive: trash_bin_mesh
+17:22:17 | INFO: Primitives created: 2
+17:22:17 | INFO: Finished glTF 2.0 export in 0.012122154235839844 s
+
+built trash_bin
+17:22:17 | INFO: Starting glTF 2.0 export
+17:22:17 | INFO: Extracting primitive: flower_pot-colonly
+17:22:17 | INFO: Primitives created: 1
+17:22:17 | INFO: Extracting primitive: flower_pot_mesh
+17:22:17 | INFO: Primitives created: 5
+17:22:17 | INFO: Finished glTF 2.0 export in 0.020906925201416016 s
+
+built flower_pot
+17:22:17 | INFO: Starting glTF 2.0 export
+17:22:17 | INFO: Extracting primitive: cafe_set-colonly
+17:22:17 | INFO: Primitives created: 1
+17:22:17 | INFO: Extracting primitive: cafe_set_mesh
+17:22:17 | INFO: Primitives created: 5
+17:22:17 | INFO: Finished glTF 2.0 export in 0.01739025115966797 s
+
+built cafe_set
+17:22:17 | INFO: Starting glTF 2.0 export
+17:22:17 | INFO: Extracting primitive: cafe_set_turq-colonly
+17:22:17 | INFO: Primitives created: 1
+17:22:17 | INFO: Extracting primitive: cafe_set_turq_mesh
+17:22:17 | INFO: Primitives created: 5
+17:22:17 | INFO: Finished glTF 2.0 export in 0.01880168914794922 s
+
+built cafe_set_turq
+17:22:17 | INFO: Starting glTF 2.0 export
+17:22:17 | INFO: Extracting primitive: barrier_works-colonly
+17:22:17 | INFO: Primitives created: 1
+17:22:17 | INFO: Extracting primitive: barrier_works_mesh
+17:22:17 | INFO: Primitives created: 4
+17:22:17 | INFO: Finished glTF 2.0 export in 0.01626133918762207 s
+
+built barrier_works
+17:22:17 | INFO: Starting glTF 2.0 export
+17:22:17 | INFO: Extracting primitive: traffic_cone_mesh
+17:22:17 | INFO: Primitives created: 3
+17:22:17 | INFO: Finished glTF 2.0 export in 0.01197504997253418 s
+
+built traffic_cone
+17:22:17 | INFO: Starting glTF 2.0 export
+17:22:17 | INFO: Extracting primitive: bollard-colonly
+17:22:17 | INFO: Primitives created: 1
+17:22:17 | INFO: Extracting primitive: bollard_mesh
+17:22:17 | INFO: Primitives created: 1
+17:22:17 | INFO: Finished glTF 2.0 export in 0.008996009826660156 s
+
+built bollard
+17:22:17 | INFO: Starting glTF 2.0 export
+17:22:17 | INFO: Extracting primitive: fountain-colonly
+17:22:17 | INFO: Primitives created: 1
+17:22:17 | INFO: Extracting primitive: fountain_mesh
+17:22:17 | INFO: Primitives created: 2
+17:22:17 | INFO: Finished glTF 2.0 export in 0.0232393741607666 s
+
+built fountain
+17:22:17 | INFO: Starting glTF 2.0 export
+17:22:17 | INFO: Extracting primitive: mailbox_mesh
+17:22:18 | INFO: Primitives created: 2
+17:22:18 | INFO: Finished glTF 2.0 export in 0.010083198547363281 s
+
+built mailbox
+17:22:18 | INFO: Starting glTF 2.0 export
+17:22:18 | INFO: Extracting primitive: crates-colonly
+17:22:18 | INFO: Primitives created: 1
+17:22:18 | INFO: Extracting primitive: crates_mesh
+17:22:18 | INFO: Primitives created: 4
+17:22:18 | INFO: Finished glTF 2.0 export in 0.0179440975189209 s
+
+built crates
+17:22:18 | INFO: Starting glTF 2.0 export
+17:22:18 | INFO: Extracting primitive: menu_board_mesh
+17:22:18 | INFO: Primitives created: 2
+17:22:18 | INFO: Finished glTF 2.0 export in 0.01339864730834961 s
+
+built menu_board
+17:22:18 | INFO: Starting glTF 2.0 export
+17:22:18 | INFO: Extracting primitive: string_lights_mesh
+17:22:18 | INFO: Primitives created: 2
+17:22:18 | INFO: Finished glTF 2.0 export in 0.010149955749511719 s
+
+built string_lights
+17:22:18 | INFO: Starting glTF 2.0 export
+17:22:18 | INFO: Extracting primitive: tram_stop-colonly
+17:22:18 | INFO: Primitives created: 1
+17:22:18 | INFO: Extracting primitive: tram_stop_mesh
+17:22:18 | INFO: Primitives created: 4
+17:22:18 | INFO: Finished glTF 2.0 export in 0.020328521728515625 s
+
+built tram_stop
+17:22:18 | INFO: Starting glTF 2.0 export
+17:22:18 | INFO: Extracting primitive: pizza_box_mesh
+17:22:18 | INFO: Primitives created: 2
+17:22:18 | INFO: Finished glTF 2.0 export in 0.009629487991333008 s
+
+built pizza_box
+17:22:18 | INFO: Starting glTF 2.0 export
+17:22:18 | INFO: Extracting primitive: paper_bag_mesh
+17:22:18 | INFO: Primitives created: 3
+17:22:18 | INFO: Finished glTF 2.0 export in 0.011264562606811523 s
+
+built paper_bag
+17:22:18 | INFO: Starting glTF 2.0 export
+17:22:18 | INFO: Extracting primitive: cup_holder_mesh
+17:22:18 | INFO: Primitives created: 4
+17:22:18 | INFO: Finished glTF 2.0 export in 0.014747858047485352 s
+
+built cup_holder
+17:22:18 | INFO: Starting glTF 2.0 export
+17:22:18 | INFO: Extracting primitive: cake_box_mesh
+17:22:18 | INFO: Primitives created: 2
+17:22:18 | INFO: Finished glTF 2.0 export in 0.009073972702026367 s
+
+built cake_box
+17:22:18 | INFO: Starting glTF 2.0 export
+17:22:18 | INFO: Extracting primitive: sushi_box_mesh
+17:22:18 | INFO: Primitives created: 4
+17:22:18 | INFO: Finished glTF 2.0 export in 0.015746355056762695 s
+
+built sushi_box
+17:22:18 | INFO: Starting glTF 2.0 export
+17:22:18 | INFO: Extracting primitive: ice_cream_tub_mesh
+17:22:18 | INFO: Primitives created: 3
+17:22:18 | INFO: Finished glTF 2.0 export in 0.011664390563964844 s
+
+built ice_cream_tub
+17:22:18 | INFO: Starting glTF 2.0 export
+17:22:18 | INFO: Extracting primitive: lunch_crate_mesh
+17:22:18 | INFO: Primitives created: 2
+17:22:18 | INFO: Finished glTF 2.0 export in 0.012392997741699219 s
+00:29.094  render           | Saved: 'C:\My-progs\Godot\wolt\renders\previews\prop_tree_round.png'
+00:30.953  render           | Saved: 'C:\My-progs\Godot\wolt\renders\previews\prop_tree_round_b.png'
+00:33.110  render           | Saved: 'C:\My-progs\Godot\wolt\renders\previews\prop_bush.png'
+00:35.657  render           | Saved: 'C:\My-progs\Godot\wolt\renders\previews\prop_bench.png'
+00:38.047  render           | Saved: 'C:\My-progs\Godot\wolt\renders\previews\prop_lamp_post.png'
+00:39.953  render           | Saved: 'C:\My-progs\Godot\wolt\renders\previews\prop_traffic_light.png'
+00:41.860  render           | Saved: 'C:\My-progs\Godot\wolt\renders\previews\prop_charger_station.png'
+00:43.672  render           | Saved: 'C:\My-progs\Godot\wolt\renders\previews\prop_bike_rack.png'
+00:45.469  render           | Saved: 'C:\My-progs\Godot\wolt\renders\previews\prop_trash_bin.png'
+00:47.703  render           | Saved: 'C:\My-progs\Godot\wolt\renders\previews\prop_flower_pot.png'
+00:49.703  render           | Saved: 'C:\My-progs\Godot\wolt\renders\previews\prop_cafe_set.png'
+00:51.594  render           | Saved: 'C:\My-progs\Godot\wolt\renders\previews\prop_cafe_set_turq.png'
+00:53.532  render           | Saved: 'C:\My-progs\Godot\wolt\renders\previews\prop_barrier_works.png'
+00:55.453  render           | Saved: 'C:\My-progs\Godot\wolt\renders\previews\prop_traffic_cone.png'
+00:57.422  render           | Saved: 'C:\My-progs\Godot\wolt\renders\previews\prop_bollard.png'
+00:59.313  render           | Saved: 'C:\My-progs\Godot\wolt\renders\previews\prop_fountain.png'
+01:01.266  render           | Saved: 'C:\My-progs\Godot\wolt\renders\previews\prop_mailbox.png'
+01:03.203  render           | Saved: 'C:\My-progs\Godot\wolt\renders\previews\prop_crates.png'
+01:05.157  render           | Saved: 'C:\My-progs\Godot\wolt\renders\previews\prop_menu_board.png'
+01:07.032  render           | Saved: 'C:\My-progs\Godot\wolt\renders\previews\prop_string_lights.png'
+01:13.500  render           | Saved: 'C:\My-progs\Godot\wolt\renders\previews\prop_tram_stop.png'
+01:15.578  render           | Saved: 'C:\My-progs\Godot\wolt\renders\previews\prop_pizza_box.png'
+01:17.532  render           | Saved: 'C:\My-progs\Godot\wolt\renders\previews\prop_paper_bag.png'
+01:19.532  render           | Saved: 'C:\My-progs\Godot\wolt\renders\previews\prop_cup_holder.png'
+01:21.453  render           | Saved: 'C:\My-progs\Godot\wolt\renders\previews\prop_cake_box.png'
+01:23.813  render           | Saved: 'C:\My-progs\Godot\wolt\renders\previews\prop_sushi_box.png'
+01:25.875  render           | Saved: 'C:\My-progs\Godot\wolt\renders\previews\prop_ice_cream_tub.png'
+01:27.782  render           | Saved: 'C:\My-progs\Godot\wolt\renders\previews\prop_lunch_crate.png'
+
+built lunch_crate
+render C:\My-progs\Godot\wolt\renders\previews\prop_tree_round.png
+render C:\My-progs\Godot\wolt\renders\previews\prop_tree_round_b.png
+render C:\My-progs\Godot\wolt\renders\previews\prop_bush.png
+render C:\My-progs\Godot\wolt\renders\previews\prop_bench.png
+render C:\My-progs\Godot\wolt\renders\previews\prop_lamp_post.png
+render C:\My-progs\Godot\wolt\renders\previews\prop_traffic_light.png
+render C:\My-progs\Godot\wolt\renders\previews\prop_charger_station.png
+render C:\My-progs\Godot\wolt\renders\previews\prop_bike_rack.png
+render C:\My-progs\Godot\wolt\renders\previews\prop_trash_bin.png
+render C:\My-progs\Godot\wolt\renders\previews\prop_flower_pot.png
+render C:\My-progs\Godot\wolt\renders\previews\prop_cafe_set.png
+render C:\My-progs\Godot\wolt\renders\previews\prop_cafe_set_turq.png
+render C:\My-progs\Godot\wolt\renders\previews\prop_barrier_works.png
+render C:\My-progs\Godot\wolt\renders\previews\prop_traffic_cone.png
+render C:\My-progs\Godot\wolt\renders\previews\prop_bollard.png
+render C:\My-progs\Godot\wolt\renders\previews\prop_fountain.png
+render C:\My-progs\Godot\wolt\renders\previews\prop_mailbox.png
+render C:\My-progs\Godot\wolt\renders\previews\prop_crates.png
+render C:\My-progs\Godot\wolt\renders\previews\prop_menu_board.png
+render C:\My-progs\Godot\wolt\renders\previews\prop_string_lights.png
+render C:\My-progs\Godot\wolt\renders\previews\prop_tram_stop.png
+render C:\My-progs\Godot\wolt\renders\previews\prop_pizza_box.png
+render C:\My-progs\Godot\wolt\renders\previews\prop_paper_bag.png
+render C:\My-progs\Godot\wolt\renders\previews\prop_cup_holder.png
+render C:\My-progs\Godot\wolt\renders\previews\prop_cake_box.png
+render C:\My-progs\Godot\wolt\renders\previews\prop_sushi_box.png
+render C:\My-progs\Godot\wolt\renders\previews\prop_ice_cream_tub.png
+render C:\My-progs\Godot\wolt\renders\previews\prop_lunch_crate.png
+Info: Saved as "props.blend"
+DONE
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
+
+Blender quit

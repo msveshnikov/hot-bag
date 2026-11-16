@@ -1,0 +1,364 @@
+INFO Draco is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
+17:41:05 | INFO: Starting glTF 2.0 export
+17:41:05 | INFO: Extracting primitive: ACC_bag
+17:41:05 | INFO: Primitives created: 4
+17:41:05 | INFO: Extracting primitive: ACC_cap
+17:41:05 | INFO: Primitives created: 1
+17:41:05 | INFO: Extracting primitive: ACC_hair_bun
+17:41:05 | INFO: Primitives created: 1
+17:41:05 | INFO: Extracting primitive: ACC_hair_curly
+17:41:05 | INFO: Primitives created: 1
+17:41:05 | INFO: Extracting primitive: ACC_hair_ponytail
+17:41:05 | INFO: Primitives created: 1
+17:41:05 | INFO: Extracting primitive: ACC_hair_short
+17:41:05 | INFO: Primitives created: 1
+17:41:05 | INFO: Extracting primitive: ACC_helmet_bike
+17:41:05 | INFO: Primitives created: 2
+17:41:05 | INFO: Extracting primitive: ACC_helmet_half
+17:41:05 | INFO: Primitives created: 2
+17:41:05 | INFO: Extracting primitive: ACC_helmet_retro
+17:41:05 | INFO: Primitives created: 3
+17:41:05 | INFO: Extracting primitive: courier_m_body
+17:41:05 | INFO: Primitives created: 14
+17:41:05 | INFO: Extracting primitive: HELD_box
+17:41:05 | INFO: Primitives created: 1
+17:41:05 | INFO: Extracting primitive: HELD_phone
+17:41:05 | INFO: Primitives created: 2
+17:41:08 | INFO: Finished glTF 2.0 export in 3.1767752170562744 s
+00:32.485  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_m_idle.png'
+00:33.938  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_m_walk.png'
+00:35.454  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_m_run.png'
+00:36.922  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_m_ride_bike.png'
+00:38.360  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_m_ride_scooter.png'
+00:39.922  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_m_phone_check.png'
+00:41.469  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_m_sit.png'
+00:42.954  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_m_celebrate.png'
+00:44.391  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_m_front.png'
+
+exported C:\My-progs\Godot\wolt\assets\characters\courier_m.gltf NLA_TRACKS
+built courier_m
+render C:\My-progs\Godot\wolt\renders\characters\courier_m_idle.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_m_walk.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_m_run.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_m_ride_bike.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_m_ride_scooter.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_m_phone_check.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_m_sit.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_m_celebrate.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_m_front.png
+Info: Saved as "characters_courier_m.blend"
+17:41:46 | INFO: Starting glTF 2.0 export
+17:41:46 | INFO: Extracting primitive: ACC_bag
+17:41:46 | INFO: Primitives created: 4
+17:41:46 | INFO: Extracting primitive: ACC_cap
+17:41:46 | INFO: Primitives created: 1
+17:41:46 | INFO: Extracting primitive: ACC_hair_bun
+17:41:46 | INFO: Primitives created: 1
+17:41:46 | INFO: Extracting primitive: ACC_hair_curly
+17:41:46 | INFO: Primitives created: 1
+17:41:46 | INFO: Extracting primitive: ACC_hair_ponytail
+17:41:46 | INFO: Primitives created: 1
+17:41:46 | INFO: Extracting primitive: ACC_hair_short
+17:41:46 | INFO: Primitives created: 1
+17:41:46 | INFO: Extracting primitive: ACC_helmet_bike
+17:41:46 | INFO: Primitives created: 2
+17:41:46 | INFO: Extracting primitive: ACC_helmet_half
+17:41:46 | INFO: Primitives created: 2
+17:41:46 | INFO: Extracting primitive: ACC_helmet_retro
+17:41:46 | INFO: Primitives created: 3
+17:41:46 | INFO: Extracting primitive: courier_f_body
+17:41:46 | INFO: Primitives created: 15
+17:41:46 | INFO: Extracting primitive: HELD_box
+17:41:46 | INFO: Primitives created: 1
+17:41:46 | INFO: Extracting primitive: HELD_phone
+17:41:46 | INFO: Primitives created: 2
+17:41:49 | INFO: Finished glTF 2.0 export in 3.242565155029297 s
+00:51.329  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_f_idle.png'
+00:52.766  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_f_walk.png'
+00:54.219  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_f_run.png'
+00:55.672  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_f_ride_bike.png'
+00:57.125  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_f_ride_scooter.png'
+00:58.563  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_f_phone_check.png'
+01:00.000  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_f_sit.png'
+01:01.797  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_f_celebrate.png'
+01:03.204  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_f_front.png'
+
+exported C:\My-progs\Godot\wolt\assets\characters\courier_f.gltf NLA_TRACKS
+built courier_f
+render C:\My-progs\Godot\wolt\renders\characters\courier_f_idle.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_f_walk.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_f_run.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_f_ride_bike.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_f_ride_scooter.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_f_phone_check.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_f_sit.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_f_celebrate.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_f_front.png
+17:42:04 | INFO: Starting glTF 2.0 export
+17:42:04 | INFO: Extracting primitive: bag
+17:42:04 | INFO: Primitives created: 7
+17:42:04 | INFO: Extracting primitive: hair
+17:42:04 | INFO: Primitives created: 1
+17:42:04 | INFO: Extracting primitive: mentor_body
+17:42:04 | INFO: Primitives created: 15
+17:42:06 | INFO: Finished glTF 2.0 export in 2.9432642459869385 s
+01:08.985  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\mentor_idle.png'
+01:10.422  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\mentor_walk.png'
+01:12.032  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\mentor_run.png'
+01:13.907  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\mentor_ride_bike.png'
+01:15.672  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\mentor_ride_scooter.png'
+01:17.266  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\mentor_phone_check.png'
+01:18.641  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\mentor_sit.png'
+01:20.172  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\mentor_celebrate.png'
+01:21.547  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\mentor_front.png'
+
+exported C:\My-progs\Godot\wolt\assets\characters\mentor.gltf NLA_TRACKS
+built mentor
+render C:\My-progs\Godot\wolt\renders\characters\mentor_idle.png
+render C:\My-progs\Godot\wolt\renders\characters\mentor_walk.png
+render C:\My-progs\Godot\wolt\renders\characters\mentor_run.png
+render C:\My-progs\Godot\wolt\renders\characters\mentor_ride_bike.png
+render C:\My-progs\Godot\wolt\renders\characters\mentor_ride_scooter.png
+render C:\My-progs\Godot\wolt\renders\characters\mentor_phone_check.png
+render C:\My-progs\Godot\wolt\renders\characters\mentor_sit.png
+render C:\My-progs\Godot\wolt\renders\characters\mentor_celebrate.png
+render C:\My-progs\Godot\wolt\renders\characters\mentor_front.png
+17:42:22 | INFO: Starting glTF 2.0 export
+17:42:22 | INFO: Extracting primitive: oldman_body
+17:42:22 | INFO: Primitives created: 10
+17:42:25 | INFO: Finished glTF 2.0 export in 2.893037796020508 s
+01:27.360  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\oldman_idle.png'
+01:29.500  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\oldman_walk.png'
+01:30.938  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\oldman_run.png'
+01:32.360  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\oldman_ride_bike.png'
+01:33.829  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\oldman_ride_scooter.png'
+01:35.313  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\oldman_phone_check.png'
+01:36.735  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\oldman_sit.png'
+01:38.172  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\oldman_celebrate.png'
+01:39.422  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\oldman_front.png'
+
+exported C:\My-progs\Godot\wolt\assets\characters\oldman.gltf NLA_TRACKS
+built oldman
+render C:\My-progs\Godot\wolt\renders\characters\oldman_idle.png
+render C:\My-progs\Godot\wolt\renders\characters\oldman_walk.png
+render C:\My-progs\Godot\wolt\renders\characters\oldman_run.png
+render C:\My-progs\Godot\wolt\renders\characters\oldman_ride_bike.png
+render C:\My-progs\Godot\wolt\renders\characters\oldman_ride_scooter.png
+render C:\My-progs\Godot\wolt\renders\characters\oldman_phone_check.png
+render C:\My-progs\Godot\wolt\renders\characters\oldman_sit.png
+render C:\My-progs\Godot\wolt\renders\characters\oldman_celebrate.png
+render C:\My-progs\Godot\wolt\renders\characters\oldman_front.png
+17:42:40 | INFO: Starting glTF 2.0 export
+17:42:40 | INFO: Extracting primitive: hair
+17:42:40 | INFO: Primitives created: 1
+17:42:40 | INFO: Extracting primitive: office_body
+17:42:40 | INFO: Primitives created: 12
+17:42:42 | INFO: Finished glTF 2.0 export in 2.8539974689483643 s
+01:44.813  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\office_idle.png'
+01:46.297  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\office_walk.png'
+01:47.657  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\office_run.png'
+01:49.079  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\office_ride_bike.png'
+01:50.563  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\office_ride_scooter.png'
+01:51.969  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\office_phone_check.png'
+01:53.344  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\office_sit.png'
+01:54.782  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\office_celebrate.png'
+01:56.110  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\office_front.png'
+
+exported C:\My-progs\Godot\wolt\assets\characters\office.gltf NLA_TRACKS
+built office
+render C:\My-progs\Godot\wolt\renders\characters\office_idle.png
+render C:\My-progs\Godot\wolt\renders\characters\office_walk.png
+render C:\My-progs\Godot\wolt\renders\characters\office_run.png
+render C:\My-progs\Godot\wolt\renders\characters\office_ride_bike.png
+render C:\My-progs\Godot\wolt\renders\characters\office_ride_scooter.png
+render C:\My-progs\Godot\wolt\renders\characters\office_phone_check.png
+render C:\My-progs\Godot\wolt\renders\characters\office_sit.png
+render C:\My-progs\Godot\wolt\renders\characters\office_celebrate.png
+render C:\My-progs\Godot\wolt\renders\characters\office_front.png
+17:42:57 | INFO: Starting glTF 2.0 export
+17:42:57 | INFO: Extracting primitive: hair
+17:42:57 | INFO: Primitives created: 1
+17:42:57 | INFO: Extracting primitive: student_body
+17:42:57 | INFO: Primitives created: 10
+17:43:00 | INFO: Finished glTF 2.0 export in 3.249541759490967 s
+02:02.891  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\student_idle.png'
+02:04.516  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\student_walk.png'
+02:06.250  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\student_run.png'
+02:07.875  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\student_ride_bike.png'
+02:09.313  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\student_ride_scooter.png'
+02:10.813  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\student_phone_check.png'
+02:12.219  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\student_sit.png'
+02:13.688  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\student_celebrate.png'
+02:15.204  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\student_front.png'
+
+exported C:\My-progs\Godot\wolt\assets\characters\student.gltf NLA_TRACKS
+built student
+render C:\My-progs\Godot\wolt\renders\characters\student_idle.png
+render C:\My-progs\Godot\wolt\renders\characters\student_walk.png
+render C:\My-progs\Godot\wolt\renders\characters\student_run.png
+render C:\My-progs\Godot\wolt\renders\characters\student_ride_bike.png
+render C:\My-progs\Godot\wolt\renders\characters\student_ride_scooter.png
+render C:\My-progs\Godot\wolt\renders\characters\student_phone_check.png
+render C:\My-progs\Godot\wolt\renders\characters\student_sit.png
+render C:\My-progs\Godot\wolt\renders\characters\student_celebrate.png
+render C:\My-progs\Godot\wolt\renders\characters\student_front.png
+17:43:15 | INFO: Starting glTF 2.0 export
+17:43:15 | INFO: Extracting primitive: hair
+17:43:15 | INFO: Primitives created: 1
+17:43:15 | INFO: Extracting primitive: mom_body
+17:43:15 | INFO: Primitives created: 14
+17:43:18 | INFO: Finished glTF 2.0 export in 2.9159183502197266 s
+02:20.860  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\mom_idle.png'
+02:22.516  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\mom_walk.png'
+02:24.313  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\mom_run.png'
+02:25.797  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\mom_ride_bike.png'
+02:27.172  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\mom_ride_scooter.png'
+02:28.625  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\mom_phone_check.png'
+02:30.141  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\mom_sit.png'
+02:31.860  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\mom_celebrate.png'
+02:33.157  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\mom_front.png'
+
+exported C:\My-progs\Godot\wolt\assets\characters\mom.gltf NLA_TRACKS
+built mom
+render C:\My-progs\Godot\wolt\renders\characters\mom_idle.png
+render C:\My-progs\Godot\wolt\renders\characters\mom_walk.png
+render C:\My-progs\Godot\wolt\renders\characters\mom_run.png
+render C:\My-progs\Godot\wolt\renders\characters\mom_ride_bike.png
+render C:\My-progs\Godot\wolt\renders\characters\mom_ride_scooter.png
+render C:\My-progs\Godot\wolt\renders\characters\mom_phone_check.png
+render C:\My-progs\Godot\wolt\renders\characters\mom_sit.png
+render C:\My-progs\Godot\wolt\renders\characters\mom_celebrate.png
+render C:\My-progs\Godot\wolt\renders\characters\mom_front.png
+17:43:33 | INFO: Starting glTF 2.0 export
+17:43:33 | INFO: Extracting primitive: grandma_body
+17:43:34 | INFO: Primitives created: 14
+17:43:34 | INFO: Extracting primitive: hair
+17:43:34 | INFO: Primitives created: 1
+17:43:37 | INFO: Finished glTF 2.0 export in 3.767719030380249 s
+02:39.891  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\grandma_idle.png'
+02:41.282  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\grandma_walk.png'
+02:42.922  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\grandma_run.png'
+02:44.657  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\grandma_ride_bike.png'
+02:46.094  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\grandma_ride_scooter.png'
+02:47.813  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\grandma_phone_check.png'
+02:49.829  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\grandma_sit.png'
+02:51.516  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\grandma_celebrate.png'
+02:52.829  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\grandma_front.png'
+
+exported C:\My-progs\Godot\wolt\assets\characters\grandma.gltf NLA_TRACKS
+built grandma
+render C:\My-progs\Godot\wolt\renders\characters\grandma_idle.png
+render C:\My-progs\Godot\wolt\renders\characters\grandma_walk.png
+render C:\My-progs\Godot\wolt\renders\characters\grandma_run.png
+render C:\My-progs\Godot\wolt\renders\characters\grandma_ride_bike.png
+render C:\My-progs\Godot\wolt\renders\characters\grandma_ride_scooter.png
+render C:\My-progs\Godot\wolt\renders\characters\grandma_phone_check.png
+render C:\My-progs\Godot\wolt\renders\characters\grandma_sit.png
+render C:\My-progs\Godot\wolt\renders\characters\grandma_celebrate.png
+render C:\My-progs\Godot\wolt\renders\characters\grandma_front.png
+17:43:53 | INFO: Starting glTF 2.0 export
+17:43:53 | INFO: Extracting primitive: tourist_body
+17:43:53 | INFO: Primitives created: 14
+17:43:56 | INFO: Finished glTF 2.0 export in 2.836932897567749 s
+02:58.594  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\tourist_idle.png'
+03:00.141  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\tourist_walk.png'
+03:01.907  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\tourist_run.png'
+03:03.454  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\tourist_ride_bike.png'
+03:04.922  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\tourist_ride_scooter.png'
+03:06.297  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\tourist_phone_check.png'
+03:07.797  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\tourist_sit.png'
+03:09.454  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\tourist_celebrate.png'
+03:10.797  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\tourist_front.png'
+
+exported C:\My-progs\Godot\wolt\assets\characters\tourist.gltf NLA_TRACKS
+built tourist
+render C:\My-progs\Godot\wolt\renders\characters\tourist_idle.png
+render C:\My-progs\Godot\wolt\renders\characters\tourist_walk.png
+render C:\My-progs\Godot\wolt\renders\characters\tourist_run.png
+render C:\My-progs\Godot\wolt\renders\characters\tourist_ride_bike.png
+render C:\My-progs\Godot\wolt\renders\characters\tourist_ride_scooter.png
+render C:\My-progs\Godot\wolt\renders\characters\tourist_phone_check.png
+render C:\My-progs\Godot\wolt\renders\characters\tourist_sit.png
+render C:\My-progs\Godot\wolt\renders\characters\tourist_celebrate.png
+render C:\My-progs\Godot\wolt\renders\characters\tourist_front.png
+17:44:11 | INFO: Starting glTF 2.0 export
+17:44:11 | INFO: Extracting primitive: cook_body
+17:44:11 | INFO: Primitives created: 12
+17:44:14 | INFO: Finished glTF 2.0 export in 2.8746047019958496 s
+03:16.235  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\cook_idle.png'
+03:17.813  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\cook_walk.png'
+03:19.266  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\cook_run.png'
+03:20.704  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\cook_ride_bike.png'
+03:22.157  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\cook_ride_scooter.png'
+03:23.610  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\cook_phone_check.png'
+03:24.969  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\cook_sit.png'
+03:26.407  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\cook_celebrate.png'
+03:27.844  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\cook_front.png'
+
+exported C:\My-progs\Godot\wolt\assets\characters\cook.gltf NLA_TRACKS
+built cook
+render C:\My-progs\Godot\wolt\renders\characters\cook_idle.png
+render C:\My-progs\Godot\wolt\renders\characters\cook_walk.png
+render C:\My-progs\Godot\wolt\renders\characters\cook_run.png
+render C:\My-progs\Godot\wolt\renders\characters\cook_ride_bike.png
+render C:\My-progs\Godot\wolt\renders\characters\cook_ride_scooter.png
+render C:\My-progs\Godot\wolt\renders\characters\cook_phone_check.png
+render C:\My-progs\Godot\wolt\renders\characters\cook_sit.png
+render C:\My-progs\Godot\wolt\renders\characters\cook_celebrate.png
+render C:\My-progs\Godot\wolt\renders\characters\cook_front.png
+17:44:28 | INFO: Starting glTF 2.0 export
+17:44:28 | INFO: Extracting primitive: police_body
+17:44:28 | INFO: Primitives created: 14
+17:44:31 | INFO: Finished glTF 2.0 export in 2.8264708518981934 s
+03:33.235  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\police_idle.png'
+03:34.735  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\police_walk.png'
+03:36.172  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\police_run.png'
+03:37.985  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\police_ride_bike.png'
+03:39.766  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\police_ride_scooter.png'
+03:41.297  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\police_phone_check.png'
+03:42.750  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\police_sit.png'
+03:44.188  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\police_celebrate.png'
+03:45.532  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\police_front.png'
+
+exported C:\My-progs\Godot\wolt\assets\characters\police.gltf NLA_TRACKS
+built police
+render C:\My-progs\Godot\wolt\renders\characters\police_idle.png
+render C:\My-progs\Godot\wolt\renders\characters\police_walk.png
+render C:\My-progs\Godot\wolt\renders\characters\police_run.png
+render C:\My-progs\Godot\wolt\renders\characters\police_ride_bike.png
+render C:\My-progs\Godot\wolt\renders\characters\police_ride_scooter.png
+render C:\My-progs\Godot\wolt\renders\characters\police_phone_check.png
+render C:\My-progs\Godot\wolt\renders\characters\police_sit.png
+render C:\My-progs\Godot\wolt\renders\characters\police_celebrate.png
+render C:\My-progs\Godot\wolt\renders\characters\police_front.png
+17:44:46 | INFO: Starting glTF 2.0 export
+17:44:46 | INFO: Extracting primitive: thief_body
+17:44:46 | INFO: Primitives created: 11
+17:44:49 | INFO: Finished glTF 2.0 export in 2.919466733932495 s
+03:51.266  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\thief_idle.png'
+03:52.641  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\thief_walk.png'
+03:54.063  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\thief_run.png'
+03:55.485  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\thief_ride_bike.png'
+03:56.922  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\thief_ride_scooter.png'
+03:58.360  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\thief_phone_check.png'
+03:59.844  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\thief_sit.png'
+04:01.344  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\thief_celebrate.png'
+04:03.063  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\thief_front.png'
+
+exported C:\My-progs\Godot\wolt\assets\characters\thief.gltf NLA_TRACKS
+built thief
+render C:\My-progs\Godot\wolt\renders\characters\thief_idle.png
+render C:\My-progs\Godot\wolt\renders\characters\thief_walk.png
+render C:\My-progs\Godot\wolt\renders\characters\thief_run.png
+render C:\My-progs\Godot\wolt\renders\characters\thief_ride_bike.png
+render C:\My-progs\Godot\wolt\renders\characters\thief_ride_scooter.png
+render C:\My-progs\Godot\wolt\renders\characters\thief_phone_check.png
+render C:\My-progs\Godot\wolt\renders\characters\thief_sit.png
+render C:\My-progs\Godot\wolt\renders\characters\thief_celebrate.png
+render C:\My-progs\Godot\wolt\renders\characters\thief_front.png
+speeds {'walk': 0.993, 'run': 2.274, 'tired_walk': 0.6, 'climb_stairs': 1.632, 'sneak': 0.696, 'carry': 0.993}
+DONE
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
+
+Blender quit
