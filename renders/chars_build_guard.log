@@ -1,0 +1,37 @@
+INFO Draco is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
+20:55:10 | INFO: Starting glTF 2.0 export
+20:55:10 | INFO: Extracting primitive: guard_body
+20:55:10 | INFO: Primitives created: 15
+20:55:12 | INFO: Finished glTF 2.0 export in 2.2722175121307373 s
+00:28.453  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\guard_idle.png'
+00:29.922  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\guard_walk.png'
+00:31.531  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\guard_run.png'
+00:32.953  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\guard_ride_bike.png'
+00:34.265  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\guard_ride_scooter.png'
+00:35.703  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\guard_phone_check.png'
+00:37.047  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\guard_sit.png'
+00:38.359  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\guard_celebrate.png'
+00:39.719  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\guard_front.png'
+00:40.906  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\guard_side.png'
+00:42.172  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\guard_back.png'
+00:43.515  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\guard_three_q.png'
+
+exported C:\My-progs\Godot\wolt\assets\characters\guard.gltf NLA_TRACKS
+built guard
+render C:\My-progs\Godot\wolt\renders\characters\guard_idle.png
+render C:\My-progs\Godot\wolt\renders\characters\guard_walk.png
+render C:\My-progs\Godot\wolt\renders\characters\guard_run.png
+render C:\My-progs\Godot\wolt\renders\characters\guard_ride_bike.png
+render C:\My-progs\Godot\wolt\renders\characters\guard_ride_scooter.png
+render C:\My-progs\Godot\wolt\renders\characters\guard_phone_check.png
+render C:\My-progs\Godot\wolt\renders\characters\guard_sit.png
+render C:\My-progs\Godot\wolt\renders\characters\guard_celebrate.png
+render C:\My-progs\Godot\wolt\renders\characters\guard_front.png
+render C:\My-progs\Godot\wolt\renders\characters\guard_side.png
+render C:\My-progs\Godot\wolt\renders\characters\guard_back.png
+render C:\My-progs\Godot\wolt\renders\characters\guard_three_q.png
+DONE
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
+
+Blender quit

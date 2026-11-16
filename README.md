@@ -13,7 +13,7 @@
 
 </div>
 
-Take orders in the «Хоп!» app, ride a squeaky bicycle (later your own e-scooter) through a cartoon Old Town, keep the pizza hot and the cake in one piece, climb stairs in houses without lifts, dodge police fines, rain, flat tyres, rival couriers and bike thieves — and save up for your dream restaurant. Russian UI. Vertical slice: the Old Town district, chapters 1–2.
+Take orders in the «Хоп!» app, ride a squeaky bicycle (later your own e-scooter) through a cartoon city, keep the pizza hot and the cake in one piece, climb stairs in houses without lifts, get past tower security, dodge police fines, tow trucks, rain, flat tyres, rival couriers and bike thieves — and open your dream restaurant. Russian UI. Three districts (Old Town, the business district «Сити», the sleeping district «Берёзки»), five chapters.
 
 ---
 
@@ -24,6 +24,15 @@ Take orders in the «Хоп!» app, ride a squeaky bicycle (later your own e-sco
 - Решения и конвенции: [decisions.md](decisions.md)
 - Задачи вертикального среза (Старый город): [task1](task1.md) → [task2](task2.md) → [task3](task3.md) →
   [task4](task4.md) → [task5](task5.md), по одной в новой сессии Claude Code.
+- Прогон 2 (районы «Сити» и «Берёзки», главы 3–5, новый курьер): [run2.md](run2.md), отчёт — [report_run2.md](report_run2.md).
+
+## Сюжет
+
+1. **Первая смена** — Михалыч учит возить заказы (Старый город).
+2. **Свой самокат** — накопить 300 монет.
+3. **Деловой центр** — мост в «Сити»: башни с охраной и лифтами, обеденный пик, эвакуатор у входов.
+4. **Ночные смены** — «Берёзки»: одинаковые панельки, «корпус 4», сломанные лифты, ночные надбавки.
+5. **Ресторан мечты** — 1000 монет и рейтинг 4,5 → своё помещение на Часовой площади → ужин для критика.
 
 ## Инструменты
 
@@ -73,8 +82,12 @@ blender -b --factory-startup -P build_architecture.py    # дома, башня,
 blender -b --factory-startup -P build_props.py           # пропсы и еда
 blender -b --factory-startup -P build_characters.py      # 12 персонажей + 40 анимаций [-- --only courier_m]
 blender -b --factory-startup -P build_vehicles.py        # велосипед, самокат, машины, трамвай
-blender -b --factory-startup -P build_world.py           # уровень: old_town_layout.json, ground, карта, рендеры
-blender -b --factory-startup -P build_scene.py           # население, заказы, события (+ рендеры)
+python make_textures2.py                                 # текстуры прогона 2 (панели, плитка, стекло)
+blender -b --factory-startup -P build_architecture2.py   # башни, фуд-корт, панельки, киоски, ресторан мечты
+blender -b --factory-startup -P build_world.py           # Старый город: old_town_layout.json, ground, карта, рендеры
+blender -b --factory-startup -P build_district.py -- --level city      # «Сити» (city_plan.py)
+blender -b --factory-startup -P build_district.py -- --level berezki   # «Берёзки» (berezki_plan.py)
+python build_scene.py -- --level old_town|city|berezki --no-render     # население, заказы, события
 ```
 
 Порядок важен: текстуры → архитектура/пропсы → персонажи/транспорт → уровень → население. Потом в корне проекта:
@@ -83,6 +96,8 @@ blender -b --factory-startup -P build_scene.py           # население, �
 godot --headless --path . --import
 godot --path . -- --autotest               # прохождение + скриншоты renders/game/*.png и autotest.log
 godot --path . -- --autotest --touch       # то же с сенсорным управлением
+godot --path . -- --autotest --district city      # «Сити»: все адреса, охрана, лифты, эвакуатор, переезд
+godot --path . -- --autotest --district berezki   # «Берёзки»: корпуса, сломанный лифт, квест, переезд
 godot --path . -- --tour x,z,yaw[,час] ... # скриншоты в точках
 godot --path . -- --play [--newgame]       # сразу в игру
 godot --headless --path . --export-release "Windows Desktop" build/windows/HotBag.exe
@@ -97,3 +112,7 @@ scp build/web/* build/android/HotBag.apk ubuntu@severance.lol:/var/www/severance
 - `old_town_population.json`: `npcs` (модель, поведение, расписание), `cooks`, `mentor`, `police`, `rivals`, `thieves`, `traffic`, `fx`, `player`.
 - `old_town_orders.json`: `restaurants` (меню, время готовки), `doors` (адреса), `regulars`, `quests`, `rules`.
 - `old_town_events.json`: проблемы курьера с весами по главам.
+- Районы прогона 2 — те же четыре файла `city_*.json`, `berezki_*.json`. В `layout` добавлен блок `district`
+  (`title`, `exits` — зоны выезда с `to`, `entries` — точки появления по району, откуда приехал, `zones` — красные
+  зоны «нет парковки»). В `orders.doors`: `kind` (house / panel / tower), `lift`, `corpus`, `plate_text`, `guard`;
+  `orders.bignums` — большие номера на стенах. В `population`: `guards`, `mentor` = null вне Старого города.

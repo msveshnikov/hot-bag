@@ -23,7 +23,7 @@ func setup(w: Node) -> void:
 
 
 func chapter_idx() -> int:
-	return clamp(int(Game.state["chapter"]) - 1, 0, 2)
+	return clamp(int(Game.state["chapter"]) - 1, 0, 4)
 
 
 func rivals_active() -> bool:
@@ -73,7 +73,8 @@ func _fire_random() -> void:
 	var pool = []
 	var total = 0.0
 	for e in list:
-		var w = float(e["weight"][ci])
+		var wl: Array = e["weight"]
+		var w = float(wl[min(ci, wl.size() - 1)])
 		if w > 0.0 and _eligible(e):
 			pool.append([e, w])
 			total += w

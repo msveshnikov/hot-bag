@@ -1,4 +1,5 @@
 {
+ "level": "old_town",
  "restaurants": {
   "pizza": {
    "name": "Пиццерия «Тесто»",
@@ -198,6 +199,42 @@
     3.4
    ],
    "prop": "cake_box"
+  },
+  "dream": {
+   "name": "Ресторан «Горячая сумка»",
+   "items": [
+    [
+     "dream",
+     "Фирменный обед",
+     "hot",
+     1.6
+    ]
+   ],
+   "cook": [
+    20,
+    35
+   ],
+   "slow": false,
+   "price": 1.5,
+   "owned_only": true,
+   "pickup": [
+    23.9,
+    0.0,
+    4.8
+   ],
+   "pickup_yaw": 0.0,
+   "cook_pos": [
+    23.9,
+    0.0,
+    6.9
+   ],
+   "cook_yaw": 180.0,
+   "parking": [
+    20.4,
+    0.0,
+    3.4
+   ],
+   "prop": "lunch_crate"
   }
  },
  "doors": [
@@ -206,9 +243,11 @@
    "street": "N",
    "street_name": "Северный переулок",
    "number": 1,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     -97.4,
     0.0,
@@ -220,16 +259,20 @@
     2.0,
     -27.9
    ],
-   "label": "Северный переулок, 1, под. 1"
+   "plate_text": "1\nпод. 1",
+   "label": "Северный переулок, 1, под. 1",
+   "inst": 0
   },
   {
    "id": "N_1_1",
    "street": "N",
    "street_name": "Северный переулок",
    "number": 1,
+   "corpus": 0,
    "entrance": 2,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     -90.6,
     0.0,
@@ -241,16 +284,20 @@
     2.0,
     -27.9
    ],
-   "label": "Северный переулок, 1, под. 2"
+   "plate_text": "1\nпод. 2",
+   "label": "Северный переулок, 1, под. 2",
+   "inst": 0
   },
   {
    "id": "N_3_0",
    "street": "N",
    "street_name": "Северный переулок",
    "number": 3,
+   "corpus": 0,
    "entrance": 1,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     -85.0,
     0.0,
@@ -262,16 +309,20 @@
     2.0,
     -27.9
    ],
-   "label": "Северный переулок, 3, под. 1"
+   "plate_text": "3\nпод. 1",
+   "label": "Северный переулок, 3, под. 1",
+   "inst": 1
   },
   {
    "id": "N_5_0",
    "street": "N",
    "street_name": "Северный переулок",
    "number": 5,
+   "corpus": 0,
    "entrance": 1,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     -79.1,
     0.0,
@@ -283,16 +334,20 @@
     2.0,
     -27.9
    ],
-   "label": "Северный переулок, 5, под. 1"
+   "plate_text": "5\nпод. 1",
+   "label": "Северный переулок, 5, под. 1",
+   "inst": 2
   },
   {
    "id": "N_5_1",
    "street": "N",
    "street_name": "Северный переулок",
    "number": 5,
+   "corpus": 0,
    "entrance": 2,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     -72.3,
     0.0,
@@ -304,16 +359,20 @@
     2.0,
     -27.9
    ],
-   "label": "Северный переулок, 5, под. 2"
+   "plate_text": "5\nпод. 2",
+   "label": "Северный переулок, 5, под. 2",
+   "inst": 2
   },
   {
    "id": "N_7_0",
    "street": "N",
    "street_name": "Северный переулок",
    "number": 7,
+   "corpus": 0,
    "entrance": 1,
    "floors": 6,
    "lift": false,
+   "kind": "house",
    "pos": [
     -64.3,
     0.0,
@@ -325,16 +384,20 @@
     2.0,
     -27.9
    ],
-   "label": "Северный переулок, 7, под. 1"
+   "plate_text": "7\nпод. 1",
+   "label": "Северный переулок, 7, под. 1",
+   "inst": 3
   },
   {
    "id": "N_9_0",
    "street": "N",
    "street_name": "Северный переулок",
    "number": 9,
+   "corpus": 0,
    "entrance": 1,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     -47.0,
     0.0,
@@ -346,16 +409,20 @@
     2.0,
     -27.9
    ],
-   "label": "Северный переулок, 9, под. 1"
+   "plate_text": "9\nпод. 1",
+   "label": "Северный переулок, 9, под. 1",
+   "inst": 4
   },
   {
    "id": "N_11_0",
    "street": "N",
    "street_name": "Северный переулок",
    "number": 11,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     -41.4,
     0.0,
@@ -367,16 +434,20 @@
     2.0,
     -27.9
    ],
-   "label": "Северный переулок, 11, под. 1"
+   "plate_text": "11\nпод. 1",
+   "label": "Северный переулок, 11, под. 1",
+   "inst": 5
   },
   {
    "id": "N_11_1",
    "street": "N",
    "street_name": "Северный переулок",
    "number": 11,
+   "corpus": 0,
    "entrance": 2,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     -34.6,
     0.0,
@@ -388,16 +459,20 @@
     2.0,
     -27.9
    ],
-   "label": "Северный переулок, 11, под. 2"
+   "plate_text": "11\nпод. 2",
+   "label": "Северный переулок, 11, под. 2",
+   "inst": 5
   },
   {
    "id": "N_13_0",
    "street": "N",
    "street_name": "Северный переулок",
    "number": 13,
+   "corpus": 0,
    "entrance": 1,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     -29.2,
     0.0,
@@ -409,16 +484,20 @@
     2.0,
     -27.9
    ],
-   "label": "Северный переулок, 13, под. 1"
+   "plate_text": "13\nпод. 1",
+   "label": "Северный переулок, 13, под. 1",
+   "inst": 6
   },
   {
    "id": "N_15_0",
    "street": "N",
    "street_name": "Северный переулок",
    "number": 15,
+   "corpus": 0,
    "entrance": 1,
    "floors": 6,
    "lift": false,
+   "kind": "house",
    "pos": [
     -21.7,
     0.0,
@@ -430,16 +509,20 @@
     2.0,
     -27.9
    ],
-   "label": "Северный переулок, 15, под. 1"
+   "plate_text": "15\nпод. 1",
+   "label": "Северный переулок, 15, под. 1",
+   "inst": 7
   },
   {
    "id": "N_17_0",
    "street": "N",
    "street_name": "Северный переулок",
    "number": 17,
+   "corpus": 0,
    "entrance": 1,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     -1.0,
     0.0,
@@ -451,16 +534,20 @@
     2.0,
     -27.9
    ],
-   "label": "Северный переулок, 17, под. 1"
+   "plate_text": "17\nпод. 1",
+   "label": "Северный переулок, 17, под. 1",
+   "inst": 8
   },
   {
    "id": "N_19_0",
    "street": "N",
    "street_name": "Северный переулок",
    "number": 19,
+   "corpus": 0,
    "entrance": 1,
    "floors": 6,
    "lift": false,
+   "kind": "house",
    "pos": [
     9.4,
     0.0,
@@ -472,16 +559,20 @@
     2.0,
     -27.9
    ],
-   "label": "Северный переулок, 19, под. 1"
+   "plate_text": "19\nпод. 1",
+   "label": "Северный переулок, 19, под. 1",
+   "inst": 9
   },
   {
    "id": "N_21_0",
    "street": "N",
    "street_name": "Северный переулок",
    "number": 21,
+   "corpus": 0,
    "entrance": 1,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     14.5,
     0.0,
@@ -493,16 +584,20 @@
     2.0,
     -27.9
    ],
-   "label": "Северный переулок, 21, под. 1"
+   "plate_text": "21\nпод. 1",
+   "label": "Северный переулок, 21, под. 1",
+   "inst": 10
   },
   {
    "id": "N_23_0",
    "street": "N",
    "street_name": "Северный переулок",
    "number": 23,
+   "corpus": 0,
    "entrance": 1,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     22.3,
     0.0,
@@ -514,16 +609,20 @@
     2.0,
     -27.9
    ],
-   "label": "Северный переулок, 23, под. 1"
+   "plate_text": "23\nпод. 1",
+   "label": "Северный переулок, 23, под. 1",
+   "inst": 11
   },
   {
    "id": "A_2_0",
    "street": "A",
    "street_name": "Набережный проспект",
    "number": 2,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     -95.5,
     0.0,
@@ -535,16 +634,20 @@
     2.0,
     -44.1
    ],
-   "label": "Набережный проспект, 2, под. 1"
+   "plate_text": "2\nпод. 1",
+   "label": "Набережный проспект, 2, под. 1",
+   "inst": 12
   },
   {
    "id": "A_4_0",
    "street": "A",
    "street_name": "Набережный проспект",
    "number": 4,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     -88.2,
     0.0,
@@ -556,16 +659,20 @@
     2.0,
     -44.1
    ],
-   "label": "Набережный проспект, 4, под. 1"
+   "plate_text": "4\nпод. 1",
+   "label": "Набережный проспект, 4, под. 1",
+   "inst": 13
   },
   {
    "id": "A_6_0",
    "street": "A",
    "street_name": "Набережный проспект",
    "number": 6,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     -81.2,
     0.0,
@@ -577,16 +684,20 @@
     2.0,
     -44.1
    ],
-   "label": "Набережный проспект, 6, под. 1"
+   "plate_text": "6\nпод. 1",
+   "label": "Набережный проспект, 6, под. 1",
+   "inst": 14
   },
   {
    "id": "A_8_0",
    "street": "A",
    "street_name": "Набережный проспект",
    "number": 8,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     -73.9,
     0.0,
@@ -598,16 +709,20 @@
     2.0,
     -44.1
    ],
-   "label": "Набережный проспект, 8, под. 1"
+   "plate_text": "8\nпод. 1",
+   "label": "Набережный проспект, 8, под. 1",
+   "inst": 15
   },
   {
    "id": "A_10_0",
    "street": "A",
    "street_name": "Набережный проспект",
    "number": 10,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     -66.9,
     0.0,
@@ -619,16 +734,20 @@
     2.0,
     -44.1
    ],
-   "label": "Набережный проспект, 10, под. 1"
+   "plate_text": "10\nпод. 1",
+   "label": "Набережный проспект, 10, под. 1",
+   "inst": 16
   },
   {
    "id": "A_12_0",
    "street": "A",
    "street_name": "Набережный проспект",
    "number": 12,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     -47.5,
     0.0,
@@ -640,16 +759,20 @@
     2.0,
     -44.1
    ],
-   "label": "Набережный проспект, 12, под. 1"
+   "plate_text": "12\nпод. 1",
+   "label": "Набережный проспект, 12, под. 1",
+   "inst": 17
   },
   {
    "id": "A_14_0",
    "street": "A",
    "street_name": "Набережный проспект",
    "number": 14,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     -40.5,
     0.0,
@@ -661,16 +784,20 @@
     2.0,
     -44.1
    ],
-   "label": "Набережный проспект, 14, под. 1"
+   "plate_text": "14\nпод. 1",
+   "label": "Набережный проспект, 14, под. 1",
+   "inst": 18
   },
   {
    "id": "A_16_0",
    "street": "A",
    "street_name": "Набережный проспект",
    "number": 16,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     -33.5,
     0.0,
@@ -682,16 +809,20 @@
     2.0,
     -44.1
    ],
-   "label": "Набережный проспект, 16, под. 1"
+   "plate_text": "16\nпод. 1",
+   "label": "Набережный проспект, 16, под. 1",
+   "inst": 19
   },
   {
    "id": "A_18_0",
    "street": "A",
    "street_name": "Набережный проспект",
    "number": 18,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     -26.5,
     0.0,
@@ -703,16 +834,20 @@
     2.0,
     -44.1
    ],
-   "label": "Набережный проспект, 18, под. 1"
+   "plate_text": "18\nпод. 1",
+   "label": "Набережный проспект, 18, под. 1",
+   "inst": 20
   },
   {
    "id": "A_20_0",
    "street": "A",
    "street_name": "Набережный проспект",
    "number": 20,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     1.5,
     0.0,
@@ -724,16 +859,20 @@
     2.0,
     -44.1
    ],
-   "label": "Набережный проспект, 20, под. 1"
+   "plate_text": "20\nпод. 1",
+   "label": "Набережный проспект, 20, под. 1",
+   "inst": 21
   },
   {
    "id": "A_22_0",
    "street": "A",
    "street_name": "Набережный проспект",
    "number": 22,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     8.5,
     0.0,
@@ -745,16 +884,20 @@
     2.0,
     -44.1
    ],
-   "label": "Набережный проспект, 22, под. 1"
+   "plate_text": "22\nпод. 1",
+   "label": "Набережный проспект, 22, под. 1",
+   "inst": 22
   },
   {
    "id": "A_24_0",
    "street": "A",
    "street_name": "Набережный проспект",
    "number": 24,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     15.8,
     0.0,
@@ -766,16 +909,20 @@
     2.0,
     -44.1
    ],
-   "label": "Набережный проспект, 24, под. 1"
+   "plate_text": "24\nпод. 1",
+   "label": "Набережный проспект, 24, под. 1",
+   "inst": 23
   },
   {
    "id": "A_26_0",
    "street": "A",
    "street_name": "Набережный проспект",
    "number": 26,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     22.8,
     0.0,
@@ -787,16 +934,20 @@
     2.0,
     -44.1
    ],
-   "label": "Набережный проспект, 26, под. 1"
+   "plate_text": "26\nпод. 1",
+   "label": "Набережный проспект, 26, под. 1",
+   "inst": 24
   },
   {
    "id": "A_28_0",
    "street": "A",
    "street_name": "Набережный проспект",
    "number": 28,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     42.5,
     0.0,
@@ -808,16 +959,20 @@
     2.0,
     -44.1
    ],
-   "label": "Набережный проспект, 28, под. 1"
+   "plate_text": "28\nпод. 1",
+   "label": "Набережный проспект, 28, под. 1",
+   "inst": 25
   },
   {
    "id": "A_30_0",
    "street": "A",
    "street_name": "Набережный проспект",
    "number": 30,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     49.5,
     0.0,
@@ -829,16 +984,20 @@
     2.0,
     -44.1
    ],
-   "label": "Набережный проспект, 30, под. 1"
+   "plate_text": "30\nпод. 1",
+   "label": "Набережный проспект, 30, под. 1",
+   "inst": 26
   },
   {
    "id": "A_32_0",
    "street": "A",
    "street_name": "Набережный проспект",
    "number": 32,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     56.8,
     0.0,
@@ -850,16 +1009,20 @@
     2.0,
     -44.1
    ],
-   "label": "Набережный проспект, 32, под. 1"
+   "plate_text": "32\nпод. 1",
+   "label": "Набережный проспект, 32, под. 1",
+   "inst": 27
   },
   {
    "id": "A_34_0",
    "street": "A",
    "street_name": "Набережный проспект",
    "number": 34,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     64.1,
     0.0,
@@ -871,16 +1034,20 @@
     2.0,
     -44.1
    ],
-   "label": "Набережный проспект, 34, под. 1"
+   "plate_text": "34\nпод. 1",
+   "label": "Набережный проспект, 34, под. 1",
+   "inst": 28
   },
   {
    "id": "A_36_0",
    "street": "A",
    "street_name": "Набережный проспект",
    "number": 36,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     71.4,
     0.0,
@@ -892,16 +1059,20 @@
     2.0,
     -44.1
    ],
-   "label": "Набережный проспект, 36, под. 1"
+   "plate_text": "36\nпод. 1",
+   "label": "Набережный проспект, 36, под. 1",
+   "inst": 29
   },
   {
    "id": "N_26_0",
    "street": "N",
    "street_name": "Северный переулок",
    "number": 26,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     -95.5,
     0.0,
@@ -913,16 +1084,20 @@
     2.0,
     -20.1
    ],
-   "label": "Северный переулок, 26, под. 1"
+   "plate_text": "26\nпод. 1",
+   "label": "Северный переулок, 26, под. 1",
+   "inst": 30
   },
   {
    "id": "N_28_0",
    "street": "N",
    "street_name": "Северный переулок",
    "number": 28,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     -83.6,
     0.0,
@@ -934,16 +1109,20 @@
     2.0,
     -20.1
    ],
-   "label": "Северный переулок, 28, под. 1"
+   "plate_text": "28\nпод. 1",
+   "label": "Северный переулок, 28, под. 1",
+   "inst": 31
   },
   {
    "id": "N_28_1",
    "street": "N",
    "street_name": "Северный переулок",
    "number": 28,
+   "corpus": 0,
    "entrance": 2,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     -90.4,
     0.0,
@@ -955,16 +1134,20 @@
     2.0,
     -20.1
    ],
-   "label": "Северный переулок, 28, под. 2"
+   "plate_text": "28\nпод. 2",
+   "label": "Северный переулок, 28, под. 2",
+   "inst": 31
   },
   {
    "id": "N_30_0",
    "street": "N",
    "street_name": "Северный переулок",
    "number": 30,
+   "corpus": 0,
    "entrance": 1,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     -73.6,
     0.0,
@@ -976,16 +1159,20 @@
     2.0,
     -20.1
    ],
-   "label": "Северный переулок, 30, под. 1"
+   "plate_text": "30\nпод. 1",
+   "label": "Северный переулок, 30, под. 1",
+   "inst": 32
   },
   {
    "id": "N_30_1",
    "street": "N",
    "street_name": "Северный переулок",
    "number": 30,
+   "corpus": 0,
    "entrance": 2,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     -80.4,
     0.0,
@@ -997,16 +1184,20 @@
     2.0,
     -20.1
    ],
-   "label": "Северный переулок, 30, под. 2"
+   "plate_text": "30\nпод. 2",
+   "label": "Северный переулок, 30, под. 2",
+   "inst": 32
   },
   {
    "id": "N_32_0",
    "street": "N",
    "street_name": "Северный переулок",
    "number": 32,
+   "corpus": 0,
    "entrance": 1,
    "floors": 6,
    "lift": false,
+   "kind": "house",
    "pos": [
     -70.4,
     0.0,
@@ -1018,16 +1209,20 @@
     2.0,
     -20.1
    ],
-   "label": "Северный переулок, 32, под. 1"
+   "plate_text": "32\nпод. 1",
+   "label": "Северный переулок, 32, под. 1",
+   "inst": 33
   },
   {
    "id": "S_1_0",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 1,
+   "corpus": 0,
    "entrance": 1,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     -97.4,
     0.0,
@@ -1039,16 +1234,20 @@
     2.0,
     34.1
    ],
-   "label": "Южный переулок, 1, под. 1"
+   "plate_text": "1\nпод. 1",
+   "label": "Южный переулок, 1, под. 1",
+   "inst": 34
   },
   {
    "id": "S_3_0",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 3,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     -89.4,
     0.0,
@@ -1060,16 +1259,20 @@
     2.0,
     34.1
    ],
-   "label": "Южный переулок, 3, под. 1"
+   "plate_text": "3\nпод. 1",
+   "label": "Южный переулок, 3, под. 1",
+   "inst": 35
   },
   {
    "id": "S_3_1",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 3,
+   "corpus": 0,
    "entrance": 2,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     -83.6,
     0.0,
@@ -1081,16 +1284,20 @@
     2.0,
     34.1
    ],
-   "label": "Южный переулок, 3, под. 2"
+   "plate_text": "3\nпод. 2",
+   "label": "Южный переулок, 3, под. 2",
+   "inst": 35
   },
   {
    "id": "S_5_0",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 5,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     -78.2,
     0.0,
@@ -1102,16 +1309,20 @@
     2.0,
     34.1
    ],
-   "label": "Южный переулок, 5, под. 1"
+   "plate_text": "5\nпод. 1",
+   "label": "Южный переулок, 5, под. 1",
+   "inst": 36
   },
   {
    "id": "S_7_0",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 7,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     -71.2,
     0.0,
@@ -1123,16 +1334,20 @@
     2.0,
     34.1
    ],
-   "label": "Южный переулок, 7, под. 1"
+   "plate_text": "7\nпод. 1",
+   "label": "Южный переулок, 7, под. 1",
+   "inst": 37
   },
   {
    "id": "W_1_0",
    "street": "W",
    "street_name": "Западная улица",
    "number": 1,
+   "corpus": 0,
    "entrance": 1,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     -58.7,
     0.0,
@@ -1144,16 +1359,20 @@
     2.0,
     19.3
    ],
-   "label": "Западная улица, 1, под. 1"
+   "plate_text": "1\nпод. 1",
+   "label": "Западная улица, 1, под. 1",
+   "inst": 38
   },
   {
    "id": "W_1_1",
    "street": "W",
    "street_name": "Западная улица",
    "number": 1,
+   "corpus": 0,
    "entrance": 2,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     -58.7,
     0.0,
@@ -1165,16 +1384,20 @@
     2.0,
     12.5
    ],
-   "label": "Западная улица, 1, под. 2"
+   "plate_text": "1\nпод. 2",
+   "label": "Западная улица, 1, под. 2",
+   "inst": 38
   },
   {
    "id": "W_3_0",
    "street": "W",
    "street_name": "Западная улица",
    "number": 3,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     -58.7,
     0.0,
@@ -1186,16 +1409,20 @@
     2.0,
     7.1
    ],
-   "label": "Западная улица, 3, под. 1"
+   "plate_text": "3\nпод. 1",
+   "label": "Западная улица, 3, под. 1",
+   "inst": 39
   },
   {
    "id": "W_5_0",
    "street": "W",
    "street_name": "Западная улица",
    "number": 5,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     -58.7,
     0.0,
@@ -1207,16 +1434,20 @@
     2.0,
     -0.2
    ],
-   "label": "Западная улица, 5, под. 1"
+   "plate_text": "5\nпод. 1",
+   "label": "Западная улица, 5, под. 1",
+   "inst": 40
   },
   {
    "id": "N_34_0",
    "street": "N",
    "street_name": "Северный переулок",
    "number": 34,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     47.4,
     0.0,
@@ -1228,16 +1459,20 @@
     2.0,
     -20.1
    ],
-   "label": "Северный переулок, 34, под. 1"
+   "plate_text": "34\nпод. 1",
+   "label": "Северный переулок, 34, под. 1",
+   "inst": 41
   },
   {
    "id": "N_34_1",
    "street": "N",
    "street_name": "Северный переулок",
    "number": 34,
+   "corpus": 0,
    "entrance": 2,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     40.6,
     0.0,
@@ -1249,16 +1484,20 @@
     2.0,
     -20.1
    ],
-   "label": "Северный переулок, 34, под. 2"
+   "plate_text": "34\nпод. 2",
+   "label": "Северный переулок, 34, под. 2",
+   "inst": 41
   },
   {
    "id": "N_36_0",
    "street": "N",
    "street_name": "Северный переулок",
    "number": 36,
+   "corpus": 0,
    "entrance": 1,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     52.5,
     0.0,
@@ -1270,16 +1509,20 @@
     2.0,
     -20.1
    ],
-   "label": "Северный переулок, 36, под. 1"
+   "plate_text": "36\nпод. 1",
+   "label": "Северный переулок, 36, под. 1",
+   "inst": 42
   },
   {
    "id": "N_38_0",
    "street": "N",
    "street_name": "Северный переулок",
    "number": 38,
+   "corpus": 0,
    "entrance": 1,
    "floors": 6,
    "lift": false,
+   "kind": "house",
    "pos": [
     57.9,
     0.0,
@@ -1291,16 +1534,20 @@
     2.0,
     -20.1
    ],
-   "label": "Северный переулок, 38, под. 1"
+   "plate_text": "38\nпод. 1",
+   "label": "Северный переулок, 38, под. 1",
+   "inst": 43
   },
   {
    "id": "N_40_0",
    "street": "N",
    "street_name": "Северный переулок",
    "number": 40,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     71.7,
     0.0,
@@ -1312,16 +1559,20 @@
     2.0,
     -20.1
    ],
-   "label": "Северный переулок, 40, под. 1"
+   "plate_text": "40\nпод. 1",
+   "label": "Северный переулок, 40, под. 1",
+   "inst": 44
   },
   {
    "id": "N_40_1",
    "street": "N",
    "street_name": "Северный переулок",
    "number": 40,
+   "corpus": 0,
    "entrance": 2,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     65.9,
     0.0,
@@ -1333,16 +1584,20 @@
     2.0,
     -20.1
    ],
-   "label": "Северный переулок, 40, под. 2"
+   "plate_text": "40\nпод. 2",
+   "label": "Северный переулок, 40, под. 2",
+   "inst": 44
   },
   {
    "id": "S_9_0",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 9,
+   "corpus": 0,
    "entrance": 1,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     40.6,
     0.0,
@@ -1354,16 +1609,20 @@
     2.0,
     34.1
    ],
-   "label": "Южный переулок, 9, под. 1"
+   "plate_text": "9\nпод. 1",
+   "label": "Южный переулок, 9, под. 1",
+   "inst": 45
   },
   {
    "id": "S_9_1",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 9,
+   "corpus": 0,
    "entrance": 2,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     47.4,
     0.0,
@@ -1375,16 +1634,20 @@
     2.0,
     34.1
    ],
-   "label": "Южный переулок, 9, под. 2"
+   "plate_text": "9\nпод. 2",
+   "label": "Южный переулок, 9, под. 2",
+   "inst": 45
   },
   {
    "id": "S_11_0",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 11,
+   "corpus": 0,
    "entrance": 1,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     53.3,
     0.0,
@@ -1396,16 +1659,20 @@
     2.0,
     34.1
    ],
-   "label": "Южный переулок, 11, под. 1"
+   "plate_text": "11\nпод. 1",
+   "label": "Южный переулок, 11, под. 1",
+   "inst": 46
   },
   {
    "id": "S_13_0",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 13,
+   "corpus": 0,
    "entrance": 1,
    "floors": 6,
    "lift": false,
+   "kind": "house",
    "pos": [
     64.0,
     0.0,
@@ -1417,16 +1684,20 @@
     2.0,
     34.1
    ],
-   "label": "Южный переулок, 13, под. 1"
+   "plate_text": "13\nпод. 1",
+   "label": "Южный переулок, 13, под. 1",
+   "inst": 47
   },
   {
    "id": "S_15_0",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 15,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     69.4,
     0.0,
@@ -1438,16 +1709,20 @@
     2.0,
     34.1
    ],
-   "label": "Южный переулок, 15, под. 1"
+   "plate_text": "15\nпод. 1",
+   "label": "Южный переулок, 15, под. 1",
+   "inst": 48
   },
   {
    "id": "E_2_0",
    "street": "E",
    "street_name": "Восточная улица",
    "number": 2,
+   "corpus": 0,
    "entrance": 1,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     36.7,
     0.0,
@@ -1459,16 +1734,20 @@
     2.0,
     14.7
    ],
-   "label": "Восточная улица, 2, под. 1"
+   "plate_text": "2\nпод. 1",
+   "label": "Восточная улица, 2, под. 1",
+   "inst": 49
   },
   {
    "id": "E_2_1",
    "street": "E",
    "street_name": "Восточная улица",
    "number": 2,
+   "corpus": 0,
    "entrance": 2,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     36.7,
     0.0,
@@ -1480,16 +1759,20 @@
     2.0,
     21.5
    ],
-   "label": "Восточная улица, 2, под. 2"
+   "plate_text": "2\nпод. 2",
+   "label": "Восточная улица, 2, под. 2",
+   "inst": 49
   },
   {
    "id": "E_4_0",
    "street": "E",
    "street_name": "Восточная улица",
    "number": 4,
+   "corpus": 0,
    "entrance": 1,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     36.7,
     0.0,
@@ -1501,16 +1784,20 @@
     2.0,
     6.7
    ],
-   "label": "Восточная улица, 4, под. 1"
+   "plate_text": "4\nпод. 1",
+   "label": "Восточная улица, 4, под. 1",
+   "inst": 50
   },
   {
    "id": "E_6_0",
    "street": "E",
    "street_name": "Восточная улица",
    "number": 6,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     36.7,
     0.0,
@@ -1522,16 +1809,20 @@
     2.0,
     1.6
    ],
-   "label": "Восточная улица, 6, под. 1"
+   "plate_text": "6\nпод. 1",
+   "label": "Восточная улица, 6, под. 1",
+   "inst": 51
   },
   {
    "id": "S_17_0",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 17,
+   "corpus": 0,
    "entrance": 1,
    "floors": 6,
    "lift": false,
+   "kind": "house",
    "pos": [
     -44.6,
     0.0,
@@ -1543,16 +1834,20 @@
     2.0,
     34.1
    ],
-   "label": "Южный переулок, 17, под. 1"
+   "plate_text": "17\nпод. 1",
+   "label": "Южный переулок, 17, под. 1",
+   "inst": 52
   },
   {
    "id": "S_19_0",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 19,
+   "corpus": 0,
    "entrance": 1,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     -38.7,
     0.0,
@@ -1564,16 +1859,20 @@
     2.0,
     34.1
    ],
-   "label": "Южный переулок, 19, под. 1"
+   "plate_text": "19\nпод. 1",
+   "label": "Южный переулок, 19, под. 1",
+   "inst": 53
   },
   {
    "id": "S_21_0",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 21,
+   "corpus": 0,
    "entrance": 1,
    "floors": 6,
    "lift": false,
+   "kind": "house",
    "pos": [
     -28.3,
     0.0,
@@ -1585,16 +1884,20 @@
     2.0,
     34.1
    ],
-   "label": "Южный переулок, 21, под. 1"
+   "plate_text": "21\nпод. 1",
+   "label": "Южный переулок, 21, под. 1",
+   "inst": 54
   },
   {
    "id": "S_23_0",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 23,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     -24.8,
     0.0,
@@ -1606,16 +1909,20 @@
     2.0,
     34.1
    ],
-   "label": "Южный переулок, 23, под. 1"
+   "plate_text": "23\nпод. 1",
+   "label": "Южный переулок, 23, под. 1",
+   "inst": 55
   },
   {
    "id": "S_23_1",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 23,
+   "corpus": 0,
    "entrance": 2,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     -19.0,
     0.0,
@@ -1627,16 +1934,20 @@
     2.0,
     34.1
    ],
-   "label": "Южный переулок, 23, под. 2"
+   "plate_text": "23\nпод. 2",
+   "label": "Южный переулок, 23, под. 2",
+   "inst": 55
   },
   {
    "id": "S_25_0",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 25,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     -15.8,
     0.0,
@@ -1648,16 +1959,20 @@
     2.0,
     34.1
    ],
-   "label": "Южный переулок, 25, под. 1"
+   "plate_text": "25\nпод. 1",
+   "label": "Южный переулок, 25, под. 1",
+   "inst": 56
   },
   {
    "id": "S_25_1",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 25,
+   "corpus": 0,
    "entrance": 2,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     -9.0,
     0.0,
@@ -1669,16 +1984,20 @@
     2.0,
     34.1
    ],
-   "label": "Южный переулок, 25, под. 2"
+   "plate_text": "25\nпод. 2",
+   "label": "Южный переулок, 25, под. 2",
+   "inst": 56
   },
   {
    "id": "S_27_0",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 27,
+   "corpus": 0,
    "entrance": 1,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     -5.8,
     0.0,
@@ -1690,16 +2009,20 @@
     2.0,
     34.1
    ],
-   "label": "Южный переулок, 27, под. 1"
+   "plate_text": "27\nпод. 1",
+   "label": "Южный переулок, 27, под. 1",
+   "inst": 57
   },
   {
    "id": "S_27_1",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 27,
+   "corpus": 0,
    "entrance": 2,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     0.0,
     0.0,
@@ -1711,16 +2034,20 @@
     2.0,
     34.1
    ],
-   "label": "Южный переулок, 27, под. 2"
+   "plate_text": "27\nпод. 2",
+   "label": "Южный переулок, 27, под. 2",
+   "inst": 57
   },
   {
    "id": "S_29_0",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 29,
+   "corpus": 0,
    "entrance": 1,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     3.2,
     0.0,
@@ -1732,16 +2059,20 @@
     2.0,
     34.1
    ],
-   "label": "Южный переулок, 29, под. 1"
+   "plate_text": "29\nпод. 1",
+   "label": "Южный переулок, 29, под. 1",
+   "inst": 58
   },
   {
    "id": "S_29_1",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 29,
+   "corpus": 0,
    "entrance": 2,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     9.0,
     0.0,
@@ -1753,16 +2084,20 @@
     2.0,
     34.1
    ],
-   "label": "Южный переулок, 29, под. 2"
+   "plate_text": "29\nпод. 2",
+   "label": "Южный переулок, 29, под. 2",
+   "inst": 58
   },
   {
    "id": "S_31_0",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 31,
+   "corpus": 0,
    "entrance": 1,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     14.6,
     0.0,
@@ -1774,16 +2109,20 @@
     2.0,
     34.1
    ],
-   "label": "Южный переулок, 31, под. 1"
+   "plate_text": "31\nпод. 1",
+   "label": "Южный переулок, 31, под. 1",
+   "inst": 59
   },
   {
    "id": "S_33_0",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 33,
+   "corpus": 0,
    "entrance": 1,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     22.4,
     0.0,
@@ -1795,16 +2134,20 @@
     2.0,
     34.1
    ],
-   "label": "Южный переулок, 33, под. 1"
+   "plate_text": "33\nпод. 1",
+   "label": "Южный переулок, 33, под. 1",
+   "inst": 60
   },
   {
    "id": "S_36_0",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 36,
+   "corpus": 0,
    "entrance": 1,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     -95.0,
     0.0,
@@ -1816,16 +2159,20 @@
     2.0,
     41.9
    ],
-   "label": "Южный переулок, 36, под. 1"
+   "plate_text": "36\nпод. 1",
+   "label": "Южный переулок, 36, под. 1",
+   "inst": 61
   },
   {
    "id": "S_38_0",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 38,
+   "corpus": 0,
    "entrance": 1,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     -84.3,
     0.0,
@@ -1837,16 +2184,20 @@
     2.0,
     41.9
    ],
-   "label": "Южный переулок, 38, под. 1"
+   "plate_text": "38\nпод. 1",
+   "label": "Южный переулок, 38, под. 1",
+   "inst": 62
   },
   {
    "id": "S_40_0",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 40,
+   "corpus": 0,
    "entrance": 1,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     -76.0,
     0.0,
@@ -1858,16 +2209,20 @@
     2.0,
     41.9
    ],
-   "label": "Южный переулок, 40, под. 1"
+   "plate_text": "40\nпод. 1",
+   "label": "Южный переулок, 40, под. 1",
+   "inst": 63
   },
   {
    "id": "S_42_0",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 42,
+   "corpus": 0,
    "entrance": 1,
    "floors": 6,
    "lift": false,
+   "kind": "house",
    "pos": [
     -72.8,
     0.0,
@@ -1879,16 +2234,20 @@
     2.0,
     41.9
    ],
-   "label": "Южный переулок, 42, под. 1"
+   "plate_text": "42\nпод. 1",
+   "label": "Южный переулок, 42, под. 1",
+   "inst": 64
   },
   {
    "id": "S_44_0",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 44,
+   "corpus": 0,
    "entrance": 1,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     -47.5,
     0.0,
@@ -1900,16 +2259,20 @@
     2.0,
     41.9
    ],
-   "label": "Южный переулок, 44, под. 1"
+   "plate_text": "44\nпод. 1",
+   "label": "Южный переулок, 44, под. 1",
+   "inst": 65
   },
   {
    "id": "S_46_0",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 46,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     -40.5,
     0.0,
@@ -1921,16 +2284,20 @@
     2.0,
     41.9
    ],
-   "label": "Южный переулок, 46, под. 1"
+   "plate_text": "46\nпод. 1",
+   "label": "Южный переулок, 46, под. 1",
+   "inst": 66
   },
   {
    "id": "S_48_0",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 48,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     -33.5,
     0.0,
@@ -1942,16 +2309,20 @@
     2.0,
     41.9
    ],
-   "label": "Южный переулок, 48, под. 1"
+   "plate_text": "48\nпод. 1",
+   "label": "Южный переулок, 48, под. 1",
+   "inst": 67
   },
   {
    "id": "S_50_0",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 50,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     -21.6,
     0.0,
@@ -1963,16 +2334,20 @@
     2.0,
     41.9
    ],
-   "label": "Южный переулок, 50, под. 1"
+   "plate_text": "50\nпод. 1",
+   "label": "Южный переулок, 50, под. 1",
+   "inst": 68
   },
   {
    "id": "S_50_1",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 50,
+   "corpus": 0,
    "entrance": 2,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     -28.4,
     0.0,
@@ -1984,16 +2359,20 @@
     2.0,
     41.9
    ],
-   "label": "Южный переулок, 50, под. 2"
+   "plate_text": "50\nпод. 2",
+   "label": "Южный переулок, 50, под. 2",
+   "inst": 68
   },
   {
    "id": "S_52_0",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 52,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     -11.6,
     0.0,
@@ -2005,16 +2384,20 @@
     2.0,
     41.9
    ],
-   "label": "Южный переулок, 52, под. 1"
+   "plate_text": "52\nпод. 1",
+   "label": "Южный переулок, 52, под. 1",
+   "inst": 69
   },
   {
    "id": "S_52_1",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 52,
+   "corpus": 0,
    "entrance": 2,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     -18.4,
     0.0,
@@ -2026,16 +2409,20 @@
     2.0,
     41.9
    ],
-   "label": "Южный переулок, 52, под. 2"
+   "plate_text": "52\nпод. 2",
+   "label": "Южный переулок, 52, под. 2",
+   "inst": 69
   },
   {
    "id": "S_54_0",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 54,
+   "corpus": 0,
    "entrance": 1,
    "floors": 6,
    "lift": false,
+   "kind": "house",
    "pos": [
     -6.0,
     0.0,
@@ -2047,16 +2434,20 @@
     2.0,
     41.9
    ],
-   "label": "Южный переулок, 54, под. 1"
+   "plate_text": "54\nпод. 1",
+   "label": "Южный переулок, 54, под. 1",
+   "inst": 70
   },
   {
    "id": "S_56_0",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 56,
+   "corpus": 0,
    "entrance": 1,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     4.4,
     0.0,
@@ -2068,16 +2459,20 @@
     2.0,
     41.9
    ],
-   "label": "Южный переулок, 56, под. 1"
+   "plate_text": "56\nпод. 1",
+   "label": "Южный переулок, 56, под. 1",
+   "inst": 71
   },
   {
    "id": "S_58_0",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 58,
+   "corpus": 0,
    "entrance": 1,
    "floors": 6,
    "lift": false,
+   "kind": "house",
    "pos": [
     10.0,
     0.0,
@@ -2089,16 +2484,20 @@
     2.0,
     41.9
    ],
-   "label": "Южный переулок, 58, под. 1"
+   "plate_text": "58\nпод. 1",
+   "label": "Южный переулок, 58, под. 1",
+   "inst": 72
   },
   {
    "id": "S_60_0",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 60,
+   "corpus": 0,
    "entrance": 1,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     17.5,
     0.0,
@@ -2110,16 +2509,20 @@
     2.0,
     41.9
    ],
-   "label": "Южный переулок, 60, под. 1"
+   "plate_text": "60\nпод. 1",
+   "label": "Южный переулок, 60, под. 1",
+   "inst": 73
   },
   {
    "id": "S_62_0",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 62,
+   "corpus": 0,
    "entrance": 1,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     25.0,
     0.0,
@@ -2131,16 +2534,20 @@
     2.0,
     41.9
    ],
-   "label": "Южный переулок, 62, под. 1"
+   "plate_text": "62\nпод. 1",
+   "label": "Южный переулок, 62, под. 1",
+   "inst": 74
   },
   {
    "id": "S_64_0",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 64,
+   "corpus": 0,
    "entrance": 1,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     43.0,
     0.0,
@@ -2152,16 +2559,20 @@
     2.0,
     41.9
    ],
-   "label": "Южный переулок, 64, под. 1"
+   "plate_text": "64\nпод. 1",
+   "label": "Южный переулок, 64, под. 1",
+   "inst": 75
   },
   {
    "id": "S_66_0",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 66,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     55.4,
     0.0,
@@ -2173,16 +2584,20 @@
     2.0,
     41.9
    ],
-   "label": "Южный переулок, 66, под. 1"
+   "plate_text": "66\nпод. 1",
+   "label": "Южный переулок, 66, под. 1",
+   "inst": 76
   },
   {
    "id": "S_66_1",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 66,
+   "corpus": 0,
    "entrance": 2,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     48.6,
     0.0,
@@ -2194,16 +2609,20 @@
     2.0,
     41.9
    ],
-   "label": "Южный переулок, 66, под. 2"
+   "plate_text": "66\nпод. 2",
+   "label": "Южный переулок, 66, под. 2",
+   "inst": 76
   },
   {
    "id": "S_68_0",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 68,
+   "corpus": 0,
    "entrance": 1,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     65.7,
     0.0,
@@ -2215,16 +2634,20 @@
     2.0,
     41.9
    ],
-   "label": "Южный переулок, 68, под. 1"
+   "plate_text": "68\nпод. 1",
+   "label": "Южный переулок, 68, под. 1",
+   "inst": 77
   },
   {
    "id": "S_68_1",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 68,
+   "corpus": 0,
    "entrance": 2,
    "floors": 4,
    "lift": false,
+   "kind": "house",
    "pos": [
     58.9,
     0.0,
@@ -2236,16 +2659,20 @@
     2.0,
     41.9
    ],
-   "label": "Южный переулок, 68, под. 2"
+   "plate_text": "68\nпод. 2",
+   "label": "Южный переулок, 68, под. 2",
+   "inst": 77
   },
   {
    "id": "S_70_0",
    "street": "S",
    "street_name": "Южный переулок",
    "number": 70,
+   "corpus": 0,
    "entrance": 1,
    "floors": 5,
    "lift": false,
+   "kind": "house",
    "pos": [
     71.1,
     0.0,
@@ -2257,7 +2684,9 @@
     2.0,
     41.9
    ],
-   "label": "Южный переулок, 70, под. 1"
+   "plate_text": "70\nпод. 1",
+   "label": "Южный переулок, 70, под. 1",
+   "inst": 78
   }
  ],
  "regulars": [
@@ -2290,7 +2719,7 @@
     "Вот тебе на конфетки!"
    ],
    "address": "N_28_0",
-   "floor": 4
+   "floor": 3
   },
   {
    "id": "petya",
@@ -2304,7 +2733,7 @@
     "О, бургер! Ты лучший!"
    ],
    "address": "A_18_0",
-   "floor": 4
+   "floor": 5
   },
   {
    "id": "olya",
@@ -2317,8 +2746,8 @@
     "Тсс! Ребёнок спит. Оставьте у двери!",
     "Спасибо, вы спасли наш вечер."
    ],
-   "address": "W_3_0",
-   "floor": 5
+   "address": "N_1_0",
+   "floor": 4
   },
   {
    "id": "office",
@@ -2332,8 +2761,8 @@
     "Обед на двадцать человек! Только ничего не урони.",
     "Бухгалтерия будет довольна!"
    ],
-   "address": "S_46_0",
-   "floor": 4
+   "address": "S_25_0",
+   "floor": 5
   },
   {
    "id": "tourist",
@@ -2346,8 +2775,23 @@
     "Дэнкью! Это есть лучший город!",
     "Можно с вами селфи?"
    ],
-   "address": "W_1_1",
-   "floor": 3
+   "address": "S_48_0",
+   "floor": 2
+  },
+  {
+   "id": "critic",
+   "name": "Критик Аркадий Вилкин",
+   "model": "office",
+   "trait": "capricious",
+   "floors_min": 4,
+   "tip": 1.0,
+   "quest": "critic",
+   "lines": [
+    "Хм. Подача... приемлемая. Посмотрим, что внутри.",
+    "Это... это превосходно! Напишу в колонке."
+   ],
+   "address": "W_3_0",
+   "floor": 4
   }
  ],
  "random_lines": {
@@ -2441,7 +2885,15 @@
   "coffee": "cup_holder",
   "icecream": "ice_cream_tub",
   "cake": "cake_box",
-  "lunch": "lunch_crate"
+  "lunch": "lunch_crate",
+  "dream": "lunch_crate",
+  "wok": "paper_bag",
+  "salad": "sushi_box",
+  "burrito": "paper_bag",
+  "shawarma": "paper_bag",
+  "pastry": "paper_bag",
+  "pie": "cake_box",
+  "groceries": "lunch_crate"
  },
  "quests": {
   "cake": {
@@ -2460,6 +2912,15 @@
    "reward": 60,
    "needs": "rack",
    "text": "Офис «Кубик» заказывает огромный обед. Без багажника не увезти."
+  },
+  "critic": {
+   "title": "Ужин для критика",
+   "giver": "critic",
+   "restaurant": "dream",
+   "item": "dream",
+   "reward": 200,
+   "text": "Знаменитый ресторанный критик Аркадий Вилкин заказал первый ужин из твоего ресторана. Довези горячим и целым — от его колонки зависит всё!"
   }
- }
+ },
+ "bignums": []
 }

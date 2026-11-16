@@ -5,3 +5,5 @@ build/
 autotest.log
 override.cfg
 *.import
+__pycache__/
+*.pyc

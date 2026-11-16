@@ -1,10 +1,16 @@
 extends Node
 ## Global state: progress, settings, catalogue, save/load, input map. Autoload "Game".
 
-const VERSION = "0.1.0"
+const VERSION = "0.2.0"
 const SAVE_PATH = "user://save.json"
 const SETTINGS_PATH = "user://settings.json"
-const LEVEL = "old_town"
+const DISTRICTS = {
+	"old_town": {"title": "Старый город", "short": "Старый город"},
+	"city": {"title": "Деловой центр «Сити»", "short": "«Сити»"},
+	"berezki": {"title": "Спальный район «Берёзки»", "short": "«Берёзки»"},
+}
+const DREAM_PRICE = 1000
+const DREAM_RATING = 4.5
 
 const C_TURQ = Color("22b8b0")
 const C_TURQ_D = Color("17807b")
@@ -17,6 +23,7 @@ const C_SKY = Color("7ec3e8")
 
 var args: PackedStringArray
 var go_play = false     # skip the title menu (next day / continue)
+var booted = false      # the world was started once in this run (travel / next day reuse the state)
 var flags = {}          # parsed debug flags after "--"
 
 var settings = {
@@ -55,6 +62,7 @@ const JACKETS = ["#22b8b0", "#3f7fc9", "#5fae4e", "#f2a7a0", "#f6c945", "#b9a3d8
 const HAIRS = ["short", "ponytail", "curly", "bun"]
 
 var layout: Dictionary
+var level_loaded = ""
 var population: Dictionary
 var orders_data: Dictionary
 var events_data: Dictionary
@@ -114,12 +122,41 @@ func load_json(path: String) -> Variant:
 	return JSON.parse_string(f.get_as_text())
 
 
+func district() -> String:
+	var d: String = state.get("district", "old_town")
+	return d if DISTRICTS.has(d) else "old_town"
+
+
+func district_title(d = "") -> String:
+	return DISTRICTS.get(d if d != "" else district(), DISTRICTS["old_town"])["title"]
+
+
 func load_level_data() -> void:
-	if layout.is_empty():
-		layout = load_json("res://assets/levels/%s_layout.json" % LEVEL)
-		population = load_json("res://assets/levels/%s_population.json" % LEVEL)
-		orders_data = load_json("res://assets/levels/%s_orders.json" % LEVEL)
-		events_data = load_json("res://assets/levels/%s_events.json" % LEVEL)
+	var lv = district()
+	if lv != level_loaded:
+		layout = load_json("res://assets/levels/%s_layout.json" % lv)
+		population = load_json("res://assets/levels/%s_population.json" % lv)
+		orders_data = load_json("res://assets/levels/%s_orders.json" % lv)
+		events_data = load_json("res://assets/levels/%s_events.json" % lv)
+		level_loaded = lv
+
+
+func unlocked(d: String) -> bool:
+	return d == "old_town" or bool(state.get("unlocked", {}).get(d, false))
+
+
+func quest_state(q: String) -> String:
+	return String(state["quests"].get(q, "locked"))
+
+
+## Ride to another district: keeps the clock, the vehicle and the battery; the world reloads there.
+func travel(to: String, hour: float) -> void:
+	state["arrive_from"] = district()
+	state["district"] = to
+	state["hour_resume"] = hour
+	save_game()
+	go_play = true
+	get_tree().change_scene_to_file("res://scenes/main.tscn")
 
 
 # ---------------------------------------------------------------- state
@@ -130,6 +167,8 @@ func new_state() -> void:
 		"upgrades": {}, "gear": {}, "helmet": "", "items": {"snack": 1, "repair_kit": 0, "powerbank": 0, "energy_drink": 0},
 		"look": {"gender": "m", "hair": "short", "jacket": "#22b8b0", "cap": true},
 		"quests": {"cake": "locked", "office_lunch": "locked"},
+		"district": "old_town", "unlocked": {"city": false, "berezki": false}, "pass": false, "dream": "locked",
+		"progress": {"city": 0, "night": 0, "berezki": 0}, "ending_seen": false,
 		"stats": {"delivered": 0, "late": 0, "tips": 0.0, "fines": 0.0, "earned": 0.0, "spent": 0.0, "falls": 0},
 		"daily": [], "seen_hints": {}, "best_streak": 0,
 	}

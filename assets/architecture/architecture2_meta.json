@@ -1,0 +1,158 @@
+{
+ "tower_a": {
+  "kind": "tower",
+  "w": 16.6,
+  "d": 18.2,
+  "front_extra": 3.6,
+  "floors": 14,
+  "h": 49.199999999999996,
+  "doors": 1,
+  "lift": true
+ },
+ "tower_b": {
+  "kind": "tower",
+  "w": 18.6,
+  "d": 20.200000000000003,
+  "front_extra": 3.6,
+  "floors": 20,
+  "h": 69.6,
+  "doors": 1,
+  "lift": true
+ },
+ "tower_c": {
+  "kind": "tower",
+  "w": 14.6,
+  "d": 18.2,
+  "front_extra": 3.6,
+  "floors": 10,
+  "h": 35.599999999999994,
+  "doors": 1,
+  "lift": true
+ },
+ "tower_d": {
+  "kind": "tower",
+  "w": 20.6,
+  "d": 18.2,
+  "front_extra": 3.6,
+  "floors": 24,
+  "h": 83.2,
+  "doors": 1,
+  "lift": true
+ },
+ "food_court": {
+  "kind": "restaurant",
+  "w": 19.0,
+  "d": 8.0,
+  "h": 4.0
+ },
+ "sculpture": {
+  "kind": "landmark",
+  "w": 3.4,
+  "d": 3.4,
+  "h": 6.0
+ },
+ "planter_long": {
+  "kind": "prop",
+  "w": 6.0,
+  "d": 1.4,
+  "h": 1.4
+ },
+ "panel_a": {
+  "kind": "panel",
+  "w": 30,
+  "d": 13.8,
+  "front_extra": 1.8,
+  "floors": 9,
+  "h": 27.799999999999997,
+  "doors": 3,
+  "lift": true
+ },
+ "panel_b": {
+  "kind": "panel",
+  "w": 22,
+  "d": 13.8,
+  "front_extra": 1.8,
+  "floors": 12,
+  "h": 36.5,
+  "doors": 2,
+  "lift": true
+ },
+ "panel_c": {
+  "kind": "panel",
+  "w": 15,
+  "d": 15.8,
+  "front_extra": 1.8,
+  "floors": 16,
+  "h": 48.1,
+  "doors": 1,
+  "lift": true
+ },
+ "panel_d": {
+  "kind": "panel",
+  "w": 30,
+  "d": 13.8,
+  "front_extra": 1.8,
+  "floors": 9,
+  "h": 27.799999999999997,
+  "doors": 3,
+  "lift": true
+ },
+ "kiosk_shawarma": {
+  "kind": "restaurant",
+  "food": "shawarma",
+  "w": 6.0,
+  "d": 5.2,
+  "h": 3.2
+ },
+ "kiosk_bakery": {
+  "kind": "restaurant",
+  "food": "bakery",
+  "w": 6.0,
+  "d": 5.2,
+  "h": 3.2
+ },
+ "supermarket": {
+  "kind": "restaurant",
+  "food": "grocery",
+  "w": 16.0,
+  "d": 11.5,
+  "h": 5.0
+ },
+ "playground": {
+  "kind": "prop",
+  "w": 12.0,
+  "d": 9.0,
+  "h": 3.2
+ },
+ "garages_row": {
+  "kind": "prop",
+  "w": 20.4,
+  "d": 6.0,
+  "h": 2.9
+ },
+ "tree_birch": {
+  "kind": "prop",
+  "w": 0.5,
+  "d": 0.5,
+  "h": 7.0
+ },
+ "dumpsters": {
+  "kind": "prop",
+  "w": 5.0,
+  "d": 2.4,
+  "h": 1.4
+ },
+ "bus_stop": {
+  "kind": "prop",
+  "w": 5.2,
+  "d": 2.2,
+  "h": 2.6
+ },
+ "restaurant_dream": {
+  "kind": "restaurant",
+  "food": "dream",
+  "w": 6.6,
+  "d": 7.0,
+  "h": 4.4
+ }
+}

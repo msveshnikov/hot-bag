@@ -1,0 +1,225 @@
+INFO Draco is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
+20:43:26 | INFO: Starting glTF 2.0 export
+20:43:26 | INFO: Extracting primitive: tower_a-colonly
+20:43:26 | INFO: Primitives created: 1
+20:43:26 | INFO: Extracting primitive: tower_a_mesh
+20:43:26 | INFO: Primitives created: 10
+20:43:26 | INFO: Finished glTF 2.0 export in 0.14072322845458984 s
+
+built tower_a {'kind': 'tower', 'w': 16.6, 'd': 18.2, 'front_extra': 3.6, 'floors': 14, 'h': 49.199999999999996, 'doors': 1, 'lift': True}
+20:43:26 | INFO: Starting glTF 2.0 export
+20:43:26 | INFO: Extracting primitive: tower_b-colonly
+20:43:26 | INFO: Primitives created: 1
+20:43:26 | INFO: Extracting primitive: tower_b_mesh
+20:43:26 | INFO: Primitives created: 10
+20:43:26 | INFO: Finished glTF 2.0 export in 0.051976919174194336 s
+
+built tower_b {'kind': 'tower', 'w': 18.6, 'd': 20.200000000000003, 'front_extra': 3.6, 'floors': 20, 'h': 69.6, 'doors': 1, 'lift': True}
+20:43:27 | INFO: Starting glTF 2.0 export
+20:43:27 | INFO: Extracting primitive: tower_c-colonly
+20:43:27 | INFO: Primitives created: 1
+20:43:27 | INFO: Extracting primitive: tower_c_mesh
+20:43:27 | INFO: Primitives created: 11
+20:43:27 | INFO: Finished glTF 2.0 export in 0.05410599708557129 s
+
+built tower_c {'kind': 'tower', 'w': 14.6, 'd': 18.2, 'front_extra': 3.6, 'floors': 10, 'h': 35.599999999999994, 'doors': 1, 'lift': True}
+20:43:27 | INFO: Starting glTF 2.0 export
+20:43:27 | INFO: Extracting primitive: tower_d-colonly
+20:43:27 | INFO: Primitives created: 1
+20:43:27 | INFO: Extracting primitive: tower_d_mesh
+20:43:27 | INFO: Primitives created: 11
+20:43:27 | INFO: Finished glTF 2.0 export in 0.060331106185913086 s
+
+built tower_d {'kind': 'tower', 'w': 20.6, 'd': 18.2, 'front_extra': 3.6, 'floors': 24, 'h': 83.2, 'doors': 1, 'lift': True}
+20:43:28 | INFO: Starting glTF 2.0 export
+20:43:28 | INFO: Extracting primitive: food_court-colonly
+20:43:28 | INFO: Primitives created: 1
+20:43:28 | INFO: Extracting primitive: food_court_mesh
+20:43:28 | INFO: Primitives created: 22
+20:43:28 | INFO: Extracting primitive: INT_counter_burrito.001
+20:43:28 | INFO: Primitives created: 1
+20:43:28 | INFO: Extracting primitive: INT_counter_salad.001
+20:43:28 | INFO: Primitives created: 1
+20:43:28 | INFO: Extracting primitive: INT_counter_wok.001
+20:43:28 | INFO: Primitives created: 1
+20:43:28 | INFO: Finished glTF 2.0 export in 0.08167171478271484 s
+
+built food_court {'kind': 'restaurant', 'w': 19.0, 'd': 8.0, 'h': 4.0}
+20:43:28 | INFO: Starting glTF 2.0 export
+20:43:28 | INFO: Extracting primitive: sculpture-colonly
+20:43:28 | INFO: Primitives created: 1
+20:43:28 | INFO: Extracting primitive: sculpture_mesh
+20:43:28 | INFO: Primitives created: 2
+20:43:28 | INFO: Finished glTF 2.0 export in 0.018181800842285156 s
+
+built sculpture {'kind': 'landmark', 'w': 3.4, 'd': 3.4, 'h': 6.0}
+20:43:28 | INFO: Starting glTF 2.0 export
+20:43:28 | INFO: Extracting primitive: planter_long-colonly
+20:43:28 | INFO: Primitives created: 1
+20:43:28 | INFO: Extracting primitive: planter_long_mesh
+20:43:28 | INFO: Primitives created: 7
+20:43:28 | INFO: Finished glTF 2.0 export in 0.02487468719482422 s
+
+built planter_long {'kind': 'prop', 'w': 6.0, 'd': 1.4, 'h': 1.4}
+20:43:30 | INFO: Starting glTF 2.0 export
+20:43:30 | INFO: Extracting primitive: INT_door_panel_a_0
+20:43:30 | INFO: Primitives created: 2
+20:43:30 | INFO: Extracting primitive: INT_door_panel_a_1
+20:43:30 | INFO: Primitives created: 2
+20:43:30 | INFO: Extracting primitive: INT_door_panel_a_2
+20:43:30 | INFO: Primitives created: 2
+20:43:30 | INFO: Extracting primitive: INT_intercom_panel_a_0.001
+20:43:30 | INFO: Primitives created: 1
+20:43:30 | INFO: Extracting primitive: INT_intercom_panel_a_1.001
+20:43:30 | INFO: Primitives created: 1
+20:43:30 | INFO: Extracting primitive: INT_intercom_panel_a_2.001
+20:43:30 | INFO: Primitives created: 1
+20:43:30 | INFO: Extracting primitive: panel_a-colonly
+20:43:30 | INFO: Primitives created: 1
+20:43:30 | INFO: Extracting primitive: panel_a_mesh
+20:43:30 | INFO: Primitives created: 12
+20:43:30 | INFO: Finished glTF 2.0 export in 0.0773775577545166 s
+
+built panel_a {'kind': 'panel', 'w': 30, 'd': 13.8, 'front_extra': 1.8, 'floors': 9, 'h': 27.799999999999997, 'doors': 3, 'lift': True}
+20:43:31 | INFO: Starting glTF 2.0 export
+20:43:31 | INFO: Extracting primitive: INT_door_panel_b_0
+20:43:31 | INFO: Primitives created: 2
+20:43:31 | INFO: Extracting primitive: INT_door_panel_b_1
+20:43:31 | INFO: Primitives created: 2
+20:43:31 | INFO: Extracting primitive: INT_intercom_panel_b_0.001
+20:43:31 | INFO: Primitives created: 1
+20:43:31 | INFO: Extracting primitive: INT_intercom_panel_b_1.001
+20:43:31 | INFO: Primitives created: 1
+20:43:31 | INFO: Extracting primitive: panel_b-colonly
+20:43:31 | INFO: Primitives created: 1
+20:43:31 | INFO: Extracting primitive: panel_b_mesh
+20:43:31 | INFO: Primitives created: 11
+20:43:31 | INFO: Finished glTF 2.0 export in 0.06699728965759277 s
+
+built panel_b {'kind': 'panel', 'w': 22, 'd': 13.8, 'front_extra': 1.8, 'floors': 12, 'h': 36.5, 'doors': 2, 'lift': True}
+20:43:33 | INFO: Starting glTF 2.0 export
+20:43:33 | INFO: Extracting primitive: INT_door_panel_c_0
+20:43:33 | INFO: Primitives created: 2
+20:43:33 | INFO: Extracting primitive: INT_intercom_panel_c_0.001
+20:43:33 | INFO: Primitives created: 1
+20:43:33 | INFO: Extracting primitive: panel_c-colonly
+20:43:33 | INFO: Primitives created: 1
+20:43:33 | INFO: Extracting primitive: panel_c_mesh
+20:43:33 | INFO: Primitives created: 12
+20:43:33 | INFO: Finished glTF 2.0 export in 0.09112691879272461 s
+
+built panel_c {'kind': 'panel', 'w': 15, 'd': 15.8, 'front_extra': 1.8, 'floors': 16, 'h': 48.1, 'doors': 1, 'lift': True}
+20:43:35 | INFO: Starting glTF 2.0 export
+20:43:35 | INFO: Extracting primitive: INT_door_panel_d_0
+20:43:35 | INFO: Primitives created: 2
+20:43:35 | INFO: Extracting primitive: INT_door_panel_d_1
+20:43:35 | INFO: Primitives created: 2
+20:43:35 | INFO: Extracting primitive: INT_door_panel_d_2
+20:43:35 | INFO: Primitives created: 2
+20:43:35 | INFO: Extracting primitive: INT_intercom_panel_d_0.001
+20:43:35 | INFO: Primitives created: 1
+20:43:35 | INFO: Extracting primitive: INT_intercom_panel_d_1.001
+20:43:35 | INFO: Primitives created: 1
+20:43:35 | INFO: Extracting primitive: INT_intercom_panel_d_2.001
+20:43:35 | INFO: Primitives created: 1
+20:43:35 | INFO: Extracting primitive: panel_d-colonly
+20:43:35 | INFO: Primitives created: 1
+20:43:35 | INFO: Extracting primitive: panel_d_mesh
+20:43:35 | INFO: Primitives created: 12
+20:43:35 | INFO: Finished glTF 2.0 export in 0.07437372207641602 s
+
+built panel_d {'kind': 'panel', 'w': 30, 'd': 13.8, 'front_extra': 1.8, 'floors': 9, 'h': 27.799999999999997, 'doors': 3, 'lift': True}
+20:43:35 | INFO: Starting glTF 2.0 export
+20:43:35 | INFO: Extracting primitive: INT_counter_shawarma.001
+20:43:35 | INFO: Primitives created: 1
+20:43:35 | INFO: Extracting primitive: kiosk_shawarma-colonly
+20:43:35 | INFO: Primitives created: 1
+20:43:35 | INFO: Extracting primitive: kiosk_shawarma_mesh
+20:43:35 | INFO: Primitives created: 7
+20:43:35 | INFO: Finished glTF 2.0 export in 0.03450369834899902 s
+
+built kiosk_shawarma {'kind': 'restaurant', 'food': 'shawarma', 'w': 6.0, 'd': 5.2, 'h': 3.2}
+20:43:35 | INFO: Starting glTF 2.0 export
+20:43:35 | INFO: Extracting primitive: INT_counter_bakery.001
+20:43:35 | INFO: Primitives created: 1
+20:43:35 | INFO: Extracting primitive: kiosk_bakery-colonly
+20:43:35 | INFO: Primitives created: 1
+20:43:35 | INFO: Extracting primitive: kiosk_bakery_mesh
+20:43:35 | INFO: Primitives created: 7
+20:43:35 | INFO: Finished glTF 2.0 export in 0.03529977798461914 s
+
+built kiosk_bakery {'kind': 'restaurant', 'food': 'bakery', 'w': 6.0, 'd': 5.2, 'h': 3.2}
+20:43:36 | INFO: Starting glTF 2.0 export
+20:43:36 | INFO: Extracting primitive: INT_counter_grocery
+20:43:36 | INFO: Primitives created: 1
+20:43:36 | INFO: Extracting primitive: supermarket-colonly
+20:43:36 | INFO: Primitives created: 1
+20:43:36 | INFO: Extracting primitive: supermarket_mesh
+20:43:36 | INFO: Primitives created: 9
+20:43:36 | INFO: Finished glTF 2.0 export in 0.04123187065124512 s
+
+built supermarket {'kind': 'restaurant', 'food': 'grocery', 'w': 16.0, 'd': 11.5, 'h': 5.0}
+20:43:36 | INFO: Starting glTF 2.0 export
+20:43:36 | INFO: Extracting primitive: playground_mesh
+20:43:36 | INFO: Primitives created: 9
+20:43:36 | INFO: Extracting primitive: playground_s-colonly
+20:43:36 | INFO: Primitives created: 1
+20:43:36 | INFO: Extracting primitive: playground_t-colonly
+20:43:36 | INFO: Primitives created: 1
+20:43:36 | INFO: Finished glTF 2.0 export in 0.040189504623413086 s
+
+built playground {'kind': 'prop', 'w': 12.0, 'd': 9.0, 'h': 3.2}
+20:43:36 | INFO: Starting glTF 2.0 export
+20:43:36 | INFO: Extracting primitive: garages_row-colonly
+20:43:36 | INFO: Primitives created: 1
+20:43:36 | INFO: Extracting primitive: garages_row_mesh
+20:43:36 | INFO: Primitives created: 8
+20:43:36 | INFO: Finished glTF 2.0 export in 0.033602237701416016 s
+
+built garages_row {'kind': 'prop', 'w': 20.4, 'd': 6.0, 'h': 2.9}
+20:43:36 | INFO: Starting glTF 2.0 export
+20:43:36 | INFO: Extracting primitive: tree_birch-colonly
+20:43:36 | INFO: Primitives created: 1
+20:43:36 | INFO: Extracting primitive: tree_birch_mesh
+20:43:36 | INFO: Primitives created: 4
+20:43:36 | INFO: Finished glTF 2.0 export in 0.024197101593017578 s
+
+built tree_birch {'kind': 'prop', 'w': 0.5, 'd': 0.5, 'h': 7.0}
+20:43:36 | INFO: Starting glTF 2.0 export
+20:43:36 | INFO: Extracting primitive: dumpsters-colonly
+20:43:36 | INFO: Primitives created: 1
+20:43:36 | INFO: Extracting primitive: dumpsters_mesh
+20:43:36 | INFO: Primitives created: 4
+20:43:36 | INFO: Finished glTF 2.0 export in 0.02062201499938965 s
+
+built dumpsters {'kind': 'prop', 'w': 5.0, 'd': 2.4, 'h': 1.4}
+20:43:36 | INFO: Starting glTF 2.0 export
+20:43:36 | INFO: Extracting primitive: bus_stop-colonly
+20:43:36 | INFO: Primitives created: 1
+20:43:36 | INFO: Extracting primitive: bus_stop_mesh
+20:43:36 | INFO: Primitives created: 6
+20:43:36 | INFO: Finished glTF 2.0 export in 0.026068925857543945 s
+
+built bus_stop {'kind': 'prop', 'w': 5.2, 'd': 2.2, 'h': 2.6}
+20:43:37 | INFO: Starting glTF 2.0 export
+20:43:37 | INFO: Extracting primitive: ACC_closed
+20:43:37 | INFO: Primitives created: 3
+20:43:37 | INFO: Extracting primitive: ACC_open
+20:43:37 | INFO: Primitives created: 5
+20:43:37 | INFO: Extracting primitive: INT_counter_dream.001
+20:43:37 | INFO: Primitives created: 1
+20:43:37 | INFO: Extracting primitive: INT_door_restaurant_dream
+20:43:37 | INFO: Primitives created: 2
+20:43:37 | INFO: Extracting primitive: restaurant_dream-colonly
+20:43:37 | INFO: Primitives created: 1
+20:43:37 | INFO: Extracting primitive: restaurant_dream_mesh
+20:43:37 | INFO: Primitives created: 10
+20:43:37 | INFO: Finished glTF 2.0 export in 0.07408857345581055 s
+
+built restaurant_dream {'kind': 'restaurant', 'food': 'dream', 'w': 6.6, 'd': 7.0, 'h': 4.4}
+Info: Saved as "architecture2.blend"
+DONE
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
+
+Blender quit

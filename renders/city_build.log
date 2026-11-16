@@ -1,0 +1,51 @@
+layout: 288 instances, 170 markers, 11 zones
+INFO Draco is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
+21:08:19 | INFO: Starting glTF 2.0 export
+21:08:19 | INFO: Extracting primitive: backdrop
+21:08:19 | INFO: Primitives created: 5
+21:08:19 | INFO: Extracting primitive: base_slab-col
+21:08:19 | INFO: Primitives created: 1
+21:08:19 | INFO: Extracting primitive: bounds-colonly
+21:08:19 | INFO: Primitives created: 1
+21:08:19 | INFO: Extracting primitive: bridge_deck-col.001
+21:08:19 | INFO: Primitives created: 1
+21:08:19 | INFO: Extracting primitive: bridge_pier
+21:08:19 | INFO: Primitives created: 1
+21:08:19 | INFO: Extracting primitive: bridge_pier.001
+21:08:19 | INFO: Primitives created: 1
+21:08:19 | INFO: Extracting primitive: bridge_pier.002
+21:08:19 | INFO: Primitives created: 1
+21:08:19 | INFO: Extracting primitive: bridge_rail-col.001
+21:08:19 | INFO: Primitives created: 1
+21:08:19 | INFO: Extracting primitive: bridge_rail-col.002
+21:08:19 | INFO: Primitives created: 1
+21:08:19 | INFO: Extracting primitive: embank-col.001
+21:08:19 | INFO: Primitives created: 1
+21:08:19 | INFO: Extracting primitive: ground_a-col
+21:08:19 | INFO: Primitives created: 1
+21:08:19 | INFO: Extracting primitive: ground_b-col
+21:08:19 | INFO: Primitives created: 1
+21:08:19 | INFO: Extracting primitive: ground_g-col
+21:08:19 | INFO: Primitives created: 1
+21:08:19 | INFO: Extracting primitive: ground_p-col
+21:08:19 | INFO: Primitives created: 1
+21:08:19 | INFO: Extracting primitive: ground_s-col
+21:08:19 | INFO: Primitives created: 1
+21:08:19 | INFO: Extracting primitive: ground_w
+21:08:19 | INFO: Primitives created: 1
+21:08:19 | INFO: Extracting primitive: ground_z-col
+21:08:19 | INFO: Primitives created: 1
+21:08:19 | INFO: Extracting primitive: quay
+21:08:19 | INFO: Primitives created: 1
+21:08:19 | INFO: Extracting primitive: road_marks
+21:08:19 | INFO: Primitives created: 2
+21:08:19 | INFO: Finished glTF 2.0 export in 0.20516347885131836 s
+00:40.047  render           | Saved: 'C:\My-progs\Godot\wolt\assets\levels\city_map.png'
+
+render C:\My-progs\Godot\wolt\assets\levels\city_map.png
+Info: Saved as "city.blend"
+DONE
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
+
+Blender quit

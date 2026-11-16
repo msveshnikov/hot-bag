@@ -1,0 +1,56 @@
+AUTOTEST district berezki
+AUTOTEST shot berezki_00_start
+AUTOTEST OK   berezki traffic: 9 of 9 cars on the roads
+AUTOTEST OK   no mentor outside the Old Town
+AUTOTEST OK   big house numbers (10)
+AUTOTEST OK   berezki: all 3 pickups and 21 doors reachable []
+AUTOTEST exit focus: Дорога в Старый город — ехать в Старый город
+AUTOTEST OK   standing in the exit zone shows the travel prompt
+AUTOTEST exit focus: Шоссе в «Сити» — ехать в «Сити»
+AUTOTEST OK   standing in the exit zone shows the travel prompt
+AUTOTEST OK   berezki has 2 exits
+AUTOTEST OK   accept shawarma order
+AUTOTEST OK   shawarma: focus on the pickup counter
+AUTOTEST shot berezki_01_pickup_shawarma
+AUTOTEST OK   shawarma: food in the bag
+AUTOTEST OK   shawarma: focus on the door Берёзовая, 7 к.3, под. 2
+AUTOTEST shot berezki_02_door
+AUTOTEST shawarma: going up via lift (floor 2)
+AUTOTEST shot berezki_04_lift
+AUTOTEST OK   shawarma: lift leads to the customer (1.5 s)
+AUTOTEST OK   shawarma: delivered, money 31
+AUTOTEST OK   accept bakery order
+AUTOTEST OK   bakery: focus on the pickup counter
+AUTOTEST OK   bakery: food in the bag
+AUTOTEST OK   bakery: focus on the door Берёзовая, 7 к.4, под. 1
+AUTOTEST bakery: going up via stairs (floor 2)
+AUTOTEST shot berezki_04_stairs
+AUTOTEST OK   bakery: stairs leads to the customer (1.5 s)
+AUTOTEST OK   bakery: delivered, money 38
+AUTOTEST OK   accept grocery order
+AUTOTEST OK   grocery: focus on the pickup counter
+AUTOTEST OK   grocery: food in the bag
+AUTOTEST OK   grocery: focus on the door Берёзовая, 7 к.3, под. 2
+AUTOTEST grocery: going up via lift (floor 2)
+AUTOTEST OK   grocery: lift leads to the customer (1.5 s)
+AUTOTEST OK   grocery: delivered, money 66
+AUTOTEST quest offered: no_lift
+AUTOTEST OK   berezki quest offered
+AUTOTEST shot berezki_10_view_day
+AUTOTEST fps 57.0 at berezki view 0
+AUTOTEST shot berezki_10_view_night
+AUTOTEST fps 44.0 at berezki view 0
+AUTOTEST shot berezki_11_view_day
+AUTOTEST fps 41.0 at berezki view 1
+AUTOTEST shot berezki_11_view_night
+AUTOTEST fps 52.0 at berezki view 1
+AUTOTEST shot berezki_12_view_day
+AUTOTEST fps 43.0 at berezki view 2
+AUTOTEST shot berezki_12_view_night
+AUTOTEST fps 38.0 at berezki view 2
+AUTOTEST OK   travel: arrived in the Old Town
+AUTOTEST OK   travel: player at the entry from berezki (86.0, -62.0)
+AUTOTEST OK   travel: the shift clock kept running (15.52)
+AUTOTEST OK   travel: the vehicle came along (bicycle)
+AUTOTEST shot berezki_20_arrived_old_town
+AUTOTEST DONE fails=0

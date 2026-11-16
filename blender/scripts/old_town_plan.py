@@ -89,6 +89,12 @@ REST_FRONT = -6.0
 # courier base on the north-east block, facing south (front line y=28)
 BASE = [("courier_cafe", 46.0, 7.0, 5.0), ("garage", 61.0, 8.0, 8.0), ("snack_kiosk", 74.0, 3.0, 2.4)]
 BASE_FRONT = 28.0
+# run 2: the dream restaurant (empty shop «Сдаётся» on the square, east of the cake shop)
+DREAM_X = 23.0
+# exits to the run 2 districts (rects the player rides into) and arrival points (x, y, yaw)
+EXITS = [dict(to="city", rect=(53, 88, 63, 95), label="Мост в «Сити»"),
+         dict(to="berezki", rect=(91, 49, 96, 59), label="Дорога в «Берёзки»")]
+ENTRIES = {"city": (58.0, 80.0, 0.0), "berezki": (86.0, 62.0, -90.0)}
 
 
 def house_dims(meta, name):

@@ -50,6 +50,7 @@ func _ready() -> void:
 	add_child(orders)
 	orders.setup(self)
 	level.add_plates(Game.orders_data["doors"])
+	level.add_bignums(Game.orders_data.get("bignums", []))
 	level.apply_quality(int(Game.settings.get("quality", 1)))
 	events = Events.new()
 	add_child(events)
@@ -62,7 +63,18 @@ func _ready() -> void:
 	add_child(player)
 	var ps: Dictionary = Game.population["player"]
 	var start = Vector3(ps["pos"][0], ps["pos"][1], ps["pos"][2])
-	player.setup(self, start, float(ps["yaw"]))
+	var syaw = float(ps["yaw"])
+	var frm: String = Game.state.get("arrive_from", "")
+	var entries: Dictionary = Game.layout.get("district", {}).get("entries", {})
+	if frm != "" and entries.has(frm):
+		start = _v(entries[frm]["pos"])
+		syaw = float(entries[frm]["yaw"])
+	Game.state.erase("arrive_from")
+	if Game.state.has("hour_resume"):
+		daynight.hour = clamp(float(Game.state["hour_resume"]), DayNight.START_H, DayNight.END_H - 0.05)
+		Game.state.erase("hour_resume")
+		daynight.apply(true)
+	player.setup(self, start, syaw)
 	daynight.follow = player
 	people = People.new()
 	add_child(people)
@@ -76,6 +88,7 @@ func _ready() -> void:
 	_make_gps()
 	_park_start_vehicle(start)
 	_build_interactables()
+	apply_dream()
 	ui = CanvasLayer.new()
 	ui.layer = 10
 	ui.process_mode = Node.PROCESS_MODE_ALWAYS
@@ -95,8 +108,8 @@ func _ready() -> void:
 	Sfx.play_music("music_day")
 	Sfx.set_loop("city_loop", 0.35)
 	_capture_mouse()
-	story.start_day()
 	story.resume_quests()
+	story.start_day()
 	if Game.flag("autotest"):
 		var at = load("res://scripts/autotest.gd").new()
 		at.world = self
@@ -244,8 +257,19 @@ func _build_interactables() -> void:
 		interactables.append({"pos": _v(door["pos"]), "r": 2.2, "kind": "door",
 			"label": func(): return ("Доставить: " + door["label"]) if not _orders_for_door(door).is_empty() else "",
 			"cb": func(): _door(door)})
-	interactables.append({"pos": people.mentor.position, "r": 2.8, "kind": "mentor",
-		"label": func(): return "Поговорить с Михалычем", "cb": func(): story.talk_mentor()})
+	if people.mentor:
+		interactables.append({"pos": people.mentor.position, "r": 2.8, "kind": "mentor",
+			"label": func(): return "Поговорить с Михалычем", "cb": func(): story.talk_mentor()})
+	for e in Game.layout.get("district", {}).get("exits", []):
+		var ex: Dictionary = e
+		var a: Vector3 = _v(ex["rect"][0])
+		var b: Vector3 = _v(ex["rect"][1])
+		interactables.append({"pos": (a + b) * 0.5, "r": max(abs(b.x - a.x), abs(b.z - a.z)) * 0.5 + 2.0, "kind": "exit",
+			"label": func(): return _exit_label(ex), "cb": func(): _exit(ex)})
+	if Game.orders_data["restaurants"].has("dream"):
+		var dr: Dictionary = Game.orders_data["restaurants"]["dream"]
+		interactables.append({"pos": _v(dr["pickup"]), "r": 2.6, "kind": "dream",
+			"label": func(): return story.dream_label(), "cb": func(): story.dream_action()})
 	for m in _markers("MARK_charger"):
 		interactables.append({"pos": _v(m["pos"]), "r": 2.6, "kind": "charger",
 			"label": func(): return ("Зарядить самокат (%d%%)" % int(battery)) if _scooter_near(_v(m["pos"])) else "",
@@ -288,6 +312,7 @@ func _process(delta: float) -> void:
 	if not parked.is_empty():
 		parked["since"] += delta
 		_theft_check()
+		_tow_check(delta)
 	if charging:
 		if not _scooter_near_any():
 			charging = false
@@ -584,8 +609,13 @@ func refresh_gps() -> void:
 
 func _update_gps() -> void:
 	gps_target = orders.gps_target()
-	if gps_target.is_empty() and story.step() in [0, 4]:
+	if gps_target.is_empty() and story.step() in [0, 4] and people.mentor:
 		gps_target = {"pos": people.mentor.position, "label": "Михалыч", "kind": "mentor"}
+	if gps_target.is_empty():
+		gps_target = story.guide_target()
+	if not gps_target.is_empty() and gps_target.get("kind") == "door" and gps_target["order"]["flags"].get("no_gps"):
+		player.hint("no_gps", "GPS не знает этот корпус! Ищи большой номер на стене дома.", 20.0)
+		gps_target = {}
 	var im: ImmediateMesh = gps_line.mesh
 	im.clear_surfaces()
 	if gps_target.is_empty():
@@ -629,6 +659,7 @@ func gps_path() -> PackedVector3Array:
 
 # ---------------------------------------------------------------- day flow
 func _on_hour(h: int) -> void:
+	story.on_hour(h)
 	if h >= 20:
 		Sfx.play_music("music_night")
 	else:
@@ -692,6 +723,109 @@ func spawn_customer(o: Dictionary, res: Dictionary) -> void:
 	get_tree().create_timer(4.0).timeout.connect(func(): if is_instance_valid(c): c.queue_free())
 
 
+# ---------------------------------------------------------------- districts
+func _exit_label(ex: Dictionary) -> String:
+	var to: String = ex["to"]
+	if not Game.unlocked(to):
+		return "%s: закрыто, ремонт (откроется в главе %d)" % [ex["label"], 3 if to == "city" else 4]
+	return "%s — ехать в %s" % [ex["label"], Game.DISTRICTS[to]["short"]]
+
+
+func _exit(ex: Dictionary) -> void:
+	var to: String = ex["to"]
+	if not Game.unlocked(to):
+		toast("Дорога закрыта на ремонт. Михалыч позвонит, когда откроют.", 2.5)
+		return
+	var n = orders.active.size()
+	var text = "Поехать в %s? Время смены идёт дальше." % Game.district_title(to)
+	if n > 0:
+		text = "У тебя %d активн. заказ(ов). В другом районе их не доставить — они отменятся, рейтинг упадёт. Всё равно ехать в %s?" % [n, Game.district_title(to)]
+	dialog("Навигатор", text, [
+		["Поехать", func(): travel_to(to)],
+		["Остаться", func(): pass],
+	])
+
+
+func travel_to(to: String) -> void:
+	for o in orders.active.duplicate():
+		orders.cancel(o, "переезд в другой район")
+	if player.riding():
+		Game.state["vehicle"] = player.vehicle_kind
+	elif not parked.is_empty():
+		Game.state["vehicle"] = parked["kind"]
+	Game.state["battery"] = battery
+	Sfx.stop_loops()
+	started = false
+	Game.travel(to, daynight.hour)
+
+
+func _tow_check(delta: float) -> void:
+	var zones: Array = Game.layout.get("district", {}).get("zones", [])
+	if zones.is_empty():
+		return
+	var p: Vector3 = parked["body"].global_position
+	var inside = false
+	for z in zones:
+		var a: Array = z["rect"][0]
+		var b: Array = z["rect"][1]
+		if p.x > min(a[0], b[0]) and p.x < max(a[0], b[0]) and p.z > min(a[2], b[2]) and p.z < max(a[2], b[2]):
+			inside = true
+	if not inside:
+		parked["tow"] = 0.0
+		return
+	player.hint("no_parking", "Красная разметка у башни — парковка запрещена! Эвакуатор не дремлет.", 30.0)
+	if p.distance_to(player.global_position) < 6.0:
+		return
+	parked["tow"] = float(parked.get("tow", 0.0)) + delta
+	if float(parked["tow"]) > 25.0:
+		var kind: String = parked["kind"]
+		var node: Node3D = parked["node"]
+		var body: StaticBody3D = parked["body"]
+		body.remove_child(node)
+		body.queue_free()
+		parked = {}
+		var g = _marker("MARK_shop_garage")
+		park_vehicle(kind, node, g + Vector3(2.5, 0, 1.5), 0.0)
+		Game.spend(15.0)
+		Game.state["stats"]["fines"] = float(Game.state["stats"].get("fines", 0.0)) + 15.0
+		banner("Эвакуатор!", "Транспорт стоял на красной разметке у входа в башню. Штраф 15 монет, забирай у мастерской.")
+		Sfx.play("whistle", 0.5)
+
+
+## The nearest lobby guard turns to the courier and talks (Сити towers).
+func people_guard_look() -> void:
+	var best = null
+	var bd = 1e9
+	for g in people.guards:
+		var d: float = g["node"].global_position.distance_to(player.global_position)
+		if d < bd:
+			bd = d
+			best = g["node"]
+	if best and bd < 12.0:
+		var dir = player.global_position - best.global_position
+		best.rotation.y = atan2(dir.x, dir.z)
+		Chars.play(best, "talk")
+		get_tree().create_timer(3.0).timeout.connect(func(): if is_instance_valid(best): Chars.play(best, "idle"))
+
+
+func apply_dream() -> void:
+	for i in Game.layout["instances"].size():
+		if Game.layout["instances"][i]["asset"] != "restaurant_dream" or i >= level.instances.size():
+			continue
+		var n: Node3D = level.instances[i]
+		if n == null:
+			continue
+		var open = Game.state.get("dream", "locked") == "open"
+		var c = n.find_child("ACC_closed", true, false)
+		var o = n.find_child("ACC_open", true, false)
+		if c:
+			c.visible = not open
+		if o:
+			o.visible = open
+	if people and people.cooks.has("dream"):
+		people.cooks["dream"].visible = Game.state.get("dream", "locked") == "open"
+
+
 func to_menu() -> void:
 	Sfx.stop_loops()
 	Game.save_game()
@@ -701,6 +835,7 @@ func to_menu() -> void:
 
 func next_day() -> void:
 	Game.state["day"] = int(Game.state["day"]) + 1
+	Game.state.erase("hour_resume")
 	Game.state["rented_today"] = false
 	if not Game.state["owned"].get("scooter", false):
 		Game.state["vehicle"] = "bicycle"

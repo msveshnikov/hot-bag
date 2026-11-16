@@ -43,3 +43,14 @@ pizza_box, paper_bag, cup_holder, cake_box, sushi_box, ice_cream_tub, lunch_crat
 
 ## Текстуры (numpy, `blender/scripts/make_textures.py`)
 cobble, asphalt, sidewalk, roof_tiles, plaster, brick, wood, grass, park_path, water, stone.
+
+## Прогон 2 (`build_architecture2.py`, `architecture2.blend`)
+| Ассет | Тип | Габариты |
+|---|---|---|
+| `tower_a` / `tower_b` / `tower_c` / `tower_d` | башня (лифты, охрана) | 16×14 / 18×16 / 14×14 / 20×14 м, 14 / 20 / 10 / 24 этажа |
+| `food_court` | 3 точки выдачи: вок, салаты, буррито | 19×8 м |
+| `sculpture`, `planter_long` | плаза | 3,4×3,4 м, 6×1,4 м |
+| `panel_a` / `panel_b` / `panel_c` / `panel_d` | панелька (лифты) | 30×12 / 22×12 / 15×14 / 30×12 м, 9 / 12 / 16 / 9 этажей |
+| `kiosk_shawarma`, `kiosk_bakery`, `supermarket` | точки выдачи | 6×4, 6×4, 16×10 м |
+| `playground`, `garages_row`, `tree_birch`, `dumpsters`, `bus_stop` | двор | — |
+| `restaurant_dream` | помещение «Сдаётся» → ресторан мечты | 6,6×7 м |

@@ -11,6 +11,7 @@ import json
 sys.path.insert(0, os.path.dirname(__file__))
 from lib_geo import *  # noqa
 from lib_char import *  # noqa
+from lib_hero import courier_human, hero_hair_short, hero_hair_ponytail, hero_cap, hero_bag
 import lib_render as R
 from mathutils import Vector, Quaternion
 
@@ -625,9 +626,21 @@ def whistle_cord(B):
           "chest")
 
 
+def guard_gear(B):
+    m = mat("sunglass", "#1d1f24", rough=0.2)
+    for sx in (-1, 1):
+        B.add(sphere("gsg%d" % sx, 0.05, (sx * 0.075, -0.2, 1.52), m, seg=8, rings=6, scale=(1.25, 0.4, 0.8)), "head")
+    B.add(box("gsgb", (0.08, 0.012, 0.012), (0, -0.215, 1.53), m), "head")
+    cm = mat("guard_cap", "#22252b")
+    B.add(cyl("gc", 0.22, 0.1, (0, 0, 1.6), cm, n=16), "head")
+    B.add(cyl("gct", 0.24, 0.04, (0, 0.01, 1.7), cm, n=16), "head")
+    B.add(cyl("gcv", 0.13, 0.02, (0, -0.2, 1.6), "black", n=12), "head")
+    B.add(tube_path("earpiece", [(0.2, 0.0, 1.45), (0.18, 0.05, 1.3), (0.14, 0.06, 1.18)], 0.008, "black", n=4), "head")
+
+
 def courier_accs(B):
-    for f in (hair_short("#5b3a26"), hair_ponytail("#6b3e22"), hair_curly("#2e2420"), hair_bun("#6b3e22"),
-              cap("#22b8b0"), helmet_bike(), helmet_half(), helmet_retro(), delivery_bag(), held_box(), held_phone()):
+    for f in (hero_hair_short("#5b3a26"), hero_hair_ponytail("#6b3e22"), hair_curly("#2e2420"), hair_bun("#6b3e22"),
+              hero_cap("#22b8b0"), helmet_bike(), helmet_half(), helmet_retro(), hero_bag(), held_box(), held_phone()):
         f(B)
 
 
@@ -639,10 +652,10 @@ def jacket_mat():
 
 
 ROSTER = {
-    "courier_m": dict(skin="#f2c39b", top="jacket", top_m=None, pants="#5a4436", shoes="#c8763a", cuffs=True,
+    "courier_m": dict(skin="#f2c39b", top="jacket", top_m=None, pants="#56483f", shoes="#c07a45", hero=True,
                       extras=[courier_accs, wrist_phone], hair_c="#5b3a26"),
-    "courier_f": dict(skin="#f0bf98", top="jacket", top_m=None, pants="#5a4436", shoes="#c8763a", cuffs=True,
-                      extras=[courier_accs, wrist_phone, lashes], hair_c="#6b3e22"),
+    "courier_f": dict(skin="#f0bf98", top="jacket", top_m=None, pants="#56483f", shoes="#c07a45", hero=True,
+                      female=True, extras=[courier_accs, wrist_phone], hair_c="#6b3e22"),
     "mentor": dict(skin="#e3ad86", top="jacket", top_c="#5fa9a3", pants="#4c5560", shoes="#6b4a2e", belly=0.07,
                    mustache="#d8d8d8", hair_c="#c9c9c9", gloves="#3a3a3a",
                    extras=[hair_short("#c9c9c9", "hair"), sunglasses_forehead, delivery_bag("bag", "#4f8f8a", True)]),
@@ -663,6 +676,8 @@ ROSTER = {
                  extras=[toque]),
     "police": dict(skin="#e3ad86", top="uniform", top_c="#3f5f9c", pants="#2f4776", shoes="#1d1f24", belly=0.05,
                    hair_c="#3a2a20", mustache="#3a2a20", extras=[police_cap, whistle_cord]),
+    "guard": dict(skin="#d9a27b", top="uniform", top_c="#2f3440", pants="#2a2d33", shoes="#1d1f24", belly=0.06,
+                  hair_c="#2b2320", extras=[guard_gear]),
     "thief": dict(skin="#e8b48f", top="hoodie", top_c="#3a3d48", pants="#2b2d33", shoes="#55585e", hair_c="#2b2320",
                   extras=[beanie("#2b2b30")]),
 }
@@ -672,7 +687,7 @@ def build(name, spec):
     coll = collection(name)
     if spec.get("top_m") is None and spec.get("top") == "jacket" and name.startswith("courier"):
         spec = dict(spec, top_m=jacket_mat())
-    rig, meshes = human(name, coll, spec)
+    rig, meshes = (courier_human if spec.get("hero") else human)(name, coll, spec)
     if spec.get("height"):
         rig.scale = (spec["height"],) * 3
     lib = [x for x in LIB if (ANIMS is None or x[0] in ANIMS)]
@@ -713,7 +728,8 @@ def render_char(rig, meshes, name):
     out = []
     R.isolate([rig] + meshes)
     vis = [m for m in meshes if not m.name.startswith(("ACC_", "HELD_"))] + \
-          [m for m in meshes if m.name in ("ACC_cap", "ACC_bag", "ACC_hair_short", "ACC_hair_ponytail")]
+          [m for m in meshes if m.name in ("ACC_cap", "ACC_bag", "hair") or
+           m.name == ("ACC_hair_ponytail" if name == "courier_f" else "ACC_hair_short")]
     for m in meshes:
         m.hide_render = m not in vis
     for pn, fn, t in poses:
@@ -731,6 +747,9 @@ def render_char(rig, meshes, name):
     R.camera(loc=(0, -3.4, 1.0), target=(0, 0, 0.88), lens=45)
     p = os.path.join(RENDERS, "characters", "%s_front.png" % name)
     R.render(p)
+    for vn, loc in (("side", (-3.4, 0, 1.0)), ("back", (0, 3.4, 1.0)), ("three_q", (1.9, -2.6, 1.3))):
+        R.camera(loc=loc, target=(0, 0, 0.88), lens=45)
+        R.render(os.path.join(RENDERS, "characters", "%s_%s.png" % (name, vn)))
     rig.animation_data.action = None
     return out
 

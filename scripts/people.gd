@@ -10,6 +10,7 @@ var world: Node
 var npcs: Array = []        # dicts {data, node, home, target, t}
 var cooks = {}
 var mentor: Node3D
+var guards: Array = []      # {data, node} security guards at the tower lobbies (Сити)
 var police: Array = []      # {data, node, route_i}
 var rivals: Array = []      # {data, node, path, i, wait}
 var thief = {}
@@ -28,7 +29,16 @@ func setup(w: Node) -> void:
 		node.rotation.y = deg_to_rad(float(c["yaw"]))
 		add_child(node)
 		cooks[c["restaurant"]] = node
-	var m: Dictionary = pop["mentor"]
+	for g in pop.get("guards", []):
+		var gn = Chars.make("guard", "idle")
+		gn.position = _v(g["pos"])
+		gn.rotation.y = deg_to_rad(float(g["yaw"]))
+		add_child(gn)
+		guards.append({"data": g, "node": gn})
+	var m = pop.get("mentor")
+	if m == null:
+		return_after_mentor(pop)
+		return
 	mentor = Chars.make("mentor", "sip_coffee", ["bag", "hair"])
 	mentor.position = _v(m["pos"])
 	mentor.rotation.y = deg_to_rad(float(m["yaw"]))
@@ -41,6 +51,10 @@ func setup(w: Node) -> void:
 		cs.position = mentor.position + Vector3(0.75, 0, 0).rotated(Vector3.UP, mentor.rotation.y)
 		cs.rotation.y = mentor.rotation.y
 		add_child(cs)
+	return_after_mentor(pop)
+
+
+func return_after_mentor(pop: Dictionary) -> void:
 	for p in pop["police"]:
 		var node = Chars.make("police", p.get("anim", "idle"))
 		node.position = _v(p["pos"])

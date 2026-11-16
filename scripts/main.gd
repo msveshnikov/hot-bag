@@ -6,8 +6,11 @@ var menu: CanvasLayer
 
 func _ready() -> void:
 	if Game.go_play or Game.flag("autotest") or Game.flag("tour") or Game.flag("play"):
-		if Game.flag("autotest") or Game.flag("newgame"):
+		if (Game.flag("autotest") or Game.flag("newgame")) and not Game.booted:
 			Game.new_state()
+		if Game.flag("district") and not Game.booted:
+			Game.state["district"] = Game.flags["district"][0]
+		Game.booted = true
 		Game.go_play = false
 		_start_game()
 	else:
@@ -34,7 +37,7 @@ func _show_menu() -> void:
 	title.custom_minimum_size = Vector2(1000, 0)
 	UiKit.place(title, Control.PRESET_CENTER_TOP, Vector2(-500, 40))
 	root.add_child(title)
-	var sub = UiKit.hud_label("симулятор курьера · Старый город", 30, Color("ffffff"))
+	var sub = UiKit.hud_label("симулятор курьера · Старый город, «Сити», «Берёзки»", 30, Color("ffffff"))
 	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	sub.custom_minimum_size = Vector2(1000, 0)
 	UiKit.place(sub, Control.PRESET_CENTER_TOP, Vector2(-500, 160))
@@ -55,7 +58,7 @@ func _show_menu() -> void:
 	v.add_child(UiKit.button("Настройки", func(): _settings(root), 380, Color("e8dcc4")))
 	if not OS.has_feature("web") and not OS.has_feature("mobile"):
 		v.add_child(UiKit.button("Выход", func(): get_tree().quit(), 380, Color("e8dcc4")))
-	var ver = UiKit.hud_label("v" + Game.VERSION + " · вертикальный срез", 18)
+	var ver = UiKit.hud_label("v" + Game.VERSION + " · главы 1–5", 18)
 	UiKit.place(ver, Control.PRESET_BOTTOM_RIGHT, Vector2(-330, -40))
 	root.add_child(ver)
 	first.grab_focus.call_deferred()
@@ -104,8 +107,10 @@ func _start_game() -> void:
 	bg.color = Color("22b8b0")
 	bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	load_l.add_child(bg)
-	var l = UiKit.hud_label("Загрузка Старого города...", 44)
-	UiKit.place(l, Control.PRESET_CENTER, Vector2(-300, -30))
+	var l = UiKit.hud_label("Едем: %s..." % Game.district_title(), 44)
+	l.custom_minimum_size = Vector2(1000, 0)
+	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	UiKit.place(l, Control.PRESET_CENTER, Vector2(-500, -30))
 	load_l.add_child(l)
 	await get_tree().process_frame
 	await get_tree().process_frame

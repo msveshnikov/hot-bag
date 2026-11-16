@@ -1,0 +1,723 @@
+{
+ "level": "city",
+ "restaurants": {
+  "wok": {
+   "name": "Вок-бар «Палочки»",
+   "items": [
+    [
+     "wok",
+     "Лапша вок",
+     "hot",
+     1.0
+    ],
+    [
+     "drink",
+     "Морс",
+     "drink",
+     0.4
+    ]
+   ],
+   "cook": [
+    15,
+    40
+   ],
+   "slow": false,
+   "price": 1.1,
+   "pickup": [
+    6.0,
+    0.0,
+    13.2
+   ],
+   "pickup_yaw": 0.0,
+   "cook_pos": [
+    6.0,
+    0.0,
+    15.4
+   ],
+   "cook_yaw": 180.0,
+   "parking": [
+    4.0,
+    0.0,
+    11.5
+   ],
+   "prop": "paper_bag"
+  },
+  "salad": {
+   "name": "Салат-бар «Зелень»",
+   "items": [
+    [
+     "salad",
+     "Салат-боул",
+     "cold",
+     0.9
+    ],
+    [
+     "drink",
+     "Смузи",
+     "drink",
+     0.5
+    ]
+   ],
+   "cook": [
+    10,
+    25
+   ],
+   "slow": false,
+   "price": 1.0,
+   "pickup": [
+    0.0,
+    0.0,
+    13.2
+   ],
+   "pickup_yaw": 0.0,
+   "cook_pos": [
+    0.0,
+    0.0,
+    15.4
+   ],
+   "cook_yaw": 180.0,
+   "parking": [
+    -2.0,
+    0.0,
+    11.5
+   ],
+   "prop": "sushi_box"
+  },
+  "burrito": {
+   "name": "«Буррито-бро»",
+   "items": [
+    [
+     "burrito",
+     "Буррито",
+     "hot",
+     1.0
+    ],
+    [
+     "drink",
+     "Лимонад",
+     "drink",
+     0.4
+    ]
+   ],
+   "cook": [
+    15,
+    35
+   ],
+   "slow": false,
+   "price": 1.0,
+   "pickup": [
+    -6.0,
+    0.0,
+    13.2
+   ],
+   "pickup_yaw": 0.0,
+   "cook_pos": [
+    -6.0,
+    0.0,
+    15.4
+   ],
+   "cook_yaw": 180.0,
+   "parking": [
+    -8.0,
+    0.0,
+    11.5
+   ],
+   "prop": "paper_bag"
+  }
+ },
+ "doors": [
+  {
+   "id": "B_1_0",
+   "street": "B",
+   "street_name": "Стеклянный бульвар",
+   "number": 1,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 14,
+   "lift": true,
+   "kind": "tower",
+   "pos": [
+    -46.0,
+    0.0,
+    -30.6
+   ],
+   "yaw": -180.0,
+   "plate": [
+    -43.6,
+    2.8,
+    -33.74
+   ],
+   "plate_text": "Стеклянный бульвар\n1",
+   "label": "Стеклянный бульвар, 1",
+   "inst": 0,
+   "guard": true
+  },
+  {
+   "id": "B_3_0",
+   "street": "B",
+   "street_name": "Стеклянный бульвар",
+   "number": 3,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 24,
+   "lift": true,
+   "kind": "tower",
+   "pos": [
+    44.0,
+    0.0,
+    -30.6
+   ],
+   "yaw": -180.0,
+   "plate": [
+    46.4,
+    2.8,
+    -33.74
+   ],
+   "plate_text": "Стеклянный бульвар\n3",
+   "label": "Стеклянный бульвар, 3",
+   "inst": 1,
+   "guard": true
+  },
+  {
+   "id": "B_2_0",
+   "street": "B",
+   "street_name": "Стеклянный бульвар",
+   "number": 2,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 10,
+   "lift": true,
+   "kind": "tower",
+   "pos": [
+    -46.0,
+    0.0,
+    29.6
+   ],
+   "yaw": 0.0,
+   "plate": [
+    -48.4,
+    2.8,
+    32.74
+   ],
+   "plate_text": "Стеклянный бульвар\n2",
+   "label": "Стеклянный бульвар, 2",
+   "inst": 2,
+   "guard": true
+  },
+  {
+   "id": "B_4_0",
+   "street": "B",
+   "street_name": "Стеклянный бульвар",
+   "number": 4,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 20,
+   "lift": true,
+   "kind": "tower",
+   "pos": [
+    44.0,
+    0.0,
+    27.6
+   ],
+   "yaw": 0.0,
+   "plate": [
+    41.6,
+    2.8,
+    30.74
+   ],
+   "plate_text": "Стеклянный бульвар\n4",
+   "label": "Стеклянный бульвар, 4",
+   "inst": 3,
+   "guard": true
+  },
+  {
+   "id": "N_10_0",
+   "street": "N",
+   "street_name": "Северное кольцо",
+   "number": 10,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 20,
+   "lift": true,
+   "kind": "tower",
+   "pos": [
+    -58.0,
+    0.0,
+    -81.6
+   ],
+   "yaw": -180.0,
+   "plate": [
+    -55.6,
+    2.8,
+    -84.74
+   ],
+   "plate_text": "Северное кольцо\n10",
+   "label": "Северное кольцо, 10",
+   "inst": 4,
+   "guard": true
+  },
+  {
+   "id": "N_12_0",
+   "street": "N",
+   "street_name": "Северное кольцо",
+   "number": 12,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 10,
+   "lift": true,
+   "kind": "tower",
+   "pos": [
+    0.0,
+    0.0,
+    -80.6
+   ],
+   "yaw": -180.0,
+   "plate": [
+    2.4,
+    2.8,
+    -83.74
+   ],
+   "plate_text": "Северное кольцо\n12",
+   "label": "Северное кольцо, 12",
+   "inst": 5,
+   "guard": true
+  },
+  {
+   "id": "N_14_0",
+   "street": "N",
+   "street_name": "Северное кольцо",
+   "number": 14,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 24,
+   "lift": true,
+   "kind": "tower",
+   "pos": [
+    58.0,
+    0.0,
+    -81.6
+   ],
+   "yaw": -180.0,
+   "plate": [
+    60.4,
+    2.8,
+    -84.74
+   ],
+   "plate_text": "Северное кольцо\n14",
+   "label": "Северное кольцо, 14",
+   "inst": 6,
+   "guard": true
+  },
+  {
+   "id": "W_5_0",
+   "street": "W",
+   "street_name": "Западное кольцо",
+   "number": 5,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 14,
+   "lift": true,
+   "kind": "tower",
+   "pos": [
+    -96.6,
+    0.0,
+    -38.0
+   ],
+   "yaw": -90.0,
+   "plate": [
+    -99.74,
+    2.8,
+    -40.4
+   ],
+   "plate_text": "Западное кольцо\n5",
+   "label": "Западное кольцо, 5",
+   "inst": 7,
+   "guard": true
+  },
+  {
+   "id": "W_7_0",
+   "street": "W",
+   "street_name": "Западное кольцо",
+   "number": 7,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 10,
+   "lift": true,
+   "kind": "tower",
+   "pos": [
+    -96.6,
+    0.0,
+    38.0
+   ],
+   "yaw": -90.0,
+   "plate": [
+    -99.74,
+    2.8,
+    35.6
+   ],
+   "plate_text": "Западное кольцо\n7",
+   "label": "Западное кольцо, 7",
+   "inst": 8,
+   "guard": true
+  },
+  {
+   "id": "E_6_0",
+   "street": "E",
+   "street_name": "Восточное кольцо",
+   "number": 6,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 14,
+   "lift": true,
+   "kind": "tower",
+   "pos": [
+    96.6,
+    0.0,
+    -40.0
+   ],
+   "yaw": -270.0,
+   "plate": [
+    99.74,
+    2.8,
+    -37.6
+   ],
+   "plate_text": "Восточное кольцо\n6",
+   "label": "Восточное кольцо, 6",
+   "inst": 9,
+   "guard": true
+  },
+  {
+   "id": "E_8_0",
+   "street": "E",
+   "street_name": "Восточное кольцо",
+   "number": 8,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 10,
+   "lift": true,
+   "kind": "tower",
+   "pos": [
+    96.6,
+    0.0,
+    40.0
+   ],
+   "yaw": -270.0,
+   "plate": [
+    99.74,
+    2.8,
+    42.4
+   ],
+   "plate_text": "Восточное кольцо\n8",
+   "label": "Восточное кольцо, 8",
+   "inst": 10,
+   "guard": true
+  }
+ ],
+ "regulars": [
+  {
+   "id": "zorin",
+   "name": "Директор Зорин",
+   "model": "office",
+   "trait": "capricious",
+   "floors_min": 18,
+   "tip": 0.9,
+   "lines": [
+    "У меня совещание через минуту. Вы опоздали на сорок секунд.",
+    "Неплохо. Свободны."
+   ],
+   "address": "N_14_0",
+   "floor": 22
+  },
+  {
+   "id": "kostya",
+   "name": "Айтишник Костя",
+   "model": "student",
+   "trait": "no_call",
+   "floors_min": 8,
+   "tip": 0.6,
+   "lines": [
+    "Тсс, у меня созвон! Просто махни рукой.",
+    "Еда! Код скомпилировался!"
+   ],
+   "address": "N_12_0",
+   "floor": 9
+  },
+  {
+   "id": "marina",
+   "name": "Марина из отдела кадров",
+   "model": "office",
+   "trait": "polite",
+   "floors_min": 6,
+   "tip": 0.8,
+   "lines": [
+    "Вы наш спаситель! Отдел кадров не ел с утра.",
+    "Возьмите конфетку!"
+   ],
+   "address": "B_2_0",
+   "floor": 7
+  },
+  {
+   "id": "viktor",
+   "name": "Охранник Виктор",
+   "model": "guard",
+   "trait": "polite",
+   "floors_min": 1,
+   "tip": 0.5,
+   "quest": "guard_coffee",
+   "floor": 1,
+   "lines": [
+    "Пропуск? А, это мне! Ну заходи, курьер, свой человек.",
+    "Буррито! Вот это уважение."
+   ],
+   "address": "E_8_0"
+  },
+  {
+   "id": "board",
+   "name": "Совет директоров",
+   "model": "office",
+   "trait": "capricious",
+   "floors_min": 19,
+   "tip": 1.0,
+   "quest": "board_lunch",
+   "lines": [
+    "Двадцать порций? Всё на месте? Отлично.",
+    "Совет доволен. Это редкость."
+   ],
+   "address": "B_3_0",
+   "floor": 21
+  }
+ ],
+ "random_lines": {
+  "polite": [
+   "Спасибо большое!",
+   "Как быстро! Вот это сервис.",
+   "Хорошего дня!"
+  ],
+  "capricious": [
+   "А почему так долго?",
+   "Я хотел без лука... ну ладно.",
+   "Звёзд не будет. Или будет. Посмотрим."
+  ],
+  "no_call": [
+   "Я же писал — не звонить!",
+   "О, спасибо, что не звонили."
+  ],
+  "leave_at_door": [
+   "Можно было оставить у двери!",
+   "Спасибо, что оставили у двери."
+  ]
+ },
+ "rules": {
+  "base_pay": 4.0,
+  "pay_per_100m": 1.6,
+  "time_base_s": 70.0,
+  "time_per_100m_s": 32.0,
+  "tip_on_time": [
+   0.0,
+   3.0
+  ],
+  "streak_bonus": [
+   3,
+   5.0
+  ],
+  "night_bonus": 0.25,
+  "rain_bonus": 0.3,
+  "rush_hours": [
+   [
+    12,
+    14
+   ],
+   [
+    18,
+    19
+   ]
+  ],
+  "rush_bonus": 0.45,
+  "rival_take_s": [
+   20,
+   45
+  ],
+  "max_offers": 4,
+  "offer_interval_s": [
+   8,
+   16
+  ],
+  "food": {
+   "hot": {
+    "cool_per_s": 0.35
+   },
+   "drink": {
+    "spill": 1.6
+   },
+   "drink_hot": {
+    "spill": 1.8,
+    "cool_per_s": 0.25
+   },
+   "frozen": {
+    "melt_per_s": 0.25,
+    "heat_mult": 2.5
+   },
+   "cold": {
+    "warm_per_s": 0.15
+   },
+   "fragile": {
+    "shake": 2.5
+   }
+  },
+  "rating": {
+   "start": 4.0,
+   "warn": 3.0,
+   "ban": 2.5
+  },
+  "tip_mult": 1.4
+ },
+ "food_props": {
+  "pizza": "pizza_box",
+  "burger": "paper_bag",
+  "drink": "cup_holder",
+  "sushi": "sushi_box",
+  "coffee": "cup_holder",
+  "icecream": "ice_cream_tub",
+  "cake": "cake_box",
+  "lunch": "lunch_crate",
+  "dream": "lunch_crate",
+  "wok": "paper_bag",
+  "salad": "sushi_box",
+  "burrito": "paper_bag",
+  "shawarma": "paper_bag",
+  "pastry": "paper_bag",
+  "pie": "cake_box",
+  "groceries": "lunch_crate"
+ },
+ "quests": {
+  "guard_coffee": {
+   "title": "Обед для охранника",
+   "giver": "viktor",
+   "restaurant": "burrito",
+   "item": "burrito",
+   "reward": 30,
+   "text": "Охранник Виктор весь день на посту. Принеси ему буррито — и он выпишет тебе пропуск во все башни (больше никаких проверок)."
+  },
+  "board_lunch": {
+   "title": "Совет директоров",
+   "giver": "board",
+   "restaurant": "wok",
+   "item": "lunch",
+   "reward": 90,
+   "needs": "rack",
+   "text": "Совет директоров заказал двадцать порций лапши на верхний этаж. Без багажника не увезти."
+  }
+ },
+ "bignums": [
+  {
+   "text": "1",
+   "pos": [
+    -46.0,
+    46.6,
+    -32.7
+   ],
+   "yaw": 0.0,
+   "size": 1.6
+  },
+  {
+   "text": "3",
+   "pos": [
+    44.0,
+    80.6,
+    -32.7
+   ],
+   "yaw": 0.0,
+   "size": 1.6
+  },
+  {
+   "text": "2",
+   "pos": [
+    -46.0,
+    33.0,
+    31.7
+   ],
+   "yaw": 180.0,
+   "size": 1.6
+  },
+  {
+   "text": "4",
+   "pos": [
+    44.0,
+    67.0,
+    29.7
+   ],
+   "yaw": 180.0,
+   "size": 1.6
+  },
+  {
+   "text": "10",
+   "pos": [
+    -58.0,
+    67.0,
+    -83.7
+   ],
+   "yaw": 0.0,
+   "size": 1.6
+  },
+  {
+   "text": "12",
+   "pos": [
+    0.0,
+    33.0,
+    -82.7
+   ],
+   "yaw": 0.0,
+   "size": 1.6
+  },
+  {
+   "text": "14",
+   "pos": [
+    58.0,
+    80.6,
+    -83.7
+   ],
+   "yaw": 0.0,
+   "size": 1.6
+  },
+  {
+   "text": "5",
+   "pos": [
+    -98.7,
+    46.6,
+    -38.0
+   ],
+   "yaw": 90.0,
+   "size": 1.6
+  },
+  {
+   "text": "7",
+   "pos": [
+    -98.7,
+    33.0,
+    38.0
+   ],
+   "yaw": 90.0,
+   "size": 1.6
+  },
+  {
+   "text": "6",
+   "pos": [
+    98.7,
+    46.6,
+    -40.0
+   ],
+   "yaw": -90.0,
+   "size": 1.6
+  },
+  {
+   "text": "8",
+   "pos": [
+    98.7,
+    33.0,
+    40.0
+   ],
+   "yaw": -90.0,
+   "size": 1.6
+  }
+ ]
+}

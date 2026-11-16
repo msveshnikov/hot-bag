@@ -333,13 +333,22 @@ func open_door(o: Dictionary, door: Dictionary) -> void:
 	var cust: Dictionary = o["customer"]
 	v.add_child(UiKit.label("%s, %s" % [door["label"], "этаж %d" % int(o["floor"])], 26, UiKit.TURQ_D, true))
 	v.add_child(UiKit.label("Клиент: %s. %s" % [cust.get("name", ""), TRAIT_NOTE.get(cust.get("trait", "polite"), "")], 21, UiKit.INK, true))
+	var tower = door.get("kind", "house") == "tower"
 	if door["lift"] == false:
 		v.add_child(UiKit.label("Лифта нет — пешком на %d этаж." % int(o["floor"]), 19, Color("5d6670")))
+	elif tower:
+		v.add_child(UiKit.label("Бизнес-башня: лифты, на входе охрана%s." % (" (у тебя пропуск)" if Game.state.get("pass", false) else ""), 19, Color("5d6670")))
+	else:
+		v.add_child(UiKit.label("В доме есть лифт. Если работает...", 19, Color("5d6670")))
 	var state = {"waited": 0.0}
 	var info = UiKit.label("", 21, UiKit.CORAL, true)
 	v.add_child(info)
 	var od = o
-	v.add_child(UiKit.button("Позвонить в домофон", func():
+	v.add_child(UiKit.button("Пройти через турникет" if tower else "Позвонить в домофон", func():
+		if tower:
+			close_named("door")
+			_tower_entry(od, door)
+			return
 		Sfx.play("intercom")
 		world.player._play("ring_intercom", true)
 		if od["flags"].get("intercom") and not od["flags"].get("intercom_fixed"):
@@ -349,7 +358,7 @@ func open_door(o: Dictionary, door: Dictionary) -> void:
 			info.text = "Никто не отвечает... Позвони клиенту или подожди."
 			return
 		close_named("door")
-		open_stairs(od), 640, UiKit.SUN))
+		_go_up(od, door), 640, UiKit.SUN))
 	v.add_child(UiKit.button("Позвонить клиенту", func():
 		close_named("door")
 		world.call_customer(), 640, UiKit.TURQ))
@@ -372,6 +381,109 @@ func open_door(o: Dictionary, door: Dictionary) -> void:
 	push("door", m[0])
 
 
+## Business towers: the guard checks couriers without a pass; lifts take you up.
+func _tower_entry(o: Dictionary, door: Dictionary) -> void:
+	var cust: Dictionary = o["customer"]
+	if cust.get("id", "") == "viktor":
+		_customer(o)   # the guard himself is the customer
+		return
+	if Game.state.get("pass", false) or o["flags"].get("guard_ok", false):
+		Sfx.play("ui")
+		_go_up(o, door)
+		return
+	world.people_guard_look()
+	open_dialog("Охранник", "— Стоп-стоп! Курьерам без пропуска наверх нельзя. Или клиент спускается, или звонит на пост.", [
+		["Позвонить клиенту: пусть закажет пропуск", func():
+			o["flags"]["called"] = true
+			Sfx.play("ring")
+			o["elapsed"] = float(o["elapsed"]) + 20.0
+			o["flags"]["guard_ok"] = true
+			world.toast("Клиент позвонил на пост. Охранник кивает: проходи! (−20 с)", 2.5)
+			_go_up(o, door)],
+		["Оставить на ресепшене", func(): _deliver(o, "door")],
+		["Отойти", func(): pass],
+	])
+
+
+func _go_up(o: Dictionary, door: Dictionary) -> void:
+	if door.get("lift", false) and not o["flags"].get("broken_lift", false):
+		open_lift(o)
+	else:
+		if door.get("lift", false):
+			world.banner("Лифт не работает", "Табличка «Лифт на ремонте». Опять. Только пешком!")
+		open_stairs(o)
+
+
+func open_lift(o: Dictionary) -> void:
+	var root = Control.new()
+	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	var bg = ColorRect.new()
+	bg.color = Color("cfd6da")
+	bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	root.add_child(bg)
+	var art = Lift.new()
+	art.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	art.floors = int(o["floor"])
+	root.add_child(art)
+	var title = UiKit.title("Лифт: этаж 1", 40)
+	title.custom_minimum_size = Vector2(800, 0)
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	UiKit.place(title, Control.PRESET_CENTER_TOP, Vector2(-400, 40))
+	root.add_child(title)
+	var dur = 1.6 + int(o["floor"]) * 0.18
+	var s = {"t": 0.0, "done": false}
+	Sfx.play("ui")
+	art.proc = func(delta: float):
+		if s["done"]:
+			return
+		s["t"] += delta
+		var k = clamp(s["t"] / dur, 0.0, 1.0)
+		art.progress = k
+		title.text = "Лифт: этаж %d" % max(1, int(round(1 + k * (int(o["floor"]) - 1))))
+		if k >= 1.0:
+			s["done"] = true
+			o["elapsed"] = float(o["elapsed"]) + dur * 2.0
+			Sfx.play("bell", 0.6)
+			close_named("lift")
+			_customer(o)
+	push("lift", root)
+
+
+class Lift:
+	extends Control
+	var floors = 5
+	var progress = 0.0
+	var proc: Callable
+
+	func _process(delta: float) -> void:
+		if proc.is_valid():
+			proc.call(delta)
+		queue_redraw()
+
+	func _draw() -> void:
+		var w = size.x
+		var h = size.y
+		var cx = w * 0.5
+		# shaft with moving floor lines, the cabin in the middle
+		var off = fmod(progress * floors * 220.0, 220.0)
+		for i in range(-1, 6):
+			var y = h * 0.15 + i * 220.0 + off
+			draw_rect(Rect2(Vector2(cx - 260, y), Vector2(520, 14)), Color("8d989f"))
+		draw_rect(Rect2(Vector2(cx - 170, h * 0.32), Vector2(340, 380)), Color("e9e2d2"))
+		draw_rect(Rect2(Vector2(cx - 170, h * 0.32), Vector2(340, 380)), Color("6b7378"), false, 10.0)
+		draw_rect(Rect2(Vector2(cx - 4, h * 0.32), Vector2(8, 380)), Color("9aa4ad"))
+		# the courier with the bag inside
+		var by = h * 0.32 + 250
+		draw_rect(Rect2(Vector2(cx - 40, by - 90), Vector2(80, 100)), Color("22b8b0"))
+		draw_rect(Rect2(Vector2(cx + 30, by - 100), Vector2(60, 70)), Color("1a8f89"))
+		draw_circle(Vector2(cx, by - 130), 38.0, Color("f2c39b"))
+		draw_rect(Rect2(Vector2(cx - 36, by - 172), Vector2(76, 24)), Color("22b8b0"))
+		draw_circle(Vector2(cx - 12, by - 134), 5.0, Color("2b2320"))
+		draw_circle(Vector2(cx + 12, by - 134), 5.0, Color("2b2320"))
+		draw_rect(Rect2(Vector2(cx - 30, by + 10), Vector2(22, 70)), Color("56483f"))
+		draw_rect(Rect2(Vector2(cx + 8, by + 10), Vector2(22, 70)), Color("56483f"))
+
+
 func open_stairs(o: Dictionary) -> void:
 	var root = Control.new()
 	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -387,7 +499,8 @@ func open_stairs(o: Dictionary) -> void:
 	top.custom_minimum_size = Vector2(800, 0)
 	UiKit.place(top, Control.PRESET_CENTER_TOP, Vector2(-400, 30))
 	root.add_child(top)
-	var title = UiKit.title("Подъезд без лифта: этаж 1 из %d" % int(o["floor"]), 36)
+	var stair_word = "Лестница (лифт сломан)" if o["door"].get("lift", false) else "Подъезд без лифта"
+	var title = UiKit.title("%s: этаж 1 из %d" % [stair_word, int(o["floor"])], 36)
 	top.add_child(title)
 	var hint = UiKit.label("Держи E / пробел (или кнопку «Вверх!») чтобы подниматься. Силы тратятся!", 22, UiKit.INK, true, HORIZONTAL_ALIGNMENT_CENTER)
 	top.add_child(hint)
@@ -410,7 +523,7 @@ func open_stairs(o: Dictionary) -> void:
 			if int(s["progress"] * 3.0) != int((s["progress"] - delta * spd) * 3.0):
 				Sfx.play("step", 0.5, randf_range(0.9, 1.1))
 		var fl: int = min(int(o["floor"]), 1 + int(s["progress"]))
-		title.text = "Подъезд без лифта: этаж %d из %d" % [fl, int(o["floor"])]
+		title.text = "%s: этаж %d из %d" % [stair_word, fl, int(o["floor"])]
 		art.progress = s["progress"]
 		st_bar.value = world.player.stamina / 100.0
 		if s["progress"] >= float(o["floor"]) - 0.999:
@@ -762,6 +875,9 @@ func open_summary() -> void:
 	v.add_child(UiKit.label("Доставлено заказов: %d   ·   пять звёзд: %d" % [n, five], 24))
 	v.add_child(UiKit.label("Заработано: %d мон. (чаевые %d)" % [int(earned), int(tips)], 24))
 	v.add_child(UiKit.label("Рейтинг: %.2f из 5" % Game.state["rating"], 24))
+	if Game.state.get("dream", "locked") == "open":
+		var inc = world.story.restaurant_income()
+		v.add_child(UiKit.label("Твой ресторан «Горячая сумка» принёс за день: +%d мон." % inc, 22, Color("17807b")))
 	v.add_child(UiKit.label("Кошелёк: %s мон." % Game.money_text(), 24, Color("c98a00")))
 	for t in Game.state["daily"]:
 		v.add_child(UiKit.label("%s %s" % ["[готово]" if t["done"] else "[нет]", t["text"]], 19, Color("17807b") if t["done"] else Color("8f8a80")))
@@ -776,6 +892,27 @@ func open_summary() -> void:
 		world.to_menu(), 700, Color("e8dcc4")))
 	push("summary", m[0], true)
 	Sfx.play("level_up", 0.5)
+
+
+## Chapter 5 finale: the critic loved the food, the restaurant is open.
+func open_ending() -> void:
+	var st: Dictionary = Game.state["stats"]
+	var m = _modal(Vector2(860, 0), UiKit.CREAM, 0.7)
+	var v: VBoxContainer = m[1]
+	v.add_child(UiKit.title("Ресторан мечты открыт!", 46, UiKit.TURQ_D))
+	v.add_child(UiKit.label("Критик Аркадий Вилкин написал в колонке: «Лучший ужин сезона. Привёз его сам хозяин — на старом велике и с горячей сумкой за спиной»." , 22, UiKit.INK, true))
+	v.add_child(UiKit.label("Ты приехал в большой город новичком с рейтингом 4,0 — а теперь у тебя свой ресторан на Часовой площади.", 21, UiKit.INK, true))
+	v.add_child(UiKit.label("Дней в городе: %d   ·   доставок: %d   ·   чаевых: %d мон.   ·   падений: %d" % [int(Game.state["day"]), int(st["delivered"]), int(st["tips"]), int(st.get("falls", 0))], 20, Color("5d6670"), true))
+	v.add_child(UiKit.label("Рейтинг: %.2f   ·   лучшая серия без опозданий: %d" % [float(Game.state["rating"]), int(Game.state.get("best_streak", 0))], 20, Color("5d6670")))
+	v.add_child(UiKit.label("Спасибо, что играл! Ресторан приносит доход каждый день, а заказы из него приходят в «Хоп!». Город твой — катайся дальше.", 21, UiKit.TURQ_D, true))
+	var sc = CenterContainer.new()
+	sc.add_child(Icon.stars(5.0, 56.0))
+	v.add_child(sc)
+	v.add_child(UiKit.button("Продолжить смену", func():
+		get_tree().paused = false
+		close_named("ending"), 700, Color("3bd16a")))
+	push("ending", m[0], true)
+	Sfx.play("level_up")
 
 
 func open_blocked() -> void:

@@ -1,0 +1,959 @@
+{
+ "level": "berezki",
+ "restaurants": {
+  "shawarma": {
+   "name": "Шаурма «Свёрток»",
+   "items": [
+    [
+     "shawarma",
+     "Шаурма",
+     "hot",
+     1.0
+    ],
+    [
+     "drink",
+     "Айран",
+     "drink",
+     0.4
+    ]
+   ],
+   "cook": [
+    10,
+    25
+   ],
+   "slow": false,
+   "price": 0.9,
+   "pickup": [
+    10.0,
+    0.0,
+    71.2
+   ],
+   "pickup_yaw": -180.0,
+   "cook_pos": [
+    10.0,
+    0.0,
+    69.2
+   ],
+   "cook_yaw": 0.0,
+   "parking": [
+    14.2,
+    0.0,
+    72.4
+   ],
+   "prop": "paper_bag"
+  },
+  "bakery": {
+   "name": "«Булочная №5»",
+   "items": [
+    [
+     "pastry",
+     "Пирожки",
+     "hot",
+     0.8
+    ],
+    [
+     "pie",
+     "Пирог",
+     "fragile",
+     1.2
+    ]
+   ],
+   "cook": [
+    10,
+    30
+   ],
+   "slow": false,
+   "price": 0.9,
+   "pickup": [
+    18.0,
+    0.0,
+    71.2
+   ],
+   "pickup_yaw": -180.0,
+   "cook_pos": [
+    18.0,
+    0.0,
+    69.2
+   ],
+   "cook_yaw": 0.0,
+   "parking": [
+    22.2,
+    0.0,
+    72.4
+   ],
+   "prop": "paper_bag"
+  },
+  "grocery": {
+   "name": "Магазин «Всё рядом»",
+   "items": [
+    [
+     "groceries",
+     "Пакет продуктов",
+     "heavy",
+     1.3
+    ],
+    [
+     "icecream",
+     "Пломбир",
+     "frozen",
+     0.6
+    ]
+   ],
+   "cook": [
+    20,
+    40
+   ],
+   "slow": false,
+   "price": 1.0,
+   "pickup": [
+    -76.5,
+    0.0,
+    35.0
+   ],
+   "pickup_yaw": -270.0,
+   "cook_pos": [
+    -74.4,
+    0.0,
+    35.0
+   ],
+   "cook_yaw": -90.0,
+   "parking": [
+    -78.0,
+    0.0,
+    38.0
+   ],
+   "prop": "lunch_crate"
+  }
+ },
+ "doors": [
+  {
+   "id": "B_7_1_0",
+   "street": "B",
+   "street_name": "Берёзовая",
+   "number": 7,
+   "corpus": 1,
+   "entrance": 1,
+   "floors": 9,
+   "lift": true,
+   "kind": "panel",
+   "pos": [
+    -50.0,
+    0.0,
+    -54.4
+   ],
+   "yaw": -180.0,
+   "plate": [
+    -51.05,
+    2.0,
+    -56.94
+   ],
+   "plate_text": "7 к.1\nпод. 1",
+   "label": "Берёзовая, 7 к.1, под. 1",
+   "inst": 0
+  },
+  {
+   "id": "B_7_1_1",
+   "street": "B",
+   "street_name": "Берёзовая",
+   "number": 7,
+   "corpus": 1,
+   "entrance": 2,
+   "floors": 9,
+   "lift": true,
+   "kind": "panel",
+   "pos": [
+    -40.0,
+    0.0,
+    -54.4
+   ],
+   "yaw": -180.0,
+   "plate": [
+    -41.05,
+    2.0,
+    -56.94
+   ],
+   "plate_text": "7 к.1\nпод. 2",
+   "label": "Берёзовая, 7 к.1, под. 2",
+   "inst": 0
+  },
+  {
+   "id": "B_7_1_2",
+   "street": "B",
+   "street_name": "Берёзовая",
+   "number": 7,
+   "corpus": 1,
+   "entrance": 3,
+   "floors": 9,
+   "lift": true,
+   "kind": "panel",
+   "pos": [
+    -30.0,
+    0.0,
+    -54.4
+   ],
+   "yaw": -180.0,
+   "plate": [
+    -31.05,
+    2.0,
+    -56.94
+   ],
+   "plate_text": "7 к.1\nпод. 3",
+   "label": "Берёзовая, 7 к.1, под. 3",
+   "inst": 0
+  },
+  {
+   "id": "B_7_3_0",
+   "street": "B",
+   "street_name": "Берёзовая",
+   "number": 7,
+   "corpus": 3,
+   "entrance": 1,
+   "floors": 9,
+   "lift": true,
+   "kind": "panel",
+   "pos": [
+    30.0,
+    0.0,
+    -54.4
+   ],
+   "yaw": -180.0,
+   "plate": [
+    28.95,
+    2.0,
+    -56.94
+   ],
+   "plate_text": "7 к.3\nпод. 1",
+   "label": "Берёзовая, 7 к.3, под. 1",
+   "inst": 1
+  },
+  {
+   "id": "B_7_3_1",
+   "street": "B",
+   "street_name": "Берёзовая",
+   "number": 7,
+   "corpus": 3,
+   "entrance": 2,
+   "floors": 9,
+   "lift": true,
+   "kind": "panel",
+   "pos": [
+    40.0,
+    0.0,
+    -54.4
+   ],
+   "yaw": -180.0,
+   "plate": [
+    38.95,
+    2.0,
+    -56.94
+   ],
+   "plate_text": "7 к.3\nпод. 2",
+   "label": "Берёзовая, 7 к.3, под. 2",
+   "inst": 1
+  },
+  {
+   "id": "B_7_3_2",
+   "street": "B",
+   "street_name": "Берёзовая",
+   "number": 7,
+   "corpus": 3,
+   "entrance": 3,
+   "floors": 9,
+   "lift": true,
+   "kind": "panel",
+   "pos": [
+    50.0,
+    0.0,
+    -54.4
+   ],
+   "yaw": -180.0,
+   "plate": [
+    48.95,
+    2.0,
+    -56.94
+   ],
+   "plate_text": "7 к.3\nпод. 3",
+   "label": "Берёзовая, 7 к.3, под. 3",
+   "inst": 1
+  },
+  {
+   "id": "B_13_0",
+   "street": "B",
+   "street_name": "Берёзовая",
+   "number": 13,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 16,
+   "lift": true,
+   "kind": "panel",
+   "pos": [
+    60.4,
+    0.0,
+    -30.0
+   ],
+   "yaw": -270.0,
+   "plate": [
+    62.94,
+    2.0,
+    -31.05
+   ],
+   "plate_text": "13\nпод. 1",
+   "label": "Берёзовая, 13, под. 1",
+   "inst": 2
+  },
+  {
+   "id": "B_9_1_0",
+   "street": "B",
+   "street_name": "Берёзовая",
+   "number": 9,
+   "corpus": 1,
+   "entrance": 1,
+   "floors": 12,
+   "lift": true,
+   "kind": "panel",
+   "pos": [
+    35.5,
+    0.0,
+    -20.6
+   ],
+   "yaw": 0.0,
+   "plate": [
+    36.55,
+    2.0,
+    -18.06
+   ],
+   "plate_text": "9 к.1\nпод. 1",
+   "label": "Берёзовая, 9 к.1, под. 1",
+   "inst": 3
+  },
+  {
+   "id": "B_9_1_1",
+   "street": "B",
+   "street_name": "Берёзовая",
+   "number": 9,
+   "corpus": 1,
+   "entrance": 2,
+   "floors": 12,
+   "lift": true,
+   "kind": "panel",
+   "pos": [
+    24.5,
+    0.0,
+    -20.6
+   ],
+   "yaw": 0.0,
+   "plate": [
+    25.55,
+    2.0,
+    -18.06
+   ],
+   "plate_text": "9 к.1\nпод. 2",
+   "label": "Берёзовая, 9 к.1, под. 2",
+   "inst": 3
+  },
+  {
+   "id": "B_5_0",
+   "street": "B",
+   "street_name": "Берёзовая",
+   "number": 5,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 12,
+   "lift": true,
+   "kind": "panel",
+   "pos": [
+    -29.5,
+    0.0,
+    -20.6
+   ],
+   "yaw": 0.0,
+   "plate": [
+    -28.45,
+    2.0,
+    -18.06
+   ],
+   "plate_text": "5\nпод. 1",
+   "label": "Берёзовая, 5, под. 1",
+   "inst": 4
+  },
+  {
+   "id": "B_5_1",
+   "street": "B",
+   "street_name": "Берёзовая",
+   "number": 5,
+   "corpus": 0,
+   "entrance": 2,
+   "floors": 12,
+   "lift": true,
+   "kind": "panel",
+   "pos": [
+    -40.5,
+    0.0,
+    -20.6
+   ],
+   "yaw": 0.0,
+   "plate": [
+    -39.45,
+    2.0,
+    -18.06
+   ],
+   "plate_text": "5\nпод. 2",
+   "label": "Берёзовая, 5, под. 2",
+   "inst": 4
+  },
+  {
+   "id": "B_7_2_0",
+   "street": "B",
+   "street_name": "Берёзовая",
+   "number": 7,
+   "corpus": 2,
+   "entrance": 1,
+   "floors": 9,
+   "lift": true,
+   "kind": "panel",
+   "pos": [
+    -28.0,
+    0.0,
+    54.4
+   ],
+   "yaw": 0.0,
+   "plate": [
+    -26.95,
+    2.0,
+    56.94
+   ],
+   "plate_text": "7 к.2\nпод. 1",
+   "label": "Берёзовая, 7 к.2, под. 1",
+   "inst": 5
+  },
+  {
+   "id": "B_7_2_1",
+   "street": "B",
+   "street_name": "Берёзовая",
+   "number": 7,
+   "corpus": 2,
+   "entrance": 2,
+   "floors": 9,
+   "lift": true,
+   "kind": "panel",
+   "pos": [
+    -38.0,
+    0.0,
+    54.4
+   ],
+   "yaw": 0.0,
+   "plate": [
+    -36.95,
+    2.0,
+    56.94
+   ],
+   "plate_text": "7 к.2\nпод. 2",
+   "label": "Берёзовая, 7 к.2, под. 2",
+   "inst": 5
+  },
+  {
+   "id": "B_7_2_2",
+   "street": "B",
+   "street_name": "Берёзовая",
+   "number": 7,
+   "corpus": 2,
+   "entrance": 3,
+   "floors": 9,
+   "lift": true,
+   "kind": "panel",
+   "pos": [
+    -48.0,
+    0.0,
+    54.4
+   ],
+   "yaw": 0.0,
+   "plate": [
+    -46.95,
+    2.0,
+    56.94
+   ],
+   "plate_text": "7 к.2\nпод. 3",
+   "label": "Берёзовая, 7 к.2, под. 3",
+   "inst": 5
+  },
+  {
+   "id": "B_9_2_0",
+   "street": "B",
+   "street_name": "Берёзовая",
+   "number": 9,
+   "corpus": 2,
+   "entrance": 1,
+   "floors": 16,
+   "lift": true,
+   "kind": "panel",
+   "pos": [
+    -40.0,
+    0.0,
+    29.6
+   ],
+   "yaw": -180.0,
+   "plate": [
+    -41.05,
+    2.0,
+    27.06
+   ],
+   "plate_text": "9 к.2\nпод. 1",
+   "label": "Берёзовая, 9 к.2, под. 1",
+   "inst": 6
+  },
+  {
+   "id": "B_11_0",
+   "street": "B",
+   "street_name": "Берёзовая",
+   "number": 11,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 9,
+   "lift": true,
+   "kind": "panel",
+   "pos": [
+    50.0,
+    0.0,
+    54.4
+   ],
+   "yaw": 0.0,
+   "plate": [
+    51.05,
+    2.0,
+    56.94
+   ],
+   "plate_text": "11\nпод. 1",
+   "label": "Берёзовая, 11, под. 1",
+   "inst": 7
+  },
+  {
+   "id": "B_11_1",
+   "street": "B",
+   "street_name": "Берёзовая",
+   "number": 11,
+   "corpus": 0,
+   "entrance": 2,
+   "floors": 9,
+   "lift": true,
+   "kind": "panel",
+   "pos": [
+    40.0,
+    0.0,
+    54.4
+   ],
+   "yaw": 0.0,
+   "plate": [
+    41.05,
+    2.0,
+    56.94
+   ],
+   "plate_text": "11\nпод. 2",
+   "label": "Берёзовая, 11, под. 2",
+   "inst": 7
+  },
+  {
+   "id": "B_11_2",
+   "street": "B",
+   "street_name": "Берёзовая",
+   "number": 11,
+   "corpus": 0,
+   "entrance": 3,
+   "floors": 9,
+   "lift": true,
+   "kind": "panel",
+   "pos": [
+    30.0,
+    0.0,
+    54.4
+   ],
+   "yaw": 0.0,
+   "plate": [
+    31.05,
+    2.0,
+    56.94
+   ],
+   "plate_text": "11\nпод. 3",
+   "label": "Берёзовая, 11, под. 3",
+   "inst": 7
+  },
+  {
+   "id": "B_11_2_0",
+   "street": "B",
+   "street_name": "Берёзовая",
+   "number": 11,
+   "corpus": 2,
+   "entrance": 1,
+   "floors": 12,
+   "lift": true,
+   "kind": "panel",
+   "pos": [
+    29.5,
+    0.0,
+    22.6
+   ],
+   "yaw": -180.0,
+   "plate": [
+    28.45,
+    2.0,
+    20.06
+   ],
+   "plate_text": "11 к.2\nпод. 1",
+   "label": "Берёзовая, 11 к.2, под. 1",
+   "inst": 8
+  },
+  {
+   "id": "B_11_2_1",
+   "street": "B",
+   "street_name": "Берёзовая",
+   "number": 11,
+   "corpus": 2,
+   "entrance": 2,
+   "floors": 12,
+   "lift": true,
+   "kind": "panel",
+   "pos": [
+    40.5,
+    0.0,
+    22.6
+   ],
+   "yaw": -180.0,
+   "plate": [
+    39.45,
+    2.0,
+    20.06
+   ],
+   "plate_text": "11 к.2\nпод. 2",
+   "label": "Берёзовая, 11 к.2, под. 2",
+   "inst": 8
+  },
+  {
+   "id": "B_7_4_0",
+   "street": "B",
+   "street_name": "Берёзовая",
+   "number": 7,
+   "corpus": 4,
+   "entrance": 1,
+   "floors": 16,
+   "lift": true,
+   "kind": "panel",
+   "pos": [
+    60.4,
+    0.0,
+    38.0
+   ],
+   "yaw": -270.0,
+   "plate": [
+    62.94,
+    2.0,
+    36.95
+   ],
+   "plate_text": "7 к.4\nпод. 1",
+   "label": "Берёзовая, 7 к.4, под. 1",
+   "inst": 9
+  }
+ ],
+ "regulars": [
+  {
+   "id": "semyon",
+   "name": "Дедушка Семён",
+   "model": "oldman",
+   "trait": "polite",
+   "floors_min": 16,
+   "tip": 0.9,
+   "quest": "no_lift",
+   "lines": [
+    "Лифт третий день не ходит, сынок. Спасибо, что дошёл!",
+    "Вот, возьми яблочко с дачи."
+   ],
+   "address": "B_13_0",
+   "floor": 16
+  },
+  {
+   "id": "gamers",
+   "name": "Геймеры из 9 к.2",
+   "model": "student",
+   "trait": "no_call",
+   "floors_min": 9,
+   "tip": 0.7,
+   "quest": "night_gamers",
+   "lines": [
+    "Тише! Мы в рейде! Ставь у двери.",
+    "Еда до конца катки — легенда!"
+   ],
+   "address": "B_9_2_0",
+   "floor": 11
+  },
+  {
+   "id": "lost",
+   "name": "Жилец Гена",
+   "model": "office",
+   "trait": "capricious",
+   "floors_min": 10,
+   "tip": 0.8,
+   "quest": "hidden_corpus",
+   "lines": [
+    "Ну наконец-то! Нас никто никогда не находит.",
+    "Корпус четыре, я же писал!"
+   ],
+   "address": "B_7_4_0",
+   "floor": 16
+  },
+  {
+   "id": "nina",
+   "name": "Тётя Нина",
+   "model": "grandma",
+   "trait": "polite",
+   "floors_min": 5,
+   "tip": 0.9,
+   "lines": [
+    "Ой, курьерчик! Заходи, пирожков дам!",
+    "Внукам — шаурму, а мне — пирожок."
+   ],
+   "address": "B_7_1_0",
+   "floor": 7
+  },
+  {
+   "id": "sveta",
+   "name": "Мама Света",
+   "model": "mom",
+   "trait": "leave_at_door",
+   "floors_min": 6,
+   "tip": 0.5,
+   "lines": [
+    "Ребёнок спит! Оставь у двери, пожалуйста.",
+    "Спасибо, тихонько!"
+   ],
+   "address": "B_11_2_1",
+   "floor": 9
+  }
+ ],
+ "random_lines": {
+  "polite": [
+   "Спасибо большое!",
+   "Как быстро! Вот это сервис.",
+   "Хорошего дня!"
+  ],
+  "capricious": [
+   "А почему так долго?",
+   "Я хотел без лука... ну ладно.",
+   "Звёзд не будет. Или будет. Посмотрим."
+  ],
+  "no_call": [
+   "Я же писал — не звонить!",
+   "О, спасибо, что не звонили."
+  ],
+  "leave_at_door": [
+   "Можно было оставить у двери!",
+   "Спасибо, что оставили у двери."
+  ]
+ },
+ "rules": {
+  "base_pay": 4.0,
+  "pay_per_100m": 1.6,
+  "time_base_s": 70.0,
+  "time_per_100m_s": 32.0,
+  "tip_on_time": [
+   0.0,
+   3.0
+  ],
+  "streak_bonus": [
+   3,
+   5.0
+  ],
+  "night_bonus": 0.6,
+  "rain_bonus": 0.3,
+  "rush_hours": [
+   [
+    12,
+    14
+   ],
+   [
+    18,
+    20
+   ]
+  ],
+  "rush_bonus": 0.2,
+  "rival_take_s": [
+   20,
+   45
+  ],
+  "max_offers": 4,
+  "offer_interval_s": [
+   8,
+   16
+  ],
+  "food": {
+   "hot": {
+    "cool_per_s": 0.35
+   },
+   "drink": {
+    "spill": 1.6
+   },
+   "drink_hot": {
+    "spill": 1.8,
+    "cool_per_s": 0.25
+   },
+   "frozen": {
+    "melt_per_s": 0.25,
+    "heat_mult": 2.5
+   },
+   "cold": {
+    "warm_per_s": 0.15
+   },
+   "fragile": {
+    "shake": 2.5
+   }
+  },
+  "rating": {
+   "start": 4.0,
+   "warn": 3.0,
+   "ban": 2.5
+  }
+ },
+ "food_props": {
+  "pizza": "pizza_box",
+  "burger": "paper_bag",
+  "drink": "cup_holder",
+  "sushi": "sushi_box",
+  "coffee": "cup_holder",
+  "icecream": "ice_cream_tub",
+  "cake": "cake_box",
+  "lunch": "lunch_crate",
+  "dream": "lunch_crate",
+  "wok": "paper_bag",
+  "salad": "sushi_box",
+  "burrito": "paper_bag",
+  "shawarma": "paper_bag",
+  "pastry": "paper_bag",
+  "pie": "cake_box",
+  "groceries": "lunch_crate"
+ },
+ "quests": {
+  "night_gamers": {
+   "title": "Ночной рейд",
+   "giver": "gamers",
+   "restaurant": "shawarma",
+   "item": "shawarma",
+   "reward": 40,
+   "text": "Геймеры из «9 к.2» заказали шаурму посреди ночи. Успей до конца катки!"
+  },
+  "hidden_corpus": {
+   "title": "Корпус 4",
+   "giver": "lost",
+   "restaurant": "grocery",
+   "item": "groceries",
+   "reward": 45,
+   "text": "Адрес «Берёзовая, 7 к.4», а GPS такого корпуса не знает. Ищи по большим номерам на домах — бабушки подскажут."
+  },
+  "no_lift": {
+   "title": "Шестнадцатый этаж",
+   "giver": "semyon",
+   "restaurant": "bakery",
+   "item": "pie",
+   "reward": 50,
+   "text": "Дедушке Семёну на 16-й этаж нужен пирог. Лифт сломан. Совсем."
+  }
+ },
+ "bignums": [
+  {
+   "text": "7к1",
+   "pos": [
+    -54.4,
+    24.6,
+    -56.85
+   ],
+   "yaw": 0.0,
+   "size": 2.4
+  },
+  {
+   "text": "7к3",
+   "pos": [
+    25.6,
+    24.6,
+    -56.85
+   ],
+   "yaw": 0.0,
+   "size": 2.4
+  },
+  {
+   "text": "13",
+   "pos": [
+    62.85,
+    44.9,
+    -36.9
+   ],
+   "yaw": -90.0,
+   "size": 2.4
+  },
+  {
+   "text": "9к1",
+   "pos": [
+    40.4,
+    33.3,
+    -18.15
+   ],
+   "yaw": 180.0,
+   "size": 2.4
+  },
+  {
+   "text": "5",
+   "pos": [
+    -24.6,
+    33.3,
+    -18.15
+   ],
+   "yaw": 180.0,
+   "size": 2.4
+  },
+  {
+   "text": "7к2",
+   "pos": [
+    -23.6,
+    24.6,
+    56.85
+   ],
+   "yaw": 180.0,
+   "size": 2.4
+  },
+  {
+   "text": "9к2",
+   "pos": [
+    -46.9,
+    44.9,
+    27.15
+   ],
+   "yaw": 0.0,
+   "size": 2.4
+  },
+  {
+   "text": "11",
+   "pos": [
+    54.4,
+    24.6,
+    56.85
+   ],
+   "yaw": 180.0,
+   "size": 2.4
+  },
+  {
+   "text": "11к2",
+   "pos": [
+    24.6,
+    33.3,
+    20.15
+   ],
+   "yaw": 0.0,
+   "size": 2.4
+  },
+  {
+   "text": "7к4",
+   "pos": [
+    62.85,
+    44.9,
+    31.1
+   ],
+   "yaw": -90.0,
+   "size": 2.4
+  }
+ ]
+}

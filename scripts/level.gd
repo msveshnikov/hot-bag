@@ -303,7 +303,9 @@ func add_plates(doors: Array) -> void:
 		var p: Array = d["plate"]
 		var l = Label3D.new()
 		l.text = "%d" % int(d["number"]) + ("" if not seen.has(key) else "")
-		l.text = "%d\nпод. %d" % [int(d["number"]), int(d["entrance"])]
+		l.text = d.get("plate_text", "%d\nпод. %d" % [int(d["number"]), int(d["entrance"])])
+		if d.get("kind", "house") == "tower":
+			l.font_size = 48
 		l.font_size = 64
 		l.pixel_size = 0.004
 		l.outline_size = 14
@@ -316,3 +318,21 @@ func add_plates(doors: Array) -> void:
 		add_child(l)
 		plates.append(l)
 		seen[key] = true
+
+
+## Big painted house numbers on the corners of panel blocks and towers (run 2) — readable from far away.
+func add_bignums(list: Array) -> void:
+	for b in list:
+		var l = Label3D.new()
+		l.text = String(b["text"])
+		l.font_size = 160
+		l.pixel_size = 0.012 * float(b.get("size", 2.0)) / 2.0
+		l.outline_size = 24
+		l.modulate = Color("fbf3e2")
+		l.outline_modulate = Color("2f6f8f")
+		var p: Array = b["pos"]
+		l.position = Vector3(p[0], p[1], p[2])
+		l.rotation.y = deg_to_rad(float(b["yaw"]) + 180.0)
+		l.double_sided = false
+		l.visibility_range_end = 220.0
+		add_child(l)

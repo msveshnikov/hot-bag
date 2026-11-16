@@ -223,6 +223,9 @@ def main():
     meta = json.load(open(os.path.join(ASSETS, "architecture", "architecture_meta.json"), encoding="utf-8"))
     ARCH = link_lib("architecture.blend")
     PROPS = link_lib("props.blend")
+    ARCH2 = link_lib("architecture2.blend")      # run 2: the dream restaurant
+    meta.update(json.load(open(os.path.join(ASSETS, "architecture", "architecture2_meta.json"), encoding="utf-8")))
+    ARCH.update({k: v for k, v in ARCH2.items() if k == "restaurant_dream"})
     g, GW, GH = PL.grid()
     g_surface = [r[:] for r in g]
 
@@ -265,6 +268,11 @@ def main():
         y = PL.REST_FRONT - meta[a]["d"] / 2
         place(a, ARCH, x, y, 180, "restaurant", dict(food=k))
         PL.block_rect(g, footprint(meta, a, x, y, 180, pad=0.2))
+    # run 2: the empty shop on the square that becomes the hero's restaurant (chapter 5)
+    a = "restaurant_dream"
+    y = PL.REST_FRONT - meta[a]["d"] / 2
+    place(a, ARCH, PL.DREAM_X, y, 180, "restaurant", dict(food="dream"))
+    PL.block_rect(g, footprint(meta, a, PL.DREAM_X, y, 180, pad=0.2))
     for (a, x, d, w) in PL.BASE:
         y = PL.BASE_FRONT + meta[a]["d"] / 2
         place(a, ARCH, x, y, 0, "shop")
@@ -371,6 +379,11 @@ def main():
         kill_y=-8.0,
         lighting=lighting,
         map=dict(image="res://assets/levels/old_town_map.png", rect=[x0, -y1, x1, -y0]),  # Godot x0,z0,x1,z1
+        district=dict(id=LEVEL, title="Старый город",
+                      exits=[dict(to=e["to"], label=e["label"], rect=[g3(*e["rect"][:2]), g3(*e["rect"][2:])])
+                             for e in PL.EXITS],
+                      entries={k: dict(pos=g3(v[0], v[1]), yaw=v[2]) for k, v in PL.ENTRIES.items()},
+                      zones=[]),
     )
     os.makedirs(os.path.join(ASSETS, "levels"), exist_ok=True)
     with open(os.path.join(ASSETS, "levels", LEVEL + "_layout.json"), "w", encoding="utf-8") as f:

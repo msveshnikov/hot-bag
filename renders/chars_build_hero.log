@@ -1,0 +1,114 @@
+INFO Draco is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
+20:35:53 | INFO: Starting glTF 2.0 export
+20:35:53 | INFO: Extracting primitive: ACC_bag
+20:35:53 | INFO: Primitives created: 4
+20:35:53 | INFO: Extracting primitive: ACC_cap
+20:35:53 | INFO: Primitives created: 2
+20:35:53 | INFO: Extracting primitive: ACC_hair_bun
+20:35:53 | INFO: Primitives created: 1
+20:35:53 | INFO: Extracting primitive: ACC_hair_curly
+20:35:53 | INFO: Primitives created: 1
+20:35:53 | INFO: Extracting primitive: ACC_hair_ponytail
+20:35:53 | INFO: Primitives created: 2
+20:35:53 | INFO: Extracting primitive: ACC_hair_short
+20:35:53 | INFO: Primitives created: 1
+20:35:53 | INFO: Extracting primitive: ACC_helmet_bike
+20:35:53 | INFO: Primitives created: 2
+20:35:53 | INFO: Extracting primitive: ACC_helmet_half
+20:35:53 | INFO: Primitives created: 2
+20:35:53 | INFO: Extracting primitive: ACC_helmet_retro
+20:35:53 | INFO: Primitives created: 3
+20:35:53 | INFO: Extracting primitive: courier_m_body
+20:35:53 | INFO: Primitives created: 22
+20:35:53 | INFO: Extracting primitive: HELD_box
+20:35:53 | INFO: Primitives created: 1
+20:35:53 | INFO: Extracting primitive: HELD_phone
+20:35:53 | INFO: Primitives created: 2
+20:35:57 | INFO: Finished glTF 2.0 export in 3.546532392501831 s
+00:35.625  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_m_idle.png'
+00:37.266  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_m_walk.png'
+00:38.672  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_m_run.png'
+00:40.297  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_m_ride_bike.png'
+00:41.703  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_m_ride_scooter.png'
+00:43.266  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_m_phone_check.png'
+00:44.813  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_m_sit.png'
+00:46.281  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_m_celebrate.png'
+00:47.578  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_m_front.png'
+00:49.110  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_m_side.png'
+00:50.500  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_m_back.png'
+00:52.094  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_m_three_q.png'
+
+exported C:\My-progs\Godot\wolt\assets\characters\courier_m.gltf NLA_TRACKS
+built courier_m
+render C:\My-progs\Godot\wolt\renders\characters\courier_m_idle.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_m_walk.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_m_run.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_m_ride_bike.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_m_ride_scooter.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_m_phone_check.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_m_sit.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_m_celebrate.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_m_front.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_m_side.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_m_back.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_m_three_q.png
+Info: Saved as "characters_courier_m.blend"
+20:36:42 | INFO: Starting glTF 2.0 export
+20:36:42 | INFO: Extracting primitive: ACC_bag
+20:36:42 | INFO: Primitives created: 4
+20:36:42 | INFO: Extracting primitive: ACC_cap
+20:36:42 | INFO: Primitives created: 2
+20:36:42 | INFO: Extracting primitive: ACC_hair_bun
+20:36:42 | INFO: Primitives created: 1
+20:36:42 | INFO: Extracting primitive: ACC_hair_curly
+20:36:42 | INFO: Primitives created: 1
+20:36:42 | INFO: Extracting primitive: ACC_hair_ponytail
+20:36:42 | INFO: Primitives created: 2
+20:36:42 | INFO: Extracting primitive: ACC_hair_short
+20:36:42 | INFO: Primitives created: 1
+20:36:42 | INFO: Extracting primitive: ACC_helmet_bike
+20:36:42 | INFO: Primitives created: 2
+20:36:42 | INFO: Extracting primitive: ACC_helmet_half
+20:36:42 | INFO: Primitives created: 2
+20:36:42 | INFO: Extracting primitive: ACC_helmet_retro
+20:36:42 | INFO: Primitives created: 3
+20:36:42 | INFO: Extracting primitive: courier_f_body
+20:36:42 | INFO: Primitives created: 23
+20:36:42 | INFO: Extracting primitive: HELD_box
+20:36:42 | INFO: Primitives created: 1
+20:36:42 | INFO: Extracting primitive: HELD_phone
+20:36:42 | INFO: Primitives created: 2
+20:36:46 | INFO: Finished glTF 2.0 export in 3.3830788135528564 s
+01:00.344  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_f_idle.png'
+01:01.844  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_f_walk.png'
+01:03.188  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_f_run.png'
+01:04.703  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_f_ride_bike.png'
+01:06.141  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_f_ride_scooter.png'
+01:07.766  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_f_phone_check.png'
+01:09.281  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_f_sit.png'
+01:10.735  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_f_celebrate.png'
+01:12.156  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_f_front.png'
+01:13.516  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_f_side.png'
+01:14.985  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_f_back.png'
+01:16.313  render           | Saved: 'C:\My-progs\Godot\wolt\renders\characters\courier_f_three_q.png'
+
+exported C:\My-progs\Godot\wolt\assets\characters\courier_f.gltf NLA_TRACKS
+built courier_f
+render C:\My-progs\Godot\wolt\renders\characters\courier_f_idle.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_f_walk.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_f_run.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_f_ride_bike.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_f_ride_scooter.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_f_phone_check.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_f_sit.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_f_celebrate.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_f_front.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_f_side.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_f_back.png
+render C:\My-progs\Godot\wolt\renders\characters\courier_f_three_q.png
+speeds {'walk': 0.993, 'run': 2.274, 'tired_walk': 0.6, 'climb_stairs': 1.632, 'sneak': 0.696, 'carry': 0.993}
+DONE
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
+
+Blender quit

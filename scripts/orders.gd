@@ -70,7 +70,7 @@ func _process(delta: float) -> void:
 
 
 func make_offer(rest = "", door_id = "", regular = "") -> Dictionary:
-	var rkeys: Array = data["restaurants"].keys()
+	var rkeys: Array = data["restaurants"].keys().filter(func(k): return not data["restaurants"][k].get("owned_only", false) or Game.state.get("dream", "locked") == "open")
 	if rest == "":
 		rest = rkeys[rs.randi() % rkeys.size()]
 	var r: Dictionary = data["restaurants"][rest]
@@ -294,7 +294,7 @@ func deliver(o: Dictionary, reply: String) -> Dictionary:
 	var tip = 0.0
 	var tp: Array = rules["tip_on_time"]
 	if stars >= 4.0 and rs.randf() < float(cust.get("tip", 0.4)) * (1.1 if Game.state.get("helmet", "") == "helmet_retro" else 1.0):
-		tip = snappedf(rs.randf_range(tp[0], tp[1]) + (2.0 if stars >= 5.0 else 0.0), 0.5)
+		tip = snappedf((rs.randf_range(tp[0], tp[1]) + (2.0 if stars >= 5.0 else 0.0)) * float(rules.get("tip_mult", 1.0)), 0.5)
 	if late:
 		pay *= 0.7
 	var bonus = 0.0

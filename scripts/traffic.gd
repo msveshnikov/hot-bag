@@ -84,6 +84,8 @@ func _spawn_car(pi: int, s: float) -> void:
 
 
 func _make_tram(td: Dictionary) -> void:
+	if Game.layout["traffic"].get("tram") == null:
+		return   # run 2 districts have no tram line
 	var tr: Dictionary = Game.layout["traffic"]["tram"]
 	var a: Array = tr["points"][0]
 	var b: Array = tr["points"][1]

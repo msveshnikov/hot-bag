@@ -77,6 +77,12 @@ func v3(a: Array) -> Vector3:
 
 
 func _run() -> void:
+	if Game.state.get("at_travel", "") != "":
+		await _after_travel()
+		return
+	if Game.district() != "old_town":
+		await _run_district()
+		return
 	var pl: Player = world.player
 	var o_d: Dictionary = Game.orders_data
 	await wait(2.5)
@@ -295,6 +301,52 @@ func _run() -> void:
 		await wait(1.2)
 		await shot(vw[3])
 		log_line("fps %s at %s" % [Engine.get_frames_per_second(), vw[3]])
+	# ---------------- run 2: exits, the dream restaurant, the critic, the ending
+	var ex_ok = 0
+	for it in world.interactables:
+		if it["kind"] == "exit":
+			ex_ok += 1
+			log_line("exit: " + String(it["label"].call()))
+	check(ex_ok == 2, "old town has 2 exits to the new districts (%d)" % ex_ok)
+	check(Game.unlocked("city"), "chapter 3 opened the bridge to «Сити»")
+	Game.state["chapter"] = 5
+	Game.state["money"] = 2000.0
+	Game.state["rating"] = 4.8
+	var dr: Dictionary = o_d["restaurants"]["dream"]
+	tp(v3(dr["pickup"]), float(dr["pickup_yaw"]))
+	await wait(0.8)
+	await shot("24a_dream_closed")
+	check(world.focus.get("kind", "") == "dream", "focus on the empty shop on the square (%s)" % world.focus.get("text", ""))
+	world.screens.close_all()
+	world.orders.offers.clear()
+	world.story.buy_dream()
+	await wait(1.0)
+	check(Game.state["dream"] == "open", "dream restaurant bought")
+	await shot("24b_dream_open")
+	await wait(4.5)
+	world.screens.close_all()
+	var crit = {}
+	for of in world.orders.offers:
+		if of.get("quest", "") == "critic":
+			crit = of
+	check(not crit.is_empty(), "critic quest offered after opening")
+	if not crit.is_empty():
+		world.orders.active.clear()
+		world.orders.accept(crit)
+		world._counter("dream")
+		await wait(0.4)
+		crit["cook_left"] = 0.0
+		world.screens.close_all()
+		world.take_when_ready(crit)
+		await wait(0.5)
+		tp(v3(crit["door"]["pos"]), float(crit["door"]["yaw"]))
+		await wait(0.5)
+		world.screens._deliver(crit, "polite")
+		await wait(2.5)
+		check(world.screens.stack.size() > 0 and Game.state.get("ending_seen", false), "critic delivered -> ending")
+		await shot("24c_ending")
+		world.screens.close_all()
+		get_tree().paused = false
 	# ---------------- theft, save/load, summary
 	Game.state["money"] = 500.0
 	world.events.flat = false
@@ -327,6 +379,186 @@ func _run() -> void:
 	var f = FileAccess.open(ProjectSettings.globalize_path(out_dir + "autotest.log"), FileAccess.WRITE)
 	if f:
 		f.store_string("\n".join(lines))
+	get_tree().paused = false
+	Game.delete_save()
+	get_tree().quit()
+
+
+
+# ---------------------------------------------------------------- run 2: «Сити» / «Берёзки»
+func _run_district() -> void:
+	var pl: Player = world.player
+	var o_d: Dictionary = Game.orders_data
+	var d = Game.district()
+	Game.state["tutorial"] = 5
+	Game.state["chapter"] = 3 if d == "city" else 4
+	Game.state["owned"]["scooter"] = true
+	Game.state["unlocked"] = {"city": true, "berezki": d == "berezki"}
+	log_line("district " + d)
+	await wait(2.5)
+	await shot(d + "_00_start")
+	# traffic on the ring
+	var on_road = 0
+	for c in world.traffic.cars:
+		if world.level.surface_at(c["body"].global_position) in ["a", "z"]:
+			on_road += 1
+	check(world.traffic.cars.size() > 0 and on_road == world.traffic.cars.size(), "%s traffic: %d of %d cars on the roads" % [d, on_road, world.traffic.cars.size()])
+	check(world.people.mentor == null, "no mentor outside the Old Town")
+	if d == "city":
+		check(world.people.guards.size() >= 8, "lobby guards spawned (%d)" % world.people.guards.size())
+		check(Game.layout["district"]["zones"].size() >= 8, "no-parking zones (%d)" % Game.layout["district"]["zones"].size())
+	check(o_d.get("bignums", []).size() >= 8, "big house numbers (%d)" % o_d.get("bignums", []).size())
+	# every pickup and every door reachable on foot and by scooter from the start
+	var start: Vector3 = pl.global_position
+	var bad = []
+	for k in o_d["restaurants"].keys():
+		for mode in ["foot", "scooter", "bicycle"]:
+			if world.nav.path(start, v3(o_d["restaurants"][k]["pickup"]), mode).size() < 2:
+				bad.append("%s/%s" % [k, mode])
+	for door in o_d["doors"]:
+		for mode in ["foot", "scooter"]:
+			if world.nav.path(start, v3(door["pos"]), mode).size() < 2:
+				bad.append("%s/%s" % [door["id"], mode])
+	check(bad.is_empty(), "%s: all %d pickups and %d doors reachable %s" % [d, o_d["restaurants"].size(), o_d["doors"].size(), str(bad.slice(0, 6))])
+	# exits
+	var exits = 0
+	for it in world.interactables:
+		if it["kind"] == "exit":
+			exits += 1
+			tp(it["pos"], 0.0)
+			await wait(0.5)
+			log_line("exit focus: %s" % world.focus.get("text", "-"))
+			check(world.focus.get("kind", "") == "exit", "standing in the exit zone shows the travel prompt")
+	check(exits == 2, "%s has 2 exits" % d)
+	# one full delivery per restaurant
+	var n = 0
+	for k in o_d["restaurants"].keys():
+		var o: Dictionary = world.orders.make_offer(k)
+		if o.is_empty():
+			check(false, "offer from " + k)
+			continue
+		if n == 1 and d == "berezki":
+			o["flags"]["broken_lift"] = true
+		world.orders.offers.append(o)
+		check(world.orders.accept(o), "accept %s order" % k)
+		var r: Dictionary = o_d["restaurants"][k]
+		tp(v3(r["pickup"]), float(r["pickup_yaw"]))
+		await wait(0.8)
+		check(world.focus.get("kind", "") == "counter", "%s: focus on the pickup counter" % k)
+		if n == 0:
+			await shot(d + "_01_pickup_" + k)
+		world._counter(k)
+		await wait(0.3)
+		o["cook_left"] = 0.0
+		world.screens.close_all()
+		if o["state"] != "carrying":
+			world.take_when_ready(o)
+		await wait(0.5)
+		check(o["state"] == "carrying", "%s: food in the bag" % k)
+		var door: Dictionary = o["door"]
+		o["flags"].erase("pin_door")
+		tp(v3(door["pos"]), float(door["yaw"]))
+		await wait(0.8)
+		check(world.focus.get("kind", "") == "door", "%s: focus on the door %s" % [k, door["label"]])
+		if n == 0:
+			await shot(d + "_02_door")
+		world.screens.close_all()
+		if door.get("kind", "") == "tower":
+			world.screens._tower_entry(o, door)
+			await wait(0.4)
+			if n == 0:
+				await shot(d + "_03_guard")
+			if world.screens.top_name() == "dialog":
+				check(true, "guard stops a courier without a pass")
+				world.screens.close_all()
+				o["flags"]["guard_ok"] = true
+				world.screens._tower_entry(o, door)
+		else:
+			world.screens._go_up(o, door)
+		await wait(0.6)
+		var top = world.screens.top_name()
+		log_line("%s: going up via %s (floor %d)" % [k, top, int(o["floor"])])
+		if n <= 1:
+			await shot(d + "_04_" + top)
+		Input.action_press("interact")
+		var t = 0.0
+		while world.screens.top_name() in ["lift", "stairs"] and t < 40.0:
+			await wait(0.5)
+			t += 0.5
+		Input.action_release("interact")
+		check(world.screens.top_name() == "dialog", "%s: %s leads to the customer (%.1f s)" % [k, top, t])
+		var before = int(Game.state["stats"]["delivered"])
+		world.screens.close_all()
+		world.screens._deliver(o, "polite")
+		await wait(0.5)
+		world.screens.close_all()
+		check(int(Game.state["stats"]["delivered"]) == before + 1, "%s: delivered, money %s" % [k, Game.money_text()])
+		n += 1
+	if d == "city":
+		check(int(Game.state["progress"].get("city", 0)) == n, "chapter 3 progress counts city deliveries (%d)" % int(Game.state["progress"].get("city", 0)))
+		# towing from the red zone
+		world.swap_vehicle("scooter")
+		await wait(0.3)
+		var z: Dictionary = Game.layout["district"]["zones"][0]
+		var zc = (v3(z["rect"][0]) + v3(z["rect"][1])) * 0.5
+		world.parked["body"].global_position = zc
+		tp(zc + Vector3(15, 0, 0), 0.0)
+		var m0 = float(Game.state["money"])
+		world.parked["tow"] = 24.5
+		await wait(1.2)
+		check(float(Game.state["money"]) < m0 and world.parked.get("body") != null and world.parked["body"].global_position.distance_to(zc) > 5.0, "tow truck takes the scooter from the red zone")
+	# quests of the district
+	world.screens.close_all()
+	world.daynight.hour = 21.5
+	world.story._check_quests()
+	await wait(0.5)
+	var qn = 0
+	for of in world.orders.offers:
+		if of.get("quest", "") != "":
+			qn += 1
+			log_line("quest offered: " + of["quest"])
+	check(qn >= 1, "%s quest offered" % d)
+	world.screens.close_all()
+	# views, day and night
+	var views = {"city": [[0.0, -10.0, 180.0], [-46.0, -20.0, 180.0], [0.0, 75.0, 0.0]],
+		"berezki": [[40.0, -45.0, 180.0], [-81.5, -30.0, 180.0], [0.0, 20.0, 180.0]]}
+	var i = 0
+	for vw in views[d]:
+		for hh in [11.0, 21.8]:
+			world.daynight.hour = hh
+			tp(Vector3(vw[0], 0, vw[1]), vw[2])
+			await wait(1.4)
+			await shot("%s_1%d_view_%s" % [d, i, "day" if hh < 20.0 else "night"])
+			log_line("fps %s at %s view %d" % [Engine.get_frames_per_second(), d, i])
+		i += 1
+	# travel back to the Old Town: the world reloads, the autotest continues in _after_travel
+	var f = FileAccess.open(ProjectSettings.globalize_path(out_dir + "autotest_%s.log" % d), FileAccess.WRITE)
+	if f:
+		f.store_string("\n".join(lines))
+	world.daynight.hour = 15.5
+	Game.state["at_travel"] = d
+	Game.state["at_fails"] = fails
+	log_line("travelling %s -> old_town" % d)
+	world.travel_to("old_town")
+
+
+func _after_travel() -> void:
+	var from: String = Game.state["at_travel"]
+	fails = int(Game.state.get("at_fails", 0))
+	Game.state.erase("at_travel")
+	await wait(2.0)
+	var e: Dictionary = Game.layout["district"]["entries"].get(from, {})
+	var ep = v3(e.get("pos", [0, 0, 0]))
+	check(Game.district() == "old_town", "travel: arrived in the Old Town")
+	check(Vector2(world.player.global_position.x - ep.x, world.player.global_position.z - ep.z).length() < 4.0, "travel: player at the entry from %s (%.1f, %.1f)" % [from, world.player.global_position.x, world.player.global_position.z])
+	check(abs(world.daynight.hour - 15.5) < 0.3, "travel: the shift clock kept running (%.2f)" % world.daynight.hour)
+	check(world.current_vehicle() != "", "travel: the vehicle came along (%s)" % world.current_vehicle())
+	await shot(from + "_20_arrived_old_town")
+	log_line("DONE fails=%d" % fails)
+	var f = FileAccess.open(ProjectSettings.globalize_path(out_dir + "autotest_%s.log" % from), FileAccess.READ_WRITE)
+	if f:
+		f.seek_end()
+		f.store_string("\n" + "\n".join(lines))
 	get_tree().paused = false
 	Game.delete_save()
 	get_tree().quit()
