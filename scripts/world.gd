@@ -35,7 +35,10 @@ var shift_ending = false
 
 func _ready() -> void:
 	Game.load_level_data()
-	battery = float(Game.state.get("battery", 100.0))
+	if Game.state.has("battery") and not Game.state.get("charge", {}).has("scooter"):
+		Game.set_charge("scooter", float(Game.state["battery"]))   # v0.2 save: one shared scooter battery
+	Game.state.erase("battery")
+	battery = Game.charge_of(String(Game.state.get("vehicle", "bicycle")))
 	level = Level.new()
 	level.name = "Level"
 	add_child(level)
@@ -52,6 +55,7 @@ func _ready() -> void:
 	level.add_plates(Game.orders_data["doors"])
 	level.add_bignums(Game.orders_data.get("bignums", []))
 	level.apply_quality(int(Game.settings.get("quality", 1)))
+	daynight.set_snow_day(bool(Game.state.get("snow_today", false)) or Game.flag("snow"))
 	events = Events.new()
 	add_child(events)
 	events.setup(self)
@@ -127,8 +131,10 @@ func _v(a: Array) -> Vector3:
 # ---------------------------------------------------------------- vehicles
 func _park_start_vehicle(start: Vector3) -> void:
 	var kind: String = Game.state.get("vehicle", "bicycle")
-	if kind == "scooter" and not (Game.state["owned"].get("scooter", false) or Game.state.get("rented_today", false)):
+	if not Game.VEH.has(kind) or not Game.can_use(kind):
 		kind = "bicycle"
+	Game.state["vehicle"] = kind
+	battery = Game.charge_of(kind)
 	var side = Vector3(cos(player.heading), 0, -sin(player.heading))
 	park_vehicle(kind, Vehicles.make(kind), start + side * 1.4, player.heading)
 
@@ -138,14 +144,15 @@ func park_vehicle(kind: String, node: Node3D, pos: Vector3, yaw: float) -> void:
 	body.collision_layer = 1
 	var cs = CollisionShape3D.new()
 	var bx = BoxShape3D.new()
-	bx.size = Vector3(0.5, 1.0, 1.5)
+	var bs: Array = Game.veh(kind)["box"]
+	bx.size = Vector3(bs[0], bs[1], bs[2])
 	cs.shape = bx
-	cs.position.y = 0.5
+	cs.position.y = bs[1] * 0.5
 	body.add_child(cs)
 	body.add_child(node)
 	node.transform = Transform3D.IDENTITY
-	var sh = Chars.blob(body, 0.45)
-	sh.scale = Vector3(1.0, 1.0, 2.0)
+	var sh = Chars.blob(body, 0.45 if bs[0] < 1.0 else 1.1)
+	sh.scale = Vector3(1.0, 1.0, 2.0 if bs[0] < 1.0 else 1.6)
 	add_child(body)
 	body.global_position = Vector3(pos.x, level.ground_height(pos), pos.z)
 	body.rotation.y = yaw
@@ -205,11 +212,16 @@ func on_fall() -> void:
 
 func drain_battery(dist: float) -> void:
 	var cap = 1.0 + 0.4 * Game.upgrade_level("battery")
-	battery = max(0.0, battery - dist * 0.055 / cap)
+	var rate: float = Game.veh(player.vehicle_kind)["drain"]
+	if daynight.snow > 0.3:
+		rate *= 1.25   # batteries hate the cold
+	battery = max(0.0, battery - dist * rate / cap)
+	var t: String = Game.veh(player.vehicle_kind)["title"]
 	if battery < 15.0:
-		player.hint("battery", "Батарея самоката садится! Зарядная станция — у кафе курьеров.")
+		player.hint("battery", "Батарея садится (%s)! Зарядная станция — у кафе курьеров." % t)
 	if battery <= 0.0:
-		player.hint("battery0", "Самокат разряжен. Толкай до зарядки или используй павербанк (X).", 12.0)
+		player.hint("battery0", ("Электровелосипед разряжен — крути педали сам." if player.vehicle_kind == "ebike" else
+			"Транспорт разряжен. Толкай до зарядки или используй павербанк (X)."), 12.0)
 
 
 func vehicle_stolen(node: Node3D) -> void:
@@ -272,7 +284,7 @@ func _build_interactables() -> void:
 			"label": func(): return story.dream_label(), "cb": func(): story.dream_action()})
 	for m in _markers("MARK_charger"):
 		interactables.append({"pos": _v(m["pos"]), "r": 2.6, "kind": "charger",
-			"label": func(): return ("Зарядить самокат (%d%%)" % int(battery)) if _scooter_near(_v(m["pos"])) else "",
+			"label": func(): return ("Зарядить %s (%d%%)" % [Game.veh(current_vehicle())["title"], int(battery)]) if _scooter_near(_v(m["pos"])) else "",
 			"cb": func(): _start_charge(_v(m["pos"]))})
 	interactables.append({"pos": _marker("MARK_shop_garage"), "r": 2.8, "kind": "garage",
 		"label": func(): return "Мастерская: транспорт, улучшения, внешность", "cb": func(): screens.open_garage()})
@@ -299,10 +311,11 @@ func _orders_for_door(door: Dictionary) -> Array:
 	return out
 
 
+## An electric vehicle (ridden or parked) is next to this charger.
 func _scooter_near(p: Vector3) -> bool:
-	if player.mode == Player.Mode.SCOOTER and player.global_position.distance_to(p) < 3.0:
+	if player.riding() and Game.is_electric(player.vehicle_kind) and player.global_position.distance_to(p) < 3.4:
 		return true
-	return not parked.is_empty() and parked["kind"] == "scooter" and parked["body"].global_position.distance_to(p) < 3.5
+	return not parked.is_empty() and Game.is_electric(parked["kind"]) and parked["body"].global_position.distance_to(p) < 3.8
 
 
 func _process(delta: float) -> void:
@@ -320,16 +333,18 @@ func _process(delta: float) -> void:
 			battery = min(100.0, battery + 9.0 * delta)
 			if battery >= 100.0:
 				charging = false
-				toast("Самокат заряжен на 100%!", 1.5)
+				toast("Заряжено на 100%!", 1.5)
 	_gps_t -= delta
 	if _gps_t <= 0.0:
 		_gps_t = 0.7
 		_update_gps()
 	if gps_pin and gps_pin.visible:
 		gps_pin.get_child(0).position.y = 3.2 + sin(Time.get_ticks_msec() / 250.0) * 0.3
-	Game.state["battery"] = battery
-	if player.mode == Player.Mode.SCOOTER or player.mode == Player.Mode.BIKE:
-		Vehicles.lights(player.vehicle_model, daynight.is_dark() and (player.mode == Player.Mode.BIKE or Game.upgrade_level("headlight") > 0))
+	var cv = current_vehicle()
+	if cv != "" and Game.is_electric(cv):
+		Game.set_charge(cv, battery)
+	if player.riding():
+		Vehicles.lights(player.vehicle_model, daynight.is_dark() and (player.mode != Player.Mode.SCOOTER or Game.upgrade_level("headlight") > 0))
 	var r = float(Game.state["rating"])
 	if r < 3.0 and not warned_rating:
 		warned_rating = true
@@ -373,7 +388,7 @@ func _update_focus() -> void:
 			best["text"] = lbl
 	if best.is_empty() and not parked.is_empty() and not player.riding():
 		if parked["body"].global_position.distance_to(pp) < 2.6:
-			best = {"kind": "vehicle", "text": ("Сесть на %s (F)" % ("велосипед" if parked["kind"] == "bicycle" else "самокат")) + ("  ·  L — снять замок" if parked["locked"] else ("  ·  L — пристегнуть" if Game.upgrade_level("lock") > 0 else "")), "cb": func(): mount_parked()}
+			best = {"kind": "vehicle", "text": ("Сесть %s (F)" % Game.veh(parked["kind"])["on"]) + ("  ·  L — снять замок" if parked["locked"] else ("  ·  L — пристегнуть" if Game.upgrade_level("lock") > 0 else "")), "cb": func(): mount_parked()}
 	focus = best
 
 
@@ -455,6 +470,8 @@ func banner(title: String, text: String) -> void:
 
 func dialog(who: String, text: String, options: Array) -> void:
 	screens.open_dialog(who, text, options)
+	if who.begins_with(Story.MENTOR):
+		Sfx.say("mikhalych", text)
 
 
 # ---------------------------------------------------------------- restaurant counter
@@ -504,6 +521,9 @@ func _door(door: Dictionary) -> void:
 			["Позвонить клиенту (C)", func(): call_customer()],
 			["Ой, извините", func(): pass],
 		])
+		return
+	if door.get("kind", "house") == "park":
+		screens._customer(o)   # park deliveries: the customer waits right here, no intercom, no stairs
 		return
 	screens.open_door(o, door)
 
@@ -625,10 +645,15 @@ func _update_gps() -> void:
 	gps_pin.visible = true
 	gps_pin.global_position = gps_target["pos"]
 	var mode = "foot"
-	if player.mode == Player.Mode.BIKE:
-		mode = "bicycle"
-	elif player.mode == Player.Mode.SCOOTER:
-		mode = "scooter"
+	match player.mode:
+		Player.Mode.BIKE:
+			mode = "bicycle"
+		Player.Mode.SCOOTER:
+			mode = "scooter"
+		Player.Mode.MOPED:
+			mode = "moped"
+		Player.Mode.CAR:
+			mode = "ecar"
 	_gps_path = nav.path(player.global_position, gps_target["pos"], mode)
 	if _gps_path.size() < 2:
 		return
@@ -689,21 +714,28 @@ func swap_vehicle(kind: String) -> void:
 	if kind == current_vehicle():
 		toast("Ты и так на нём.", 1.2)
 		return
+	var old = current_vehicle()
+	if old != "" and Game.is_electric(old):
+		Game.set_charge(old, battery)
 	if player.riding():
 		var node = player.dismount()
 		node.queue_free()
 	elif not parked.is_empty():
 		parked["body"].queue_free()
 		parked = {}
+	charging = false
 	var g = _marker("MARK_shop_garage")
-	park_vehicle(kind, Vehicles.make(kind), g + Vector3(2.2, 0, 0.5), 0.0)
+	var off = Vector3(3.4, 0, 1.5) if kind == "ecar" else Vector3(2.2, 0, 0.5)
+	park_vehicle(kind, Vehicles.make(kind), g + off, 0.0)
 	Game.state["vehicle"] = kind
-	toast("Механик выкатил %s к мастерской. Садись: F." % ("велосипед" if kind == "bicycle" else "самокат"), 2.5)
+	battery = Game.charge_of(kind)
+	toast("Механик выкатил %s к мастерской. Садись: F." % Game.veh(kind)["title"], 2.5)
 
 
 func on_bought(id: String) -> void:
-	if id == "scooter":
-		toast("Самокат твой! Возьми его во вкладке «Транспорт».", 3.0)
+	if Game.SHOP[id]["kind"] == "vehicle":
+		Game.set_charge(id, 100.0)
+		toast("%s теперь твой! Возьми его во вкладке «Транспорт»." % Game.SHOP[id]["name"], 3.0)
 	if player.riding():
 		Vehicles.apply_upgrades(player.vehicle_model, player.vehicle_kind)
 	elif not parked.is_empty():
@@ -753,7 +785,8 @@ func travel_to(to: String) -> void:
 		Game.state["vehicle"] = player.vehicle_kind
 	elif not parked.is_empty():
 		Game.state["vehicle"] = parked["kind"]
-	Game.state["battery"] = battery
+	if current_vehicle() != "" and Game.is_electric(current_vehicle()):
+		Game.set_charge(current_vehicle(), battery)
 	Sfx.stop_loops()
 	started = false
 	Game.travel(to, daynight.hour)
@@ -837,7 +870,12 @@ func next_day() -> void:
 	Game.state["day"] = int(Game.state["day"]) + 1
 	Game.state.erase("hour_resume")
 	Game.state["rented_today"] = false
-	if not Game.state["owned"].get("scooter", false):
+	# winter comes with the later chapters: about every third day is a snow day from day 3 on
+	var snow_chance = 0.0 if int(Game.state["day"]) < 3 else (0.3 if int(Game.state["chapter"]) < 4 else 0.4)
+	Game.state["snow_today"] = randf() < snow_chance
+	if Game.state["snow_today"]:
+		Game.state["snow_days"] = int(Game.state.get("snow_days", 0)) + 1
+	if not Game.can_use(String(Game.state.get("vehicle", "bicycle"))):
 		Game.state["vehicle"] = "bicycle"
 	story.new_daily()
 	Game.save_game()

@@ -40,7 +40,10 @@ RESTAURANTS = {
 FOOD_PROPS = {"pizza": "pizza_box", "burger": "paper_bag", "drink": "cup_holder", "sushi": "sushi_box",
               "coffee": "cup_holder", "icecream": "ice_cream_tub", "cake": "cake_box", "lunch": "lunch_crate",
               "dream": "lunch_crate", "wok": "paper_bag", "salad": "sushi_box", "burrito": "paper_bag",
-              "shawarma": "paper_bag", "pastry": "paper_bag", "pie": "cake_box", "groceries": "lunch_crate"}
+              "shawarma": "paper_bag", "pastry": "paper_bag", "pie": "cake_box", "groceries": "lunch_crate",
+              "veg": "lunch_crate", "fish": "ice_cream_tub", "cheese": "cake_box", "honey": "paper_bag",
+              "dumplings": "sushi_box", "ramen": "paper_bag", "steak": "paper_bag", "pancakes": "pizza_box",
+              "cocoa": "cup_holder", "picnic": "lunch_crate"}
 
 REGULARS = [
     dict(id="ded", name="Ворчливый дед Борис", model="oldman", trait="capricious", floors_min=5, tip=0.15,
@@ -121,6 +124,51 @@ BEREZKI_QUESTS = dict(
     no_lift=dict(title="Шестнадцатый этаж", giver="semyon", restaurant="bakery", item="pie", reward=50,
                  text="Дедушке Семёну на 16-й этаж нужен пирог. Лифт сломан. Совсем."),
 )
+# ---------------------------------------------------------------- run 3: «Гастроквартал и Большой парк»
+GASTRO_RESTAURANTS = {
+    "veg": dict(name="Рынок: овощной ряд", items=[["veg", "Корзина овощей", "heavy", 1.0],
+                                                 ["veg", "Ящик мандаринов", "heavy", 1.1]], cook=[8, 20], slow=False,
+                price=0.9),
+    "fish": dict(name="Рынок: рыбный ряд", items=[["fish", "Свежая рыба во льду", "frozen", 1.3]], cook=[10, 25],
+                 slow=False, price=1.1),
+    "cheese": dict(name="Рынок: сыр и мёд", items=[["cheese", "Сырная тарелка", "fragile", 1.2],
+                                                  ["honey", "Банка мёда", "fragile", 0.9]], cook=[8, 20], slow=False,
+                   price=1.0),
+    "dumplings": dict(name="Пельменная «Лепим!»", items=[["dumplings", "Пельмени со сметаной", "hot", 1.0],
+                                                        ["cocoa", "Какао", "drink_hot", 0.5]], cook=[15, 35],
+                      slow=False, price=1.0),
+    "ramen": dict(name="Раменная «Сугои»", items=[["ramen", "Рамен", "drink_hot", 1.3],
+                                                  ["ramen", "Гёдза", "hot", 0.8]], cook=[20, 45], slow=True,
+                  price=1.2),
+    "grill": dict(name="Гриль-бар «Уголёк»", items=[["steak", "Стейк", "hot", 1.6], ["steak", "Шашлык", "hot", 1.3]],
+                  cook=[25, 55], slow=True, price=1.3),
+    "pancakes": dict(name="Блинная «Масленица»", items=[["pancakes", "Блины с вареньем", "hot", 0.8],
+                                                       ["cocoa", "Какао с маршмеллоу", "drink_hot", 0.6]],
+                     cook=[10, 25], slow=False, price=0.9),
+}
+GASTRO_REGULARS = [
+    dict(id="chef_lev", name="Шеф Лев", model="cook", trait="capricious", floors_min=3, tip=1.0, quest="market_fish",
+         lines=["Рыба утренняя? Покажи жабры! ...Годится.", "Без свежей рыбы у меня нет меню. Спасибо!"]),
+    dict(id="picnic", name="Студенты на пикнике", model="student", trait="polite", floors_min=0, tip=0.7,
+         quest="park_picnic", park=True, lines=["Ура, еда! Садись с нами!", "Лучший пикник в сезоне!"]),
+    dict(id="skaters", name="Фигуристы на пруду", model="mom", trait="polite", floors_min=0, tip=0.9,
+         quest="skater_cocoa", park=True, lines=["Горячее какао! Ты нас спас, руки ледяные!", "Приезжай кататься!"]),
+    dict(id="poet", name="Поэт Аполлон", model="oldman", trait="capricious", floors_min=4, tip=0.4,
+         lines=["Курьер, как вестник муз, явился...", "Блины! Это рифма к слову «мечты»."]),
+    dict(id="lena", name="Блогер Лена", model="student", trait="no_call", floors_min=3, tip=0.8,
+         lines=["Тсс, я в эфире! Сейчас сниму распаковку.", "Подписчики в восторге от рамена!"]),
+]
+GASTRO_QUESTS = dict(
+    market_fish=dict(title="Рыба для шефа", giver="chef_lev", restaurant="fish", item="fish", reward=45,
+                     text="Шеф Лев остался без рыбы в разгар ужина. Привези с рынка свежую рыбу во льду — и быстро, "
+                          "пока лёд не растаял!"),
+    park_picnic=dict(title="Пикник в парке", giver="picnic", restaurant="grill", item="picnic", reward=40,
+                     text="Студенты устроили пикник в Большом парке. На моторе в парк не въехать — паркуйся у ворот "
+                          "и неси шашлык пешком."),
+    skater_cocoa=dict(title="Какао для фигуристов", giver="skaters", restaurant="pancakes", item="cocoa", reward=35,
+                      text="Пруд замёрз, на льду катаются! Фигуристы замёрзли и просят горячего какао к катку."),
+)
+
 LEVELS = {
     "old_town": dict(restaurants=RESTAURANTS, regulars=REGULARS, quests=None, npc_models=[
         "office", "student", "mom", "grandma", "tourist", "oldman"],
@@ -131,6 +179,9 @@ LEVELS = {
     "berezki": dict(restaurants=BEREZKI_RESTAURANTS, regulars=BEREZKI_REGULARS, quests=BEREZKI_QUESTS, npc_models=[
         "grandma", "grandma", "mom", "student", "oldman", "office"], sit_models=["grandma", "grandma", "oldman"],
         tourists=False, pigeons=False, rules=dict(night_bonus=0.6)),
+    "gastro": dict(restaurants=GASTRO_RESTAURANTS, regulars=GASTRO_REGULARS, quests=GASTRO_QUESTS, npc_models=[
+        "tourist", "student", "mom", "office", "grandma", "oldman"], sit_models=["tourist", "mom", "student", "office"],
+        tourists=True, pigeons=True, rules=dict(tip_mult=1.15)),
 }
 CHAPTERS = ["Первая смена", "Свой самокат", "Деловой центр", "Ночные смены", "Ресторан мечты"]
 
@@ -261,6 +312,11 @@ def main():
             if m["inst"] in guards:
                 d["guard"] = True
             doors.append(d)
+    for m in marks:
+        if m["name"] == "MARK_park_spot":
+            doors.append(dict(id="P_%d" % m["id"], street="P", street_name="Большой парк", number=0, corpus=0,
+                              entrance=1, floors=0, lift=False, kind="park", pos=m["pos"], yaw=m["yaw"], plate=None,
+                              plate_text="", label=m["label"], inst=-1))
     print("doors", len(doors))
     # big painted numbers on panel blocks and towers (one per building)
     big = []
@@ -274,7 +330,8 @@ def main():
     used = set()
     regulars = []
     for r in cfg["regulars"]:
-        cands = [d for d in doors if d["floors"] >= r["floors_min"] and d["id"] not in used]
+        cands = [d for d in doors if d["floors"] >= r["floors_min"] and d["id"] not in used and
+                 (d["kind"] == "park") == bool(r.get("park", False))]
         if r["id"] == "viktor":
             cands = [d for d in doors if d.get("guard")]
         if r["id"] == "lost":
@@ -287,7 +344,8 @@ def main():
             cands = [d for d in doors if d["id"] not in used] or doors
         d = rs.choice(cands)
         used.add(d["id"])
-        fl = r.get("floor") or rs.randint(max(2, min(d["floors"], r["floors_min"])), d["floors"])
+        fl = 0 if d["kind"] == "park" else (r.get("floor") or rs.randint(max(2, min(d["floors"], r["floors_min"])),
+                                                                         d["floors"]))
         regulars.append(dict(r, address=d["id"], floor=fl))
 
     restaurants = {}

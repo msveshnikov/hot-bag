@@ -2893,7 +2893,17 @@
   "shawarma": "paper_bag",
   "pastry": "paper_bag",
   "pie": "cake_box",
-  "groceries": "lunch_crate"
+  "groceries": "lunch_crate",
+  "veg": "lunch_crate",
+  "fish": "ice_cream_tub",
+  "cheese": "cake_box",
+  "honey": "paper_bag",
+  "dumplings": "sushi_box",
+  "ramen": "paper_bag",
+  "steak": "paper_bag",
+  "pancakes": "pizza_box",
+  "cocoa": "cup_holder",
+  "picnic": "lunch_crate"
  },
  "quests": {
   "cake": {

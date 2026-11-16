@@ -10,6 +10,7 @@ var players: Array[AudioStreamPlayer] = []
 var loops = {}
 var music: AudioStreamPlayer
 var music_name = ""
+var voice: AudioStreamPlayer
 
 
 func _ready() -> void:
@@ -36,10 +37,40 @@ func _ready() -> void:
 		loops[n] = p
 	music = AudioStreamPlayer.new()
 	add_child(music)
+	voice = AudioStreamPlayer.new()
+	add_child(voice)
 
 
 func _db(v: float) -> float:
 	return linear_to_db(max(0.0001, v))
+
+
+## Voice key of a line: only its letters, lower case (digits, numbers and punctuation filled in by the game are
+## dropped, so "%d монет" in the code and "1000 монет" on screen give the same key). Same rule in
+## tools/voice_lines.py, which writes assets/audio/voice/<speaker>/<key>.mp3 with ElevenLabs.
+static func voice_key(text: String) -> String:
+	var out = ""
+	for ch in text.to_lower():
+		var c = ch.unicode_at(0)
+		if (c >= 0x61 and c <= 0x7a) or (c >= 0x430 and c <= 0x44f) or c == 0x451:
+			out += ch
+	return out.md5_text().substr(0, 12)
+
+
+## Speak a line if a recorded voice exists for it (Михалыч is voiced; others stay silent).
+func say(speaker: String, text: String) -> void:
+	var path = "res://assets/audio/voice/%s/%s.mp3" % [speaker, voice_key(text)]
+	if not ResourceLoader.exists(path):
+		return
+	voice.stop()
+	voice.stream = load(path)
+	voice.volume_db = _db(1.1 * float(Game.settings.get("voice", 1.0)) * max(0.35, float(Game.settings["sfx"])))
+	voice.play()
+
+
+func stop_voice() -> void:
+	if voice:
+		voice.stop()
 
 
 func play(name: String, vol = 1.0, pitch = 1.0) -> void:

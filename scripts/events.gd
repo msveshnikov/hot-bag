@@ -53,7 +53,7 @@ func _eligible(e: Dictionary) -> bool:
 	var p: Player = world.player
 	match id:
 		"battery_low":
-			return p.mode == Player.Mode.SCOOTER and world.battery > 25.0
+			return p.riding() and Game.is_electric(p.vehicle_kind) and world.battery > 25.0
 		"flat_tire":
 			return p.riding() and not flat and abs(p.speed) > 2.0
 		"rain":

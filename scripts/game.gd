@@ -1,13 +1,29 @@
 extends Node
 ## Global state: progress, settings, catalogue, save/load, input map. Autoload "Game".
 
-const VERSION = "0.2.0"
+const VERSION = "0.3.0"
 const SAVE_PATH = "user://save.json"
 const SETTINGS_PATH = "user://settings.json"
 const DISTRICTS = {
 	"old_town": {"title": "Старый город", "short": "Старый город"},
 	"city": {"title": "Деловой центр «Сити»", "short": "«Сити»"},
 	"berezki": {"title": "Спальный район «Берёзки»", "short": "«Берёзки»"},
+	"gastro": {"title": "Гастроквартал и Большой парк", "short": "Гастроквартал"},
+}
+## Vehicles (run 3): mode = Player.Mode name; drain = battery % per metre (0 = no battery); ban = surface codes the
+## vehicle cannot enter (t stairs, p park/plaza paths, g grass, s sidewalk); r = wheel radius for the spin;
+## seat = where the rider's model sits (Godot local), box = parked collision size.
+const VEH = {
+	"bicycle": {"title": "велосипед", "on": "на велосипед", "mode": "bike", "vmax": 7.6, "accel": 4.2, "drain": 0.0,
+		"ban": "", "r": 0.3, "box": [0.5, 1.0, 1.5]},
+	"ebike": {"title": "электровелосипед", "on": "на электровелосипед", "mode": "bike", "vmax": 9.3, "accel": 5.4,
+		"drain": 0.03, "ban": "", "r": 0.3, "box": [0.5, 1.0, 1.5]},
+	"scooter": {"title": "самокат", "on": "на самокат", "mode": "scooter", "vmax": 9.6, "accel": 6.0, "drain": 0.055,
+		"ban": "t", "r": 0.11, "box": [0.5, 1.0, 1.2]},
+	"moped": {"title": "мопед", "on": "на мопед", "mode": "moped", "vmax": 12.2, "accel": 6.5, "drain": 0.04,
+		"ban": "tpg", "r": 0.24, "box": [0.6, 1.1, 1.7]},
+	"ecar": {"title": "электромобиль", "on": "в электромобиль", "mode": "car", "vmax": 13.5, "accel": 5.2, "drain": 0.035,
+		"ban": "tpgs", "r": 0.3, "box": [1.5, 1.5, 2.7], "seat": [0.32, 0.0, -0.22]},
 }
 const DREAM_PRICE = 1000
 const DREAM_RATING = 4.5
@@ -36,14 +52,18 @@ var state = {}
 ## Catalogue: id -> {name, price, kind, desc}
 const SHOP = {
 	"scooter": {"name": "Электросамокат", "price": 300, "kind": "vehicle", "desc": "Быстрее велосипеда, но нужна зарядка. Хуже на брусчатке и в дождь."},
-	"battery": {"name": "Батарея+", "price": 120, "kind": "upgrade", "max": 2, "desc": "Запас хода самоката +40% за уровень."},
-	"motor": {"name": "Мотор+", "price": 150, "kind": "upgrade", "max": 2, "desc": "Скорость самоката +12% за уровень."},
+	"ebike": {"name": "Электровелосипед", "price": 520, "kind": "vehicle", "desc": "Велосипед с мотором: быстрее, почти не устаёшь, едет по лестницам и паркам. Нужна зарядка."},
+	"moped": {"name": "Электромопед", "price": 900, "kind": "vehicle", "desc": "Быстрый и устойчивый на брусчатке. В парк, на лестницы и тротуары нельзя."},
+	"ecar": {"name": "Электромобиль", "price": 2200, "kind": "vehicle", "desc": "Самый быстрый по дорогам, не мокнешь в дождь и снег, еда не трясётся. Только по проезжей части, парковаться у тротуара."},
+	"battery": {"name": "Батарея+", "price": 120, "kind": "upgrade", "max": 2, "desc": "Запас хода электротранспорта +40% за уровень."},
+	"motor": {"name": "Мотор+", "price": 150, "kind": "upgrade", "max": 2, "desc": "Скорость электротранспорта +12% за уровень."},
 	"tires": {"name": "Широкие шины", "price": 90, "kind": "upgrade", "max": 1, "desc": "Сцепление на брусчатке и в дождь. Меньше проколов."},
 	"brakes": {"name": "Тормоза", "price": 60, "kind": "upgrade", "max": 1, "desc": "Резкое торможение не портит еду."},
 	"rack": {"name": "Багажник", "price": 110, "kind": "upgrade", "max": 1, "desc": "Два заказа сразу и большие заказы для офисов."},
 	"lock": {"name": "Замок", "price": 40, "kind": "upgrade", "max": 1, "desc": "Транспорт не угонят, если пристегнуть (L)."},
 	"headlight": {"name": "Фара", "price": 50, "kind": "upgrade", "max": 1, "desc": "Ночью виднее и нет штрафа за езду без света."},
 	"mudguards": {"name": "Крылья", "price": 35, "kind": "upgrade", "max": 1, "desc": "Лужи не забрызгивают — рейтинг не падает в дождь."},
+	"warm_gloves": {"name": "Тёплые перчатки и шапка", "price": 50, "kind": "gear", "desc": "В снег курьер не мёрзнет и не теряет силы."},
 	"raincoat": {"name": "Дождевик", "price": 45, "kind": "gear", "desc": "Курьер не мокнет и не устаёт под дождём."},
 	"waterproof_bag": {"name": "Непромокаемая сумка", "price": 70, "kind": "gear", "desc": "Еда не промокает."},
 	"cooling_pack": {"name": "Хладоэлементы", "price": 40, "kind": "gear", "desc": "Мороженое и суши дольше холодные."},
@@ -163,15 +183,46 @@ func travel(to: String, hour: float) -> void:
 func new_state() -> void:
 	state = {
 		"version": VERSION, "money": 25.0, "rating": 4.0, "votes": 5, "day": 1, "chapter": 1, "tutorial": 0,
-		"owned": {"bicycle": true, "scooter": false}, "vehicle": "bicycle", "rented_today": false,
+		"owned": {"bicycle": true, "scooter": false, "ebike": false, "moped": false, "ecar": false}, "vehicle": "bicycle",
+		"rented_today": false, "charge": {}, "snow_days": 0,
 		"upgrades": {}, "gear": {}, "helmet": "", "items": {"snack": 1, "repair_kit": 0, "powerbank": 0, "energy_drink": 0},
 		"look": {"gender": "m", "hair": "short", "jacket": "#22b8b0", "cap": true},
 		"quests": {"cake": "locked", "office_lunch": "locked"},
-		"district": "old_town", "unlocked": {"city": false, "berezki": false}, "pass": false, "dream": "locked",
+		"district": "old_town", "unlocked": {"city": false, "berezki": false, "gastro": false}, "pass": false, "dream": "locked",
 		"progress": {"city": 0, "night": 0, "berezki": 0}, "ending_seen": false,
 		"stats": {"delivered": 0, "late": 0, "tips": 0.0, "fines": 0.0, "earned": 0.0, "spent": 0.0, "falls": 0},
 		"daily": [], "seen_hints": {}, "best_streak": 0,
 	}
+
+
+func veh(kind: String) -> Dictionary:
+	return VEH.get(kind, VEH["bicycle"])
+
+
+func is_electric(kind: String) -> bool:
+	return float(veh(kind)["drain"]) > 0.0
+
+
+func owns_electric() -> bool:
+	for k in VEH.keys():
+		if is_electric(k) and state["owned"].get(k, false):
+			return true
+	return false
+
+
+## Can ride this vehicle today (owned, or the scooter rented for the day).
+func can_use(kind: String) -> bool:
+	return state["owned"].get(kind, false) or (kind == "scooter" and state.get("rented_today", false))
+
+
+func charge_of(kind: String) -> float:
+	return float(state.get("charge", {}).get(kind, 100.0))
+
+
+func set_charge(kind: String, v: float) -> void:
+	if not state.has("charge"):
+		state["charge"] = {}
+	state["charge"][kind] = clamp(v, 0.0, 100.0)
 
 
 func has_save() -> bool:
@@ -271,7 +322,7 @@ func can_buy(id: String) -> bool:
 		"vehicle":
 			return not state["owned"].get(id, false)
 		"upgrade":
-			if id in ["battery", "motor", "tires"] and not state["owned"].get("scooter", false) and id != "tires":
+			if id in ["battery", "motor"] and not owns_electric():
 				return false
 			return upgrade_level(id) < int(it.get("max", 1))
 		"gear":

@@ -241,8 +241,8 @@ func _can_steal(vehicle_node: Node3D) -> bool:
 	if not is_instance_valid(vehicle_node) or world.player.riding():
 		return false
 	var p: Dictionary = world.parked
-	if p.is_empty() or p.get("node") != vehicle_node or p.get("locked", false):
-		return false
+	if p.is_empty() or p.get("node") != vehicle_node or p.get("locked", false) or p.get("kind") == "ecar":
+		return false   # the e-car locks itself
 	return p["body"].global_position.distance_to(world.player.global_position) >= 10.0
 
 
@@ -296,7 +296,7 @@ func _thief(delta: float) -> void:
 			veh.get_parent().remove_child(veh)
 		t.add_child(veh)
 		veh.transform = Transform3D.IDENTITY
-		Chars.play(t, "ride_bike" if thief["kind"] == "bicycle" else "ride_scooter")
+		Chars.play(t, {"bicycle": "ride_bike", "ebike": "ride_bike", "moped": "ride_bike_idle"}.get(thief["kind"], "ride_scooter"))
 		var far = t.position + Vector3(randf_range(-1, 1), 0, randf_range(-1, 1)).normalized() * 90.0
 		thief["path"] = world.nav.path(t.position, far, "bicycle")
 		thief["i"] = 0

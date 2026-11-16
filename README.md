@@ -13,7 +13,7 @@
 
 </div>
 
-Take orders in the «Хоп!» app, ride a squeaky bicycle (later your own e-scooter) through a cartoon city, keep the pizza hot and the cake in one piece, climb stairs in houses without lifts, get past tower security, dodge police fines, tow trucks, rain, flat tyres, rival couriers and bike thieves — and open your dream restaurant. Russian UI. Three districts (Old Town, the business district «Сити», the sleeping district «Берёзки»), five chapters.
+Take orders in the «Хоп!» app, ride a squeaky bicycle (later an e-scooter, e-bike, e-moped or a tiny e-car) through a cartoon city, keep the pizza hot and the cake in one piece, climb stairs in houses without lifts, get past tower security, dodge police fines, tow trucks, rain, flat tyres, rival couriers and bike thieves — and open your dream restaurant. Russian UI. Four districts (Old Town, the business district «Сити», the sleeping district «Берёзки», the food quarter with the covered market and the Big Park), snow days, five chapters, a voiced mentor.
 
 ---
 
@@ -25,6 +25,8 @@ Take orders in the «Хоп!» app, ride a squeaky bicycle (later your own e-sco
 - Задачи вертикального среза (Старый город): [task1](task1.md) → [task2](task2.md) → [task3](task3.md) →
   [task4](task4.md) → [task5](task5.md), по одной в новой сессии Claude Code.
 - Прогон 2 (районы «Сити» и «Берёзки», главы 3–5, новый курьер): [run2.md](run2.md), отчёт — [report_run2.md](report_run2.md).
+- Прогон 3 (снег, электровелосипед/мопед/электромобиль, Гастроквартал и Большой парк, мастерская, озвучка Михалыча):
+  [run3.md](run3.md), отчёт — [report_run3.md](report_run3.md).
 
 ## Сюжет
 
@@ -32,6 +34,8 @@ Take orders in the «Хоп!» app, ride a squeaky bicycle (later your own e-sco
 2. **Свой самокат** — накопить 300 монет.
 3. **Деловой центр** — мост в «Сити»: башни с охраной и лифтами, обеденный пик, эвакуатор у входов.
 4. **Ночные смены** — «Берёзки»: одинаковые панельки, «корпус 4», сломанные лифты, ночные надбавки.
+   Заодно открывается **Гастроквартал и Большой парк**: крытый рынок, пельмени, рамен, гриль, блины, доставки к
+   скамейкам в парке (на моторе туда нельзя), зимой — каток на пруду.
 5. **Ресторан мечты** — 1000 монет и рейтинг 4,5 → своё помещение на Часовой площади → ужин для критика.
 
 ## Инструменты
@@ -87,7 +91,11 @@ blender -b --factory-startup -P build_architecture2.py   # башни, фуд-к
 blender -b --factory-startup -P build_world.py           # Старый город: old_town_layout.json, ground, карта, рендеры
 blender -b --factory-startup -P build_district.py -- --level city      # «Сити» (city_plan.py)
 blender -b --factory-startup -P build_district.py -- --level berezki   # «Берёзки» (berezki_plan.py)
-python build_scene.py -- --level old_town|city|berezki --no-render     # население, заказы, события
+blender -b --factory-startup -P build_architecture3.py   # рынок, 4 ресторана, эстрада, ворота парка
+blender -b --factory-startup -P build_district.py -- --level gastro    # Гастроквартал и парк (gastro_plan.py)
+blender -b --factory-startup -P build_scene.py -- --level old_town|city|berezki|gastro --no-render  # население
+python ../../tools/slice_icons.py                        # иконки мастерской из concept/ui/icon_sheet.png
+python ../../tools/voice_lines.py [--missing]            # реплики Михалыча -> tools/voice_mikhalych.json
 ```
 
 Порядок важен: текстуры → архитектура/пропсы → персонажи/транспорт → уровень → население. Потом в корне проекта:
@@ -98,6 +106,8 @@ godot --path . -- --autotest               # прохождение + скрин
 godot --path . -- --autotest --touch       # то же с сенсорным управлением
 godot --path . -- --autotest --district city      # «Сити»: все адреса, охрана, лифты, эвакуатор, переезд
 godot --path . -- --autotest --district berezki   # «Берёзки»: корпуса, сломанный лифт, квест, переезд
+godot --path . -- --autotest --district gastro    # Гастроквартал: рынок, парк, мопед у ворот, снег, переезд
+godot --path . -- --play --snow            # снежный день
 godot --path . -- --tour x,z,yaw[,час] ... # скриншоты в точках
 godot --path . -- --play [--newgame]       # сразу в игру
 godot --headless --path . --export-release "Windows Desktop" build/windows/HotBag.exe
@@ -105,6 +115,13 @@ godot --headless --path . --export-release "Web" build/web/index.html
 godot --headless --path . --export-debug "Android" build/android/HotBag.apk
 scp build/web/* build/android/HotBag.apk ubuntu@severance.lol:/var/www/severance/6/
 ```
+
+## Озвучка
+
+Михалыч говорит голосом из `assets/audio/voice/mikhalych/<key>.mp3` (`Sfx.say`): ключ — md5 от букв реплики
+(без цифр и знаков), поэтому подставленные числа не мешают. Список реплик с ключами и именами файлов —
+`tools/voice_lines.py` → `tools/voice_mikhalych.json`; файлы озвучиваются в ElevenLabs (русский, пожилой добродушный
+голос) и кладутся по пути `file`. Нет файла — реплика просто без голоса.
 
 ## Формат данных уровня (Godot: x, y, z; yaw — градусы вокруг Y)
 

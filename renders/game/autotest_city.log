@@ -45,17 +45,17 @@ AUTOTEST OK   tow truck takes the scooter from the red zone
 AUTOTEST quest offered: guard_coffee
 AUTOTEST OK   city quest offered
 AUTOTEST shot city_10_view_day
-AUTOTEST fps 51.0 at city view 0
+AUTOTEST fps 11.0 at city view 0
 AUTOTEST shot city_10_view_night
-AUTOTEST fps 40.0 at city view 0
+AUTOTEST fps 11.0 at city view 0
 AUTOTEST shot city_11_view_day
-AUTOTEST fps 41.0 at city view 1
+AUTOTEST fps 9.0 at city view 1
 AUTOTEST shot city_11_view_night
-AUTOTEST fps 38.0 at city view 1
+AUTOTEST fps 12.0 at city view 1
 AUTOTEST shot city_12_view_day
-AUTOTEST fps 40.0 at city view 2
+AUTOTEST fps 9.0 at city view 2
 AUTOTEST shot city_12_view_night
-AUTOTEST fps 46.0 at city view 2
+AUTOTEST fps 10.0 at city view 2
 AUTOTEST OK   travel: arrived in the Old Town
 AUTOTEST OK   travel: player at the entry from city (58.0, -80.0)
 AUTOTEST OK   travel: the shift clock kept running (15.52)

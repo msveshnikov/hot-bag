@@ -3,6 +3,7 @@ extends Node
 ## Chapters 1-5, the mentor's tutorial, regular customers' quests in three districts, daily tasks, objectives text.
 ## Ch1 «Первая смена» and ch2 «Свой самокат» — Old Town; ch3 «Деловой центр» — «Сити» across the bridge;
 ## ch4 «Ночные смены» — «Берёзки»; ch5 «Ресторан мечты» — buy the empty shop on the square, feed the critic.
+## Run 3: «Гастроквартал и Большой парк» opens with chapter 4 (west end of the avenue); snow days from day 3.
 
 const MENTOR = "Михалыч"
 const CITY_GOAL = 5
@@ -12,10 +13,32 @@ const NIGHT_FROM = 20.0
 ## quest -> district where it is offered
 const QUEST_HOME = {"cake": "old_town", "office_lunch": "old_town", "critic": "old_town",
 	"guard_coffee": "city", "board_lunch": "city",
-	"night_gamers": "berezki", "hidden_corpus": "berezki", "no_lift": "berezki"}
+	"night_gamers": "berezki", "hidden_corpus": "berezki", "no_lift": "berezki",
+	"market_fish": "gastro", "park_picnic": "gastro", "skater_cocoa": "gastro"}
+
+## Short calls from Михалыч during a shift (voiced, shown as a toast; see tools/voice_lines.py).
+const BANTER = [
+	"Михалыч на связи! Не гони, а то суп в сумке превратится в компот.",
+	"Слушай анекдот: курьер приехал вовремя. Всё, конец анекдота. Шучу, ты молодец!",
+	"Я тут кофе пью, а ты работаешь. Это называется наставничество, учись!",
+	"Если клиент не открывает — не грусти. Постучи, позвони, станцуй под окном. Шучу. Наверное.",
+	"Помню, в девяностые мы пиццу на санках возили. По асфальту. Летом. Эх, молодость!",
+	"Дождь, снег, метель — а заказы сами себя не довезут. Держись, боец!",
+	"Голубей не дави, они тут местные. У них профсоюз.",
+	"Чаевые — это как грибы: где вежливость, там и растут.",
+	"Звоню просто так. Скучно. Ладно, работай, работай.",
+	"Говорят, повар из «Сугои» рамен варит двое суток. А ты его довези за десять минут, ага.",
+	"На рынке тётя Галя опять всех кормит пробниками. Не задерживайся, а то вернёшься круглым.",
+	"Если устал — посиди на скамейке. Скамейка не уволит, а клиент подождёт. Немного.",
+	"Знаешь главное правило курьера? Сумку закрывай! Вчера один голубь уехал в «Берёзки» с пельменями.",
+	"Мой самокат в молодости назывался «ноги». И ничего, до сих пор ездят!",
+	"Говорят, в парке на пруду кто-то сделал тройной тулуп с шаурмой в руках. Это был не ты?",
+	"Электромобиль, конечно, вещь. Но настоящий курьер должен хоть раз промокнуть до нитки. Для характера!",
+]
 
 var world: Node
 var forced_given = false
+var _banter_left = []
 
 
 func setup(w: Node) -> void:
@@ -27,6 +50,8 @@ func setup(w: Node) -> void:
 		Game.state["unlocked"]["city"] = true
 	if chapter() >= 4 and not Game.unlocked("berezki"):
 		Game.state["unlocked"]["berezki"] = true
+	if chapter() >= 4 and not Game.unlocked("gastro"):
+		Game.state["unlocked"]["gastro"] = true
 
 
 func step() -> int:
@@ -140,6 +165,15 @@ func start_day() -> void:
 		world.banner("Деловой центр «Сити»", "Стеклянные башни, обеденный пик и щедрые чаевые. Но на входе — охрана, а у дверей — красная разметка: эвакуатор!")
 	elif chapter() == 4 and here() == "berezki" and progress("night") == 0:
 		world.banner("Спальный район «Берёзки»", "Одинаковые панельки, «корпус 3 строение 2» и лифты, которые ломаются. Ночью заказы дороже!")
+	elif chapter() >= 4 and here() == "old_town" and not Game.state.get("gastro_called", false):
+		_gastro_call()
+	elif here() == "gastro" and progress("gastro") == 0 and not Game.state.get("gastro_seen", false):
+		Game.state["gastro_seen"] = true
+		world.banner("Гастроквартал и Большой парк", "Крытый рынок, пельмени, рамен и блины, а за дорогой — парк с прудом. В парк на моторе нельзя: паркуйся у ворот!")
+	if world.daynight.snow_cover > 0.5 and not Game.state.get("snow_called", false) and step() >= 5:
+		Game.state["snow_called"] = true
+		world.get_tree().create_timer(5.0).timeout.connect(func(): mentor_call("Видал, какой снег навалил? Первый в этом году! Скользко — тормози заранее, на самокате вообще аккуратнее. Еда стынет быстрее, зато за снег доплачивают. И перчатки купи, руки отморозишь!",
+			"Снегопад!", "Скользко, еда остывает быстрее, батареи садятся. Зато оплата выше."))
 	_check_quests()
 
 
@@ -171,6 +205,17 @@ func talk_mentor() -> void:
 					"Охранник Виктор любит буррито. Подружишься — пропустит без звонков.",
 					"В «Берёзках» номера домов придумывал шутник. Смотри на большие цифры на стенах.",
 					"Ночью в «Берёзках» лифты ломаются чаще. Энергетик в сумке — твой лучший друг."]
+			if chapter() >= 5:
+				pass
+			tips += ["Электровелосипед — для ленивых умников: едет быстро, а ноги почти не устают.",
+				"Мопед хорош на брусчатке, но в парк и на тротуар на нём нельзя — оштрафуют.",
+				"На электромобиле не промокнешь, но парковаться придётся у тротуара и топать пешком."]
+			if Game.unlocked("gastro"):
+				tips += ["На рынке рыбу дают во льду. Не тяни — лёд тает, клиент ругается.",
+					"В Большом парке заказ ждут прямо у скамейки. Паркуйся у ворот и иди пешком."]
+			if world.daynight.snow_cover > 0.5:
+				tips += ["В снег на самокате — как на коньках. Широкие шины спасают!",
+					"Холодно — батареи садятся быстрее. Заряжайся почаще."]
 			if chapter() >= 5:
 				tips += ["Своё дело — это тоже доставка, только наоборот. Горжусь тобой, %s!" % ("сынок" if Game.state["look"].get("gender", "m") == "m" else "дочка")]
 			var t: String = tips[randi() % tips.size()]
@@ -251,10 +296,19 @@ func _start_chapter3() -> void:
 func _start_chapter4() -> void:
 	Game.state["chapter"] = 4
 	Game.state["unlocked"]["berezki"] = true
+	Game.state["unlocked"]["gastro"] = true
 	Game.save_game()
 	Sfx.play("level_up")
 	mentor_call("Ну ты даёшь, «Сити» покорил! Теперь ночные смены. Дорогу на «Берёзки» открыли — это за восточным концом проспекта. Ночью заказы дороже, но дворы тёмные, лифты ломаются, а номера домов... сам увидишь. Четыре ночные доставки — и поговорим о твоей мечте.",
 		"Глава 4. Ночные смены", "Дорога в «Берёзки» открыта. Ночью (после 20:00) — %d доставок." % NIGHT_GOAL)
+
+
+func _gastro_call() -> void:
+	Game.state["gastro_called"] = true
+	Game.state["unlocked"]["gastro"] = true
+	Game.save_game()
+	mentor_call("Слушай, на западном конце проспекта открыли Гастроквартал! Крытый рынок, пельменная, раменная, гриль, блинная — заказов море. А рядом Большой парк: там люди пикники устраивают, а зимой на пруду каток. Только на мопеде или машине в парк не пустят — пешком или на велике!",
+		"Гастроквартал открыт", "Езжай на запад по проспекту: рынок, рестораны и Большой парк.")
 
 
 func _start_chapter5() -> void:
@@ -308,8 +362,20 @@ func restaurant_income() -> int:
 	return inc
 
 
-func on_hour(_h: int) -> void:
+func on_hour(h: int) -> void:
 	_check_quests()
+	if step() >= 5 and h >= 9 and h <= 21 and randf() < 0.35 and world.screens.top_name() == "":
+		banter()
+
+
+func banter() -> void:
+	if _banter_left.is_empty():
+		_banter_left = BANTER.duplicate()
+		_banter_left.shuffle()
+	var line: String = _banter_left.pop_back()
+	Sfx.play("ring", 0.5)
+	world.toast(MENTOR + ": " + line, 6.0)
+	Sfx.say("mikhalych", line)
 
 
 # ---------------------------------------------------------------- order hooks
@@ -343,6 +409,8 @@ func on_deliver(o: Dictionary, res: Dictionary) -> void:
 	# chapter progress
 	if here() == "berezki":
 		_add_progress("berezki")
+	if here() == "gastro":
+		_add_progress("gastro")
 	if chapter() == 3 and here() == "city":
 		if _add_progress("city") >= CITY_GOAL:
 			world.get_tree().create_timer(2.5).timeout.connect(func(): _start_chapter4())
@@ -392,8 +460,12 @@ func _check_quests() -> void:
 		"no_lift": d == "berezki" and ch >= 4,
 		"hidden_corpus": d == "berezki" and ch >= 4 and progress("berezki") >= 1,
 		"night_gamers": d == "berezki" and ch >= 4 and hour >= 21.0,
+		"market_fish": d == "gastro" and ch >= 4,
+		"park_picnic": d == "gastro" and ch >= 4 and progress("gastro") >= 1 and world.daynight.snow_cover < 0.5,
+		"skater_cocoa": d == "gastro" and ch >= 4 and world.daynight.snow_cover > 0.5,
 	}
-	for q in ["critic", "guard_coffee", "cake", "no_lift", "night_gamers", "hidden_corpus", "office_lunch", "board_lunch"]:
+	for q in ["critic", "guard_coffee", "cake", "no_lift", "night_gamers", "hidden_corpus", "office_lunch", "board_lunch",
+			"market_fish", "skater_cocoa", "park_picnic"]:
 		if data.has(q) and bool(avail.get(q, false)) and Game.quest_state(q) == "locked":
 			qs[q] = "offered"
 			_quest_offer(q)
@@ -429,6 +501,12 @@ func _quest_offer(q: String) -> void:
 			o["limit"] = float(o["limit"]) + 90.0
 		"guard_coffee":
 			o["floor"] = 1
+		"market_fish":
+			o["limit"] = float(o["limit"]) * 0.85
+		"park_picnic":
+			o["item"] = ["picnic", "Шашлык для пикника", "hot", 1.5]
+		"skater_cocoa":
+			o["item"] = ["cocoa", "Какао на всю команду", "drink_hot", 1.2]
 		"critic":
 			o["pay"] = float(o["pay"]) * 3.0
 			o["limit"] = float(o["limit"]) + 30.0

@@ -23,6 +23,37 @@ var gh = 0
 var gorigin = Vector3.ZERO
 var cell = 2.0
 var water_mat: ShaderMaterial
+static var snow_mat: ShaderMaterial    # shared next_pass on every static material during a snow day
+var _snow_on = false
+const SNOW_SHADER = """
+shader_type spatial;
+render_mode blend_mix, depth_draw_never, cull_back, specular_schlick_ggx;
+uniform float amount = 1.0;
+varying vec3 wn;
+varying vec3 wp;
+float h(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+float n2(vec2 p) {
+	vec2 i = floor(p); vec2 f = fract(p); vec2 u = f * f * (3.0 - 2.0 * f);
+	return mix(mix(h(i), h(i + vec2(1, 0)), u.x), mix(h(i + vec2(0, 1)), h(i + vec2(1, 1)), u.x), u.y);
+}
+void vertex() {
+	wn = normalize((MODEL_MATRIX * vec4(NORMAL, 0.0)).xyz);
+	wp = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
+	VERTEX += NORMAL * 0.012;
+}
+void fragment() {
+	float up = smoothstep(0.45, 0.8, wn.y);
+	mat2 r = mat2(vec2(0.8, -0.6), vec2(0.6, 0.8));
+	vec2 q = wp.xz;
+	float n = n2(q * 0.21) * 0.5 + n2(r * q * 0.53 + 7.3) * 0.3 + n2(r * r * q * 1.7 + 3.1) * 0.2;
+	float roofish = smoothstep(1.5, 3.0, wp.y);          // roofs and high ledges: full cover
+	float a = up * mix(smoothstep(0.42, 0.62, n + amount * 0.12), 1.0, roofish) * amount * 0.92;
+	ALBEDO = mix(vec3(0.74, 0.8, 0.88), vec3(0.9, 0.93, 0.97), n);
+	ROUGHNESS = 0.75;
+	SPECULAR = 0.3;
+	ALPHA = clamp(a, 0.0, 0.97);
+}
+"""
 var scene_cache = {}
 var instances: Array = []      # Node3D per layout instance
 var plates: Array[Label3D] = []
@@ -172,6 +203,57 @@ func _optimize(n: Node3D, it: Dictionary) -> void:
 
 
 var _far: Array = []      # [MeshInstance3D, kind]
+
+
+## Snow cover: a next_pass on the static level materials paints snow on up-facing surfaces (roofs, ground, benches).
+## The pond (MESH named pond*) turns to ice.
+func set_snow(v: float) -> void:
+	if snow_mat == null:
+		snow_mat = ShaderMaterial.new()
+		var sh = Shader.new()
+		sh.code = SNOW_SHADER
+		snow_mat.shader = sh
+		snow_mat.render_priority = 1
+	snow_mat.set_shader_parameter("amount", v)
+	var on = v > 0.01
+	if on == _snow_on and not on:
+		_clear_snow_leftovers()
+		return
+	_snow_on = on
+	for mi in find_children("*", "MeshInstance3D", true, false):
+		var m3: MeshInstance3D = mi
+		if m3.mesh == null:
+			continue
+		if String(m3.name).begins_with("pond"):
+			var ice = StandardMaterial3D.new()
+			ice.albedo_color = Color("cfe8f2")
+			ice.roughness = 0.12
+			ice.metallic_specular = 0.8
+			m3.material_override = ice if on else null
+			continue
+		for si in m3.mesh.get_surface_count():
+			var mat = m3.get_surface_override_material(si)
+			if mat == null:
+				mat = m3.mesh.surface_get_material(si)
+			if mat is BaseMaterial3D:
+				var bm: BaseMaterial3D = mat
+				if bm.transparency != BaseMaterial3D.TRANSPARENCY_DISABLED or bm.emission_enabled:
+					continue
+				bm.next_pass = snow_mat if on else null
+
+
+## The glTF materials are cached between level loads: drop a snow pass left from an earlier snowy day.
+func _clear_snow_leftovers() -> void:
+	if snow_mat == null:
+		return
+	for mi in find_children("*", "MeshInstance3D", true, false):
+		var m3: MeshInstance3D = mi
+		if m3.mesh == null:
+			continue
+		for si in m3.mesh.get_surface_count():
+			var mat = m3.mesh.surface_get_material(si)
+			if mat is BaseMaterial3D and (mat as BaseMaterial3D).next_pass == snow_mat:
+				(mat as BaseMaterial3D).next_pass = null
 
 
 func apply_quality(q: int) -> void:

@@ -1,0 +1,1783 @@
+{
+ "npcs": [
+  {
+   "id": "npc0",
+   "model": "mom",
+   "pos": [
+    -63.0,
+    0.0,
+    -59.0
+   ],
+   "yaw": -88.0397940647355,
+   "behaviour": "phone",
+   "radius": 27.965959400638763,
+   "schedule": [
+    17,
+    23
+   ],
+   "anim": "phone_call"
+  },
+  {
+   "id": "npc1",
+   "model": "tourist",
+   "pos": [
+    -89.0,
+    0.0,
+    13.0
+   ],
+   "yaw": 106.26968360365078,
+   "behaviour": "wander",
+   "radius": 28.72771734247357,
+   "schedule": [
+    7,
+    12
+   ],
+   "anim": "walk"
+  },
+  {
+   "id": "npc2",
+   "model": "oldman",
+   "pos": [
+    89.0,
+    0.0,
+    -85.0
+   ],
+   "yaw": 54.73141083148863,
+   "behaviour": "wander",
+   "radius": 13.388284102600869,
+   "schedule": [
+    17,
+    23
+   ],
+   "anim": "walk"
+  },
+  {
+   "id": "npc3",
+   "model": "office",
+   "pos": [
+    83.0,
+    0.0,
+    -33.0
+   ],
+   "yaw": -169.5581178178987,
+   "behaviour": "stand",
+   "radius": 13.36855951518002,
+   "schedule": [
+    8,
+    20
+   ],
+   "anim": "idle"
+  },
+  {
+   "id": "npc4",
+   "model": "tourist",
+   "pos": [
+    1.0,
+    0.0,
+    -17.0
+   ],
+   "yaw": 99.34508427685807,
+   "behaviour": "wander",
+   "radius": 20.125381033379647,
+   "schedule": [
+    8,
+    20
+   ],
+   "anim": "walk"
+  },
+  {
+   "id": "npc5",
+   "model": "grandma",
+   "pos": [
+    95.0,
+    0.0,
+    47.0
+   ],
+   "yaw": 53.630839129292724,
+   "behaviour": "wander",
+   "radius": 25.791898778989196,
+   "schedule": [
+    17,
+    23
+   ],
+   "anim": "walk"
+  },
+  {
+   "id": "npc6",
+   "model": "tourist",
+   "pos": [
+    77.0,
+    0.0,
+    73.0
+   ],
+   "yaw": -139.24585272486803,
+   "behaviour": "wander",
+   "radius": 23.484720025107425,
+   "schedule": [
+    8,
+    20
+   ],
+   "anim": "walk"
+  },
+  {
+   "id": "npc7",
+   "model": "oldman",
+   "pos": [
+    -87.0,
+    0.0,
+    -19.0
+   ],
+   "yaw": 132.64036483143428,
+   "behaviour": "stand",
+   "radius": 25.451604763676755,
+   "schedule": [
+    7,
+    23
+   ],
+   "anim": "idle"
+  },
+  {
+   "id": "npc8",
+   "model": "student",
+   "pos": [
+    -1.0,
+    0.0,
+    7.0
+   ],
+   "yaw": 15.753909324934966,
+   "behaviour": "stand",
+   "radius": 16.83319521092038,
+   "schedule": [
+    10,
+    22
+   ],
+   "anim": "idle"
+  },
+  {
+   "id": "npc9",
+   "model": "tourist",
+   "pos": [
+    -109.0,
+    0.0,
+    -47.0
+   ],
+   "yaw": -90.24094280063282,
+   "behaviour": "wander",
+   "radius": 27.587463768003538,
+   "schedule": [
+    7,
+    23
+   ],
+   "anim": "walk"
+  },
+  {
+   "id": "npc10",
+   "model": "tourist",
+   "pos": [
+    53.0,
+    0.0,
+    -85.0
+   ],
+   "yaw": -101.97727183301467,
+   "behaviour": "stand",
+   "radius": 12.782856378478282,
+   "schedule": [
+    17,
+    23
+   ],
+   "anim": "idle"
+  },
+  {
+   "id": "npc11",
+   "model": "student",
+   "pos": [
+    93.0,
+    0.0,
+    35.0
+   ],
+   "yaw": -114.45276103999966,
+   "behaviour": "stand",
+   "radius": 29.280251204497464,
+   "schedule": [
+    7,
+    23
+   ],
+   "anim": "idle"
+  },
+  {
+   "id": "npc12",
+   "model": "tourist",
+   "pos": [
+    -111.0,
+    0.0,
+    -93.0
+   ],
+   "yaw": -39.80256782876316,
+   "behaviour": "wander",
+   "radius": 13.953406944171107,
+   "schedule": [
+    7,
+    12
+   ],
+   "anim": "walk"
+  },
+  {
+   "id": "npc13",
+   "model": "student",
+   "pos": [
+    89.0,
+    0.0,
+    -87.0
+   ],
+   "yaw": 106.97291691523361,
+   "behaviour": "wander",
+   "radius": 27.84950436405891,
+   "schedule": [
+    7,
+    23
+   ],
+   "anim": "walk"
+  },
+  {
+   "id": "npc14",
+   "model": "student",
+   "pos": [
+    1.0,
+    0.0,
+    73.0
+   ],
+   "yaw": 42.45342658670921,
+   "behaviour": "phone",
+   "radius": 20.016067785745346,
+   "schedule": [
+    7,
+    23
+   ],
+   "anim": "phone_call"
+  },
+  {
+   "id": "npc15",
+   "model": "grandma",
+   "pos": [
+    -35.0,
+    0.0,
+    -11.0
+   ],
+   "yaw": -134.3882762819029,
+   "behaviour": "stand",
+   "radius": 28.418526380982318,
+   "schedule": [
+    7,
+    12
+   ],
+   "anim": "idle"
+  },
+  {
+   "id": "npc16",
+   "model": "office",
+   "pos": [
+    -105.0,
+    0.0,
+    97.0
+   ],
+   "yaw": 170.04142428715306,
+   "behaviour": "wander",
+   "radius": 13.843289857911696,
+   "schedule": [
+    17,
+    23
+   ],
+   "anim": "walk"
+  },
+  {
+   "id": "npc17",
+   "model": "tourist",
+   "pos": [
+    -87.0,
+    0.0,
+    97.0
+   ],
+   "yaw": -104.59570230175756,
+   "behaviour": "phone",
+   "radius": 13.451103857117214,
+   "schedule": [
+    8,
+    20
+   ],
+   "anim": "phone_call"
+  },
+  {
+   "id": "npc18",
+   "model": "grandma",
+   "pos": [
+    -85.0,
+    0.0,
+    51.0
+   ],
+   "yaw": 165.64575607829983,
+   "behaviour": "wander",
+   "radius": 15.399890177705991,
+   "schedule": [
+    7,
+    23
+   ],
+   "anim": "walk"
+  },
+  {
+   "id": "npc19",
+   "model": "oldman",
+   "pos": [
+    -109.0,
+    0.0,
+    69.0
+   ],
+   "yaw": 134.06679555724867,
+   "behaviour": "phone",
+   "radius": 24.902994821713946,
+   "schedule": [
+    8,
+    20
+   ],
+   "anim": "phone_call"
+  },
+  {
+   "id": "npc20",
+   "model": "oldman",
+   "pos": [
+    -1.0,
+    0.0,
+    31.0
+   ],
+   "yaw": -67.0855076154167,
+   "behaviour": "phone",
+   "radius": 12.426712493398792,
+   "schedule": [
+    7,
+    23
+   ],
+   "anim": "phone_call"
+  },
+  {
+   "id": "npc21",
+   "model": "oldman",
+   "pos": [
+    -13.0,
+    0.0,
+    57.0
+   ],
+   "yaw": 14.120448793491818,
+   "behaviour": "stand",
+   "radius": 13.234794379938757,
+   "schedule": [
+    8,
+    20
+   ],
+   "anim": "idle"
+  },
+  {
+   "id": "npc22",
+   "model": "grandma",
+   "pos": [
+    95.0,
+    0.0,
+    -73.0
+   ],
+   "yaw": 45.26287044376599,
+   "behaviour": "wander",
+   "radius": 26.913316350299826,
+   "schedule": [
+    10,
+    22
+   ],
+   "anim": "walk"
+  },
+  {
+   "id": "npc23",
+   "model": "grandma",
+   "pos": [
+    -111.0,
+    0.0,
+    63.0
+   ],
+   "yaw": 158.75136039167967,
+   "behaviour": "phone",
+   "radius": 25.492500020222906,
+   "schedule": [
+    7,
+    12
+   ],
+   "anim": "phone_call"
+  },
+  {
+   "id": "npc24",
+   "model": "tourist",
+   "pos": [
+    47.0,
+    0.0,
+    -75.0
+   ],
+   "yaw": -109.12354418662827,
+   "behaviour": "wander",
+   "radius": 27.280721199767072,
+   "schedule": [
+    7,
+    23
+   ],
+   "anim": "walk"
+  },
+  {
+   "id": "npc25",
+   "model": "grandma",
+   "pos": [
+    97.0,
+    0.0,
+    7.0
+   ],
+   "yaw": -72.43599677260761,
+   "behaviour": "wander",
+   "radius": 14.200612217511281,
+   "schedule": [
+    17,
+    23
+   ],
+   "anim": "walk"
+  },
+  {
+   "id": "npc26",
+   "model": "student",
+   "pos": [
+    -11.0,
+    0.0,
+    13.0
+   ],
+   "yaw": -30.633583815811733,
+   "behaviour": "phone",
+   "radius": 17.57888478031305,
+   "schedule": [
+    7,
+    23
+   ],
+   "anim": "phone_call"
+  },
+  {
+   "id": "npc27",
+   "model": "grandma",
+   "pos": [
+    31.0,
+    0.0,
+    73.0
+   ],
+   "yaw": -85.02770197801071,
+   "behaviour": "wander",
+   "radius": 18.67144988651687,
+   "schedule": [
+    7,
+    23
+   ],
+   "anim": "walk"
+  },
+  {
+   "id": "npc28",
+   "model": "student",
+   "pos": [
+    -65.0,
+    0.0,
+    17.0
+   ],
+   "yaw": -71.5107237229935,
+   "behaviour": "wander",
+   "radius": 15.392746377693049,
+   "schedule": [
+    17,
+    23
+   ],
+   "anim": "walk"
+  },
+  {
+   "id": "npc29",
+   "model": "tourist",
+   "pos": [
+    -71.0,
+    0.0,
+    -55.0
+   ],
+   "yaw": 31.01085306121351,
+   "behaviour": "wander",
+   "radius": 12.061388718709976,
+   "schedule": [
+    10,
+    22
+   ],
+   "anim": "walk"
+  },
+  {
+   "id": "npc30",
+   "model": "tourist",
+   "pos": [
+    -71.0,
+    0.0,
+    -53.0
+   ],
+   "yaw": 64.05632983716885,
+   "behaviour": "wander",
+   "radius": 25.61442666656295,
+   "schedule": [
+    17,
+    23
+   ],
+   "anim": "walk"
+  },
+  {
+   "id": "npc31",
+   "model": "office",
+   "pos": [
+    -39.0,
+    0.0,
+    17.0
+   ],
+   "yaw": -156.23191780161224,
+   "behaviour": "stand",
+   "radius": 24.18895822432384,
+   "schedule": [
+    10,
+    22
+   ],
+   "anim": "idle"
+  },
+  {
+   "id": "npc32",
+   "model": "student",
+   "pos": [
+    1.0,
+    0.0,
+    15.0
+   ],
+   "yaw": 114.66650687294549,
+   "behaviour": "phone",
+   "radius": 18.500140405871413,
+   "schedule": [
+    7,
+    23
+   ],
+   "anim": "phone_call"
+  },
+  {
+   "id": "npc33",
+   "model": "student",
+   "pos": [
+    -85.0,
+    0.0,
+    -23.0
+   ],
+   "yaw": 70.71113075081644,
+   "behaviour": "wander",
+   "radius": 20.19754430248878,
+   "schedule": [
+    17,
+    23
+   ],
+   "anim": "walk"
+  },
+  {
+   "id": "tour0_0",
+   "model": "tourist",
+   "pos": [
+    41.6,
+    0.0,
+    -18.0
+   ],
+   "yaw": 164.10282842490477,
+   "behaviour": "photo",
+   "radius": 3,
+   "schedule": [
+    9,
+    19
+   ],
+   "anim": "photo"
+  },
+  {
+   "id": "tour0_1",
+   "model": "tourist",
+   "pos": [
+    39.19224623264023,
+    0.0,
+    -16.618865013361802
+   ],
+   "yaw": 21.766923762631336,
+   "behaviour": "photo",
+   "radius": 3,
+   "schedule": [
+    9,
+    19
+   ],
+   "anim": "photo"
+  },
+  {
+   "id": "tour0_2",
+   "model": "tourist",
+   "pos": [
+    39.21558268585488,
+    0.0,
+    -19.394521235861742
+   ],
+   "yaw": -129.91113155855288,
+   "behaviour": "photo",
+   "radius": 3,
+   "schedule": [
+    9,
+    19
+   ],
+   "anim": "photo"
+  },
+  {
+   "id": "tour1_0",
+   "model": "tourist",
+   "pos": [
+    -60.4,
+    0.0,
+    26.0
+   ],
+   "yaw": -75.49292339696358,
+   "behaviour": "photo",
+   "radius": 3,
+   "schedule": [
+    9,
+    19
+   ],
+   "anim": "photo"
+  },
+  {
+   "id": "tour1_1",
+   "model": "tourist",
+   "pos": [
+    -62.80775376735977,
+    0.0,
+    27.381134986638198
+   ],
+   "yaw": 69.3524001805375,
+   "behaviour": "photo",
+   "radius": 3,
+   "schedule": [
+    9,
+    19
+   ],
+   "anim": "photo"
+  },
+  {
+   "id": "tour1_2",
+   "model": "tourist",
+   "pos": [
+    -62.78441731414512,
+    0.0,
+    24.605478764138258
+   ],
+   "yaw": 135.1861084491636,
+   "behaviour": "photo",
+   "radius": 3,
+   "schedule": [
+    9,
+    19
+   ],
+   "anim": "photo"
+  },
+  {
+   "id": "tour2_0",
+   "model": "tourist",
+   "pos": [
+    -58.4,
+    0.0,
+    -34.0
+   ],
+   "yaw": -169.42524866624663,
+   "behaviour": "photo",
+   "radius": 3,
+   "schedule": [
+    9,
+    19
+   ],
+   "anim": "photo"
+  },
+  {
+   "id": "tour2_1",
+   "model": "tourist",
+   "pos": [
+    -60.80775376735977,
+    0.0,
+    -32.6188650133618
+   ],
+   "yaw": 158.20960783282834,
+   "behaviour": "photo",
+   "radius": 3,
+   "schedule": [
+    9,
+    19
+   ],
+   "anim": "photo"
+  },
+  {
+   "id": "tour2_2",
+   "model": "tourist",
+   "pos": [
+    -60.78441731414512,
+    0.0,
+    -35.39452123586174
+   ],
+   "yaw": 111.45103143298786,
+   "behaviour": "photo",
+   "radius": 3,
+   "schedule": [
+    9,
+    19
+   ],
+   "anim": "photo"
+  },
+  {
+   "id": "cafe0",
+   "model": "mom",
+   "pos": [
+    20.0,
+    0.0,
+    -35.25
+   ],
+   "yaw": 180.0,
+   "behaviour": "sit",
+   "radius": 0,
+   "schedule": [
+    9,
+    21
+   ],
+   "anim": "sit"
+  },
+  {
+   "id": "cafe1",
+   "model": "tourist",
+   "pos": [
+    20.0,
+    0.0,
+    -36.75
+   ],
+   "yaw": -0.0,
+   "behaviour": "sit",
+   "radius": 0,
+   "schedule": [
+    12,
+    23
+   ],
+   "anim": "sit"
+  },
+  {
+   "id": "cafe3",
+   "model": "tourist",
+   "pos": [
+    26.0,
+    0.0,
+    -30.75
+   ],
+   "yaw": -0.0,
+   "behaviour": "sit",
+   "radius": 0,
+   "schedule": [
+    12,
+    23
+   ],
+   "anim": "sip_coffee"
+  },
+  {
+   "id": "cafe4",
+   "model": "student",
+   "pos": [
+    54.0,
+    0.0,
+    -35.25
+   ],
+   "yaw": 180.0,
+   "behaviour": "sit",
+   "radius": 0,
+   "schedule": [
+    9,
+    21
+   ],
+   "anim": "sit"
+  },
+  {
+   "id": "cafe6",
+   "model": "tourist",
+   "pos": [
+    59.25,
+    0.0,
+    -30.0
+   ],
+   "yaw": 90.0,
+   "behaviour": "sit",
+   "radius": 0,
+   "schedule": [
+    9,
+    21
+   ],
+   "anim": "sip_coffee"
+  },
+  {
+   "id": "cafe7",
+   "model": "office",
+   "pos": [
+    60.75,
+    0.0,
+    -30.0
+   ],
+   "yaw": -90.0,
+   "behaviour": "sit",
+   "radius": 0,
+   "schedule": [
+    8,
+    14
+   ],
+   "anim": "sit"
+  },
+  {
+   "id": "cafe9",
+   "model": "office",
+   "pos": [
+    20.75,
+    0.0,
+    -24.0
+   ],
+   "yaw": -90.0,
+   "behaviour": "sit",
+   "radius": 0,
+   "schedule": [
+    12,
+    23
+   ],
+   "anim": "sit"
+  },
+  {
+   "id": "cafe11",
+   "model": "mom",
+   "pos": [
+    60.75,
+    0.0,
+    -24.0
+   ],
+   "yaw": -90.0,
+   "behaviour": "sit",
+   "radius": 0,
+   "schedule": [
+    9,
+    21
+   ],
+   "anim": "sit"
+  },
+  {
+   "id": "cafe12",
+   "model": "mom",
+   "pos": [
+    18.25,
+    0.0,
+    4.0
+   ],
+   "yaw": 90.0,
+   "behaviour": "sit",
+   "radius": 0,
+   "schedule": [
+    9,
+    21
+   ],
+   "anim": "sit"
+  },
+  {
+   "id": "cafe13",
+   "model": "office",
+   "pos": [
+    19.75,
+    0.0,
+    4.0
+   ],
+   "yaw": -90.0,
+   "behaviour": "sit",
+   "radius": 0,
+   "schedule": [
+    8,
+    14
+   ],
+   "anim": "sip_coffee"
+  },
+  {
+   "id": "cafe14",
+   "model": "office",
+   "pos": [
+    39.25,
+    0.0,
+    4.0
+   ],
+   "yaw": 90.0,
+   "behaviour": "sit",
+   "radius": 0,
+   "schedule": [
+    8,
+    14
+   ],
+   "anim": "sip_coffee"
+  },
+  {
+   "id": "cafe15",
+   "model": "tourist",
+   "pos": [
+    40.75,
+    0.0,
+    4.0
+   ],
+   "yaw": -90.0,
+   "behaviour": "sit",
+   "radius": 0,
+   "schedule": [
+    8,
+    14
+   ],
+   "anim": "sip_coffee"
+  },
+  {
+   "id": "cafe16",
+   "model": "tourist",
+   "pos": [
+    60.25,
+    0.0,
+    4.0
+   ],
+   "yaw": 90.0,
+   "behaviour": "sit",
+   "radius": 0,
+   "schedule": [
+    8,
+    14
+   ],
+   "anim": "sip_coffee"
+  },
+  {
+   "id": "cafe17",
+   "model": "mom",
+   "pos": [
+    61.75,
+    0.0,
+    4.0
+   ],
+   "yaw": -90.0,
+   "behaviour": "sit",
+   "radius": 0,
+   "schedule": [
+    8,
+    14
+   ],
+   "anim": "sit"
+  }
+ ],
+ "cooks": [
+  {
+   "id": "cook_veg",
+   "model": "cook",
+   "pos": [
+    31.0,
+    0.0,
+    -50.5
+   ],
+   "yaw": 0.0,
+   "anim": "cook_idle",
+   "restaurant": "veg"
+  },
+  {
+   "id": "cook_fish",
+   "model": "cook",
+   "pos": [
+    40.0,
+    0.0,
+    -50.5
+   ],
+   "yaw": 0.0,
+   "anim": "cook_idle",
+   "restaurant": "fish"
+  },
+  {
+   "id": "cook_cheese",
+   "model": "cook",
+   "pos": [
+    49.0,
+    0.0,
+    -50.5
+   ],
+   "yaw": 0.0,
+   "anim": "cook_idle",
+   "restaurant": "cheese"
+  },
+  {
+   "id": "cook_dumplings",
+   "model": "cook",
+   "pos": [
+    12.9,
+    0.0,
+    11.4
+   ],
+   "yaw": 180.0,
+   "anim": "cook_idle",
+   "restaurant": "dumplings"
+  },
+  {
+   "id": "cook_ramen",
+   "model": "cook",
+   "pos": [
+    26.9,
+    0.0,
+    11.4
+   ],
+   "yaw": 180.0,
+   "anim": "cook_idle",
+   "restaurant": "ramen"
+  },
+  {
+   "id": "cook_grill",
+   "model": "cook",
+   "pos": [
+    54.9,
+    0.0,
+    11.4
+   ],
+   "yaw": 180.0,
+   "anim": "cook_idle",
+   "restaurant": "grill"
+  },
+  {
+   "id": "cook_pancakes",
+   "model": "cook",
+   "pos": [
+    68.9,
+    0.0,
+    11.4
+   ],
+   "yaw": 180.0,
+   "anim": "cook_idle",
+   "restaurant": "pancakes"
+  }
+ ],
+ "mentor": null,
+ "police": [
+  {
+   "id": "police0",
+   "model": "police",
+   "pos": [
+    110.0,
+    0.0,
+    14.0
+   ],
+   "yaw": 0.0,
+   "behaviour": "post",
+   "see_radius": 14.0,
+   "anim": "idle"
+  },
+  {
+   "id": "police1",
+   "model": "police",
+   "pos": [
+    40.0,
+    0.0,
+    -0.0
+   ],
+   "yaw": 0,
+   "behaviour": "patrol",
+   "route": [
+    [
+     4,
+     0.0,
+     -2
+    ],
+    [
+     78,
+     0.0,
+     -2
+    ],
+    [
+     78,
+     0.0,
+     40
+    ],
+    [
+     4,
+     0.0,
+     40
+    ]
+   ],
+   "see_radius": 12.0,
+   "anim": "walk",
+   "schedule": [
+    9,
+    21
+   ]
+  }
+ ],
+ "rivals": [
+  {
+   "id": "rival0",
+   "model": "courier_m",
+   "jacket": "#ef6a5b",
+   "vehicle": "scooter",
+   "pos": [
+    0,
+    0.0,
+    -73.5
+   ],
+   "company": "Молния",
+   "speed": 6.5
+  },
+  {
+   "id": "rival1",
+   "model": "courier_f",
+   "jacket": "#9a6fd1",
+   "vehicle": "scooter",
+   "pos": [
+    40,
+    0.0,
+    73.5
+   ],
+   "company": "Молния",
+   "speed": 7.1
+  },
+  {
+   "id": "rival2",
+   "model": "courier_m",
+   "jacket": "#f2c230",
+   "vehicle": "scooter",
+   "pos": [
+    94,
+    0.0,
+    -40
+   ],
+   "company": "Молния",
+   "speed": 7.7
+  }
+ ],
+ "thieves": [
+  {
+   "id": "thief0",
+   "model": "thief",
+   "pos": [
+    20,
+    0.0,
+    40
+   ],
+   "vehicle": "bicycle"
+  },
+  {
+   "id": "thief1",
+   "model": "thief",
+   "pos": [
+    70,
+    0.0,
+    -40
+   ],
+   "vehicle": "bicycle"
+  },
+  {
+   "id": "thief2",
+   "model": "thief",
+   "pos": [
+    100,
+    0.0,
+    30
+   ],
+   "vehicle": "bicycle"
+  }
+ ],
+ "traffic": {
+  "models": [
+   "car_hatch",
+   "car_hatch",
+   "car_taxi",
+   "car_van",
+   "bus"
+  ],
+  "paints": [
+   "#ef6a5b",
+   "#7ec3e8",
+   "#8fd3b0",
+   "#f6b98a",
+   "#b9a3d8",
+   "#f7f3ea",
+   "#5d6670"
+  ],
+  "count_by_hour": [
+   [
+    0,
+    3
+   ],
+   [
+    7,
+    9
+   ],
+   [
+    10,
+    7
+   ],
+   [
+    12,
+    9
+   ],
+   [
+    17,
+    10
+   ],
+   [
+    20,
+    6
+   ],
+   [
+    23,
+    3
+   ]
+  ],
+  "speed": 8.0,
+  "tram": null
+ },
+ "fx": [
+  {
+   "kind": "steam",
+   "pos": [
+    31.0,
+    3.2,
+    -46.3
+   ],
+   "scale": 0.8
+  },
+  {
+   "kind": "steam",
+   "pos": [
+    40.0,
+    3.2,
+    -46.3
+   ],
+   "scale": 0.8
+  },
+  {
+   "kind": "steam",
+   "pos": [
+    49.0,
+    3.2,
+    -46.3
+   ],
+   "scale": 0.8
+  },
+  {
+   "kind": "steam",
+   "pos": [
+    12.9,
+    3.2,
+    9.3
+   ],
+   "scale": 0.8
+  },
+  {
+   "kind": "steam",
+   "pos": [
+    26.9,
+    3.2,
+    9.3
+   ],
+   "scale": 0.8
+  },
+  {
+   "kind": "steam",
+   "pos": [
+    54.9,
+    3.2,
+    9.3
+   ],
+   "scale": 0.8
+  },
+  {
+   "kind": "steam",
+   "pos": [
+    68.9,
+    3.2,
+    9.3
+   ],
+   "scale": 0.8
+  },
+  {
+   "kind": "fountain",
+   "pos": [
+    39.4,
+    3.0,
+    -30.0
+   ],
+   "scale": 1.0
+  },
+  {
+   "kind": "sparks",
+   "pos": [
+    109.0,
+    0.8,
+    -21.5
+   ],
+   "scale": 0.6,
+   "schedule": [
+    9,
+    18
+   ]
+  },
+  {
+   "kind": "steam",
+   "pos": [
+    101,
+    4.3,
+    -19.2
+   ],
+   "scale": 0.5
+  },
+  {
+   "kind": "pigeons",
+   "pos": [
+    -10,
+    0,
+    -2
+   ],
+   "scale": 1.0,
+   "count": 6
+  },
+  {
+   "kind": "pigeons",
+   "pos": [
+    12,
+    0,
+    6
+   ],
+   "scale": 1.0,
+   "count": 6
+  },
+  {
+   "kind": "pigeons",
+   "pos": [
+    0,
+    0,
+    70
+   ],
+   "scale": 1.0,
+   "count": 6
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    89.0,
+    0.03,
+    77.0
+   ],
+   "scale": 1.1394661603818002,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    63.0,
+    0.03,
+    -49.0
+   ],
+   "scale": 1.634944429134023,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    7.0,
+    0.03,
+    -49.0
+   ],
+   "scale": 2.244455172803001,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    81.0,
+    0.03,
+    93.0
+   ],
+   "scale": 1.950310130745806,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    105.0,
+    0.03,
+    99.0
+   ],
+   "scale": 1.522399840810135,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    91.0,
+    0.03,
+    -39.0
+   ],
+   "scale": 1.3235473999360394,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    41.0,
+    0.03,
+    -77.0
+   ],
+   "scale": 1.8749803952447257,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    17.0,
+    0.03,
+    29.0
+   ],
+   "scale": 1.0503985335784376,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    71.0,
+    0.03,
+    -83.0
+   ],
+   "scale": 1.1184845064474904,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    19.0,
+    0.03,
+    95.0
+   ],
+   "scale": 1.9492783335869561,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    -65.0,
+    0.03,
+    -25.0
+   ],
+   "scale": 1.8239791609089868,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    73.0,
+    0.03,
+    83.0
+   ],
+   "scale": 1.2647260818463213,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    61.0,
+    0.03,
+    -89.0
+   ],
+   "scale": 2.0537124116259675,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    17.0,
+    0.03,
+    81.0
+   ],
+   "scale": 1.0908271688357603,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    71.0,
+    0.03,
+    -7.0
+   ],
+   "scale": 1.874439640777844,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    55.0,
+    0.03,
+    -67.0
+   ],
+   "scale": 1.7497968097364507,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    -5.0,
+    0.03,
+    99.0
+   ],
+   "scale": 1.9849623254373947,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    107.0,
+    0.03,
+    85.0
+   ],
+   "scale": 1.4673610815289648,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    5.0,
+    0.03,
+    1.0
+   ],
+   "scale": 1.011998662720539,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    51.0,
+    0.03,
+    -37.0
+   ],
+   "scale": 1.8263433263302722,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    87.0,
+    0.03,
+    -17.0
+   ],
+   "scale": 2.3808407401258354,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    69.0,
+    0.03,
+    65.0
+   ],
+   "scale": 1.1487294230592562,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    77.0,
+    0.03,
+    -5.0
+   ],
+   "scale": 1.9397315928626286,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    101.0,
+    0.03,
+    -37.0
+   ],
+   "scale": 2.091978411236062,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    29.0,
+    0.03,
+    45.0
+   ],
+   "scale": 2.3561574392737166,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    97.0,
+    0.03,
+    73.0
+   ],
+   "scale": 1.1548488905565666,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    25.0,
+    0.03,
+    69.0
+   ],
+   "scale": 1.1044869535668433,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    3.0,
+    0.03,
+    -99.0
+   ],
+   "scale": 2.3666706540850617,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    61.0,
+    0.03,
+    -13.0
+   ],
+   "scale": 1.1450681748798393,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    87.0,
+    0.03,
+    101.0
+   ],
+   "scale": 1.654512994566383,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    9.0,
+    0.03,
+    -59.0
+   ],
+   "scale": 1.2809516423738276,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    -109.0,
+    0.03,
+    -97.0
+   ],
+   "scale": 1.1135897601441622,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    75.0,
+    0.03,
+    107.0
+   ],
+   "scale": 1.3589105089656854,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    85.0,
+    0.03,
+    -57.0
+   ],
+   "scale": 1.9558952530942904,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    107.0,
+    0.03,
+    105.0
+   ],
+   "scale": 1.6149581488562412,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    105.0,
+    0.03,
+    -89.0
+   ],
+   "scale": 1.0311275373770459,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    89.0,
+    0.03,
+    77.0
+   ],
+   "scale": 1.7272224271294352,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    51.0,
+    0.03,
+    -27.0
+   ],
+   "scale": 1.0809245918577033,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    31.0,
+    0.03,
+    25.0
+   ],
+   "scale": 1.6658091186903081,
+   "weather": "rain"
+  },
+  {
+   "kind": "puddle",
+   "pos": [
+    -89.0,
+    0.03,
+    3.0
+   ],
+   "scale": 1.8473544018327066,
+   "weather": "rain"
+  },
+  {
+   "kind": "heat_haze",
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "scale": 1.0,
+   "weather": "heat"
+  }
+ ],
+ "guards": [],
+ "player": {
+  "pos": [
+   104.0,
+   0.0,
+   -12.0
+  ],
+  "yaw": 0.0,
+  "vehicle": "bicycle"
+ }
+}

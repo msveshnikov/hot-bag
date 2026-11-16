@@ -685,7 +685,12 @@ var _garage_tab = "vehicle"
 func open_garage(tab = "") -> void:
 	if tab != "":
 		_garage_tab = tab
-	_shop_window("Мастерская", "Транспорт, улучшения, экипировка и внешность курьера.", _garage_build, "garage")
+	close_named("garage")
+	GarageScreen.tab = _garage_tab
+	var gs = GarageScreen.new()
+	gs.world = world
+	gs.screens = self
+	push("garage", gs)
 
 
 func _garage_build(list: VBoxContainer) -> void:
@@ -741,6 +746,19 @@ func _garage_vehicle(list: VBoxContainer) -> void:
 	list.add_child(UiKit.label("Заряд самоката: %d%%. Станции зарядки — у кафе курьеров." % int(world.battery), 18, Color("5d6670"), true))
 
 
+## Switching the courier also switches to that model's signature hairstyle, otherwise
+## the girl kept the boy's short haircut under the cap and looked the same.
+func _set_gender(look: Dictionary, g: String) -> void:
+	if look["gender"] == g:
+		return
+	look["gender"] = g
+	if g == "f" and look["hair"] == "short":
+		look["hair"] = "ponytail"
+	elif g == "m" and look["hair"] in ["ponytail", "bun"]:
+		look["hair"] = "short"
+	Game.save_game()
+
+
 func _garage_look(list: VBoxContainer) -> void:
 	var look: Dictionary = Game.state["look"]
 	var redo = func():
@@ -748,8 +766,8 @@ func _garage_look(list: VBoxContainer) -> void:
 		open_garage()
 	var r1 = UiKit.hbox(8)
 	r1.add_child(UiKit.label("Курьер:", 22))
-	r1.add_child(UiKit.button("Парень", func(): look["gender"] = "m"; redo.call(), 180, UiKit.TURQ if look["gender"] == "m" else Color("e8dcc4")))
-	r1.add_child(UiKit.button("Девушка", func(): look["gender"] = "f"; redo.call(), 180, UiKit.TURQ if look["gender"] == "f" else Color("e8dcc4")))
+	r1.add_child(UiKit.button("Парень", func(): _set_gender(look, "m"); redo.call(), 180, UiKit.TURQ if look["gender"] == "m" else Color("e8dcc4")))
+	r1.add_child(UiKit.button("Девушка", func(): _set_gender(look, "f"); redo.call(), 180, UiKit.TURQ if look["gender"] == "f" else Color("e8dcc4")))
 	list.add_child(r1)
 	var r2 = UiKit.hbox(8)
 	r2.add_child(UiKit.label("Причёска:", 22))
@@ -982,7 +1000,7 @@ func open_settings() -> void:
 		cb.toggled.connect(func(x):
 			Game.settings[key] = x
 			if key == "shadows" and world.daynight:
-				world.daynight.apply_quality())
+				world.daynight.apply_quality(); world.player.apply_camera_fx())
 		v.add_child(cb)
 	var qr = UiKit.hbox(8)
 	qr.add_child(UiKit.label("Графика:", 22))
@@ -992,6 +1010,7 @@ func open_settings() -> void:
 			Game.settings["quality"] = qid
 			Game.settings["quality_set"] = true
 			world.daynight.apply_quality()
+			world.player.apply_camera_fx()
 			Game.save_settings()
 			close_named("settings")
 			open_settings(), 150, UiKit.TURQ if int(Game.settings["quality"]) == qid else Color("e8dcc4")))

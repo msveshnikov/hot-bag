@@ -1,4 +1,4 @@
-"""Run 2: build a district level from a plan module (city_plan.py, berezki_plan.py).
+"""Run 2/3: build a district level from a plan module (city_plan.py, berezki_plan.py, gastro_plan.py).
 blender -b --factory-startup -P build_district.py -- --level city [--no-render]
 Inputs: blender/architecture.blend, blender/architecture2.blend, blender/props.blend, architecture(2)_meta.json,
         assets/levels/old_town_layout.json (lighting presets are shared)
@@ -30,6 +30,7 @@ PROP_BLOCK = {"fountain": 3.2, "police_booth": 1.4, "cafe_set": 1.0, "cafe_set_t
               "tree_round": 0.4, "tree_round_b": 0.4, "tree_birch": 0.4, "parapet": 0.5, "charger_station": 0.4,
               "bike_rack": 0.5, "barrier_works": 1.1, "planter_long": 1.0, "trash_bin": 0.3, "lamp_post": 0.2,
               "flower_pot": 0.4, "traffic_light": 0.2}
+NO_BLOCK = {"park_gate"}   # walk-through props: their own pillars collide, the passage stays open on the grid
 
 
 def g3(x, y, z=0.0):
@@ -95,6 +96,15 @@ def ground(g, coll, zones):
         if parts:
             objs.append(join(parts, "ground_%s" % code + ("-col" if code != "w" else "")))
     bx0, by0, bx1, by1 = PL.BOUNDS
+    pond = getattr(PL, "POND", None)
+    if pond:
+        (cx, cy), (rx, ry) = pond["c"], pond["r"]
+        water = cyl("pond_water", 1.0, 0.06, (cx, cy, 0.0), mat("pond_water", "#5fb7d4", rough=0.08), n=48)
+        water.scale = (rx, ry, 1.0)
+        objs.append(water)
+        rim = torus("pond_rim-col", 1.0, 0.035, (cx, cy, 0.12), mat("pond_stone", "#cfc4b3"), n=64, nr=8)
+        rim.scale = (rx + 0.6, ry + 0.6, 12.0)
+        objs.append(rim)
     objs.append(box("base_slab-col", (bx1 - bx0, by1 - by0, 0.4), ((bx0 + bx1) / 2, (by0 + by1) / 2, -0.42),
                     PL.SURF_MAT.get("p", "sidewalk"), coll=coll))
     marks = []
@@ -201,8 +211,10 @@ def main():
     lvl = collection("LEVEL")
     meta = json.load(open(os.path.join(ASSETS, "architecture", "architecture_meta.json"), encoding="utf-8"))
     meta.update(json.load(open(os.path.join(ASSETS, "architecture", "architecture2_meta.json"), encoding="utf-8")))
+    meta.update(json.load(open(os.path.join(ASSETS, "architecture", "architecture3_meta.json"), encoding="utf-8")))
     ARCH = link_lib("architecture.blend")
     ARCH2 = link_lib("architecture2.blend")
+    ARCH3 = link_lib("architecture3.blend")
     PROPS = link_lib("props.blend")
     g, GW, GH = grid()
     g_surface = [r[:] for r in g]
@@ -210,7 +222,7 @@ def main():
     zones = []
 
     def lib_of(asset):
-        for lib, sub in ((ARCH2, "architecture"), (ARCH, "architecture"), (PROPS, "props")):
+        for lib, sub in ((ARCH3, "architecture"), (ARCH2, "architecture"), (ARCH, "architecture"), (PROPS, "props")):
             if asset in lib:
                 return lib, sub
         raise KeyError(asset)
@@ -235,7 +247,7 @@ def main():
             ex.update(addrs[i])
             ex.update(floors=m.get("floors", 9), lift=bool(m.get("lift", True)))
         place(asset, x, y, yaw, group, ex)
-        if m:
+        if m and asset not in NO_BLOCK:
             block_rect(g, footprint(m, x, y, yaw))
         if m.get("kind") == "tower" and PL.NO_PARKING_DEPTH > 0:
             # red zone in front of the lobby (local: canopy area in front of the body)
@@ -249,6 +261,15 @@ def main():
         r = PROP_BLOCK.get(a)
         if r:
             block_rect(g, (x - r, y - r, x + r, y + r))
+    pond = getattr(PL, "POND", None)
+    if pond:   # the pond is not walkable (nav grid); the surface below stays grass for the ground mesh
+        (pcx, pcy), (prx, pry) = pond["c"], pond["r"]
+        bx0, by0 = PL.BOUNDS[0], PL.BOUNDS[1]
+        for j in range(GH):
+            for i in range(GW):
+                x, y = bx0 + (i + 0.5) * PL.CELL, by0 + (j + 0.5) * PL.CELL
+                if ((x - pcx) / (prx + 1.0)) ** 2 + ((y - pcy) / (pry + 1.0)) ** 2 < 1.0:
+                    g[j][i] = "#"
     # geometry
     gcoll = collection("GROUND")
     gobjs = ground(g_surface, gcoll, zones)

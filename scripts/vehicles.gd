@@ -10,6 +10,7 @@ static func make(kind: String) -> Node3D:
 		_scenes[kind] = load("res://assets/vehicles/%s.gltf" % kind)
 	var ps: PackedScene = _scenes[kind]
 	var n: Node3D = ps.instantiate()
+	n.set_meta("wheel_r", float(Game.veh(kind)["r"]))
 	# vehicle collision is handled by the rider / parked body, not by the glTF
 	for c in n.find_children("*", "StaticBody3D", true, false):
 		c.queue_free()
@@ -22,7 +23,7 @@ static func make(kind: String) -> Node3D:
 static func apply_upgrades(n: Node3D, kind: String) -> void:
 	if n == null:
 		return
-	if kind == "scooter":
+	if n.find_child("ACC_rack", true, false):
 		_vis(n, "ACC_rack", Game.upgrade_level("rack") > 0)
 		_vis(n, "ACC_wide_tires", Game.upgrade_level("tires") > 0)
 		_vis(n, "ACC_headlight", Game.upgrade_level("headlight") > 0)
@@ -37,11 +38,10 @@ static func _vis(n: Node, name: String, v: bool) -> void:
 static func spin(n: Node3D, speed: float, steer: float, delta: float, crank_rate: float) -> void:
 	if n == null:
 		return
-	for w in ["WHEEL_front", "WHEEL_rear"]:
-		var wn: Node3D = n.find_child(w, true, false)
-		if wn:
-			var r = 0.3 if n.find_child("CRANK", true, false) else 0.11
-			wn.rotate_object_local(Vector3.RIGHT, speed / r * delta)
+	var r: float = n.get_meta("wheel_r", 0.3)
+	for wn in n.find_children("WHEEL_*", "", true, false):
+		if wn is Node3D and not String(wn.name).ends_with("_mesh"):
+			(wn as Node3D).rotate_object_local(Vector3.RIGHT, speed / r * delta)
 	var st: Node3D = n.find_child("STEER", true, false)
 	if st:
 		st.rotation.y = lerp(st.rotation.y, steer * 0.45, 0.2)

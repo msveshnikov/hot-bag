@@ -293,6 +293,7 @@ func _run() -> void:
 		await wait(1.2)
 		await shot(hh[1])
 	world.daynight.hour = 10.0
+	await _run3_checks()
 	# ---------------- views of the town
 	var views = [[-11.0, -2.0, 180.0, "21_square"], [-16.0, 2.0, 180.0, "22_restaurants"], [-20.0, -54.0, 90.0, "23_avenue"], [0.0, -76.0, 90.0, "24_park"]]
 	world.dismount_here()
@@ -307,7 +308,7 @@ func _run() -> void:
 		if it["kind"] == "exit":
 			ex_ok += 1
 			log_line("exit: " + String(it["label"].call()))
-	check(ex_ok == 2, "old town has 2 exits to the new districts (%d)" % ex_ok)
+	check(ex_ok == 3, "old town has 3 exits to the other districts (%d)" % ex_ok)
 	check(Game.unlocked("city"), "chapter 3 opened the bridge to «Сити»")
 	Game.state["chapter"] = 5
 	Game.state["money"] = 2000.0
@@ -398,6 +399,106 @@ func _run() -> void:
 
 
 # ---------------------------------------------------------------- run 2: «Сити» / «Берёзки»
+## Run 3: the girl courier, the e-bike / e-moped / e-car, per-vehicle batteries, a snow day.
+func _run3_checks() -> void:
+	var pl: Player = world.player
+	if pl.riding():
+		world.dismount_here()
+	# the girl courier: switching changes the model and the hairstyle
+	var look: Dictionary = Game.state["look"]
+	look["hair"] = "short"
+	world.screens._set_gender(look, "f")
+	pl.build_model()
+	await wait(0.3)
+	check(look["gender"] == "f" and look["hair"] == "ponytail", "girl courier: ponytail by default (%s)" % look["hair"])
+	check(String(pl.model.scene_file_path).contains("courier_f"), "girl courier: the courier_f model is loaded")
+	world.screens.open_garage("look")
+	await wait(0.4)
+	await shot("30_garage_look_girl")
+	world.screens.close_all()
+	# Михалыч's voice (ElevenLabs takes in assets/audio/voice/mikhalych)
+	world.story.banter()
+	await wait(0.4)
+	check(Sfx.voice.playing, "Михалыч speaks (banter voice line playing)")
+	world.story.talk_mentor()
+	await wait(0.4)
+	check(Sfx.voice.playing, "Михалыч speaks in the dialog")
+	await shot("36_mentor_voiced")
+	world.screens.close_all()
+	Sfx.stop_voice()
+	# new vehicles
+	var g = world._marker("MARK_shop_garage")
+	var sc0 = -1.0
+	for kind in ["ebike", "moped", "ecar"]:
+		Game.state["owned"][kind] = true
+		Game.set_charge(kind, 100.0)
+		tp(g + Vector3(0, 0, 6), 0.0)
+		pl.busy = 0.0
+		pl.fallen = 0.0
+		world.swap_vehicle(kind)
+		await wait(0.3)
+		if sc0 < 0.0:
+			sc0 = Game.charge_of("scooter")
+		check(not world.parked.is_empty() and world.parked["kind"] == kind, "%s parked at the garage" % kind)
+		tp(world.parked["body"].global_position + Vector3(1.4 if kind == "ecar" else 0.8, 0, 0), rad_to_deg(world.parked["body"].rotation.y))
+		world.mount_parked()
+		await wait(0.7)
+		check(pl.riding() and pl.vehicle_kind == kind, "mounted the %s (mode %d)" % [kind, pl.mode])
+		if kind != "ecar":
+			_check_wheels(pl.vehicle_model, kind)
+		var vmax = pl.max_speed()
+		check(vmax > Player.BIKE_MAX, "%s is faster than the bicycle (%.1f m/s)" % [kind, vmax])
+		Input.action_press("move_forward")
+		await wait(1.0)
+		await shot("31_riding_" + kind)
+		Input.action_release("move_forward")
+		check(world.battery < 100.0, "%s battery drains (%.2f)" % [kind, world.battery])
+		await wait(0.6)
+		world.dismount_here()
+		await wait(0.3)
+	check(abs(Game.charge_of("scooter") - sc0) < 0.01, "each vehicle keeps its own battery (scooter %.1f -> %.1f)" % [sc0, Game.charge_of("scooter")])
+	world.screens.open_garage("vehicle")
+	await wait(0.5)
+	await shot("32_garage_vehicles")
+	world.screens.close_all()
+	world.screens.open_garage("upgrades")
+	await wait(0.5)
+	await shot("33_garage_upgrades")
+	world.screens.close_all()
+	# a snow day
+	world.daynight.set_snow_day(true)
+	await wait(0.4)
+	var snowy = 0
+	for mi in world.level.find_children("*", "MeshInstance3D", true, false):
+		var m3: MeshInstance3D = mi
+		if m3.mesh and m3.mesh.get_surface_count() > 0:
+			var mt = m3.mesh.surface_get_material(0)
+			if mt is BaseMaterial3D and (mt as BaseMaterial3D).next_pass == Level.snow_mat:
+				snowy += 1
+	check(snowy > 50, "snow cover on the level materials (%d meshes)" % snowy)
+	world.swap_vehicle("scooter")
+	tp(world.parked["body"].global_position + Vector3(0.8, 0, 0), 0.0)
+	world.mount_parked()
+	await wait(0.4)
+	var grip_snow: float = pl.surface_mult()[1]
+	check(grip_snow < 0.6, "snow: the scooter slides (grip %.2f)" % grip_snow)
+	world.dismount_here()
+	world.daynight.hour = 11.0
+	tp(Vector3(-11.0, 0, -2.0), 180.0)
+	await wait(2.0)
+	await shot("34_snow_square")
+	world.daynight.hour = 20.5
+	tp(Vector3(-20.0, 0, -54.0), 90.0)
+	await wait(1.5)
+	await shot("35_snow_evening")
+	world.daynight.set_snow_day(false)
+	await wait(0.3)
+	check(not world.daynight.snow_fx.emitting or world.daynight.snow < 0.1, "snow day off again")
+	world.daynight.hour = 10.0
+	world.swap_vehicle("scooter")
+	await wait(0.2)
+
+
 func _run_district() -> void:
 	var pl: Player = world.player
 	var o_d: Dictionary = Game.orders_data
@@ -405,7 +506,7 @@ func _run_district() -> void:
 	Game.state["tutorial"] = 5
 	Game.state["chapter"] = 3 if d == "city" else 4
 	Game.state["owned"]["scooter"] = true
-	Game.state["unlocked"] = {"city": true, "berezki": d == "berezki"}
+	Game.state["unlocked"] = {"city": true, "berezki": d != "city", "gastro": d == "gastro"}
 	log_line("district " + d)
 	await wait(2.5)
 	await shot(d + "_00_start")
@@ -419,7 +520,8 @@ func _run_district() -> void:
 	if d == "city":
 		check(world.people.guards.size() >= 8, "lobby guards spawned (%d)" % world.people.guards.size())
 		check(Game.layout["district"]["zones"].size() >= 8, "no-parking zones (%d)" % Game.layout["district"]["zones"].size())
-	check(o_d.get("bignums", []).size() >= 8, "big house numbers (%d)" % o_d.get("bignums", []).size())
+	if d != "gastro":
+		check(o_d.get("bignums", []).size() >= 8, "big house numbers (%d)" % o_d.get("bignums", []).size())
 	# every pickup and every door reachable on foot and by scooter from the start
 	var start: Vector3 = pl.global_position
 	var bad = []
@@ -441,7 +543,10 @@ func _run_district() -> void:
 			await wait(0.5)
 			log_line("exit focus: %s" % world.focus.get("text", "-"))
 			check(world.focus.get("kind", "") == "exit", "standing in the exit zone shows the travel prompt")
-	check(exits == 2, "%s has 2 exits" % d)
+	var want_exits = 1 if d == "gastro" else 2
+	check(exits == want_exits, "%s has %d exits" % [d, want_exits])
+	if d == "gastro":
+		await _gastro_checks()
 	# one full delivery per restaurant
 	var n = 0
 	for k in o_d["restaurants"].keys():
@@ -475,7 +580,12 @@ func _run_district() -> void:
 		if n == 0:
 			await shot(d + "_02_door")
 		world.screens.close_all()
-		if door.get("kind", "") == "tower":
+		if door.get("kind", "") == "park":
+			world._door(door)   # park: the customer waits on the bench, no intercom, no stairs
+			await wait(0.4)
+			if n == 0:
+				await shot(d + "_03_park_customer")
+		elif door.get("kind", "") == "tower":
 			world.screens._tower_entry(o, door)
 			await wait(0.4)
 			if n == 0:
@@ -488,6 +598,8 @@ func _run_district() -> void:
 		else:
 			world.screens._go_up(o, door)
 		await wait(0.6)
+		if door.get("kind", "") == "park":
+			check(world.screens.top_name() == "dialog", "%s: park customer right at the bench" % k)
 		var top = world.screens.top_name()
 		log_line("%s: going up via %s (floor %d)" % [k, top, int(o["floor"])])
 		if n <= 1:
@@ -532,7 +644,8 @@ func _run_district() -> void:
 	check(qn >= 1, "%s quest offered" % d)
 	world.screens.close_all()
 	# views, day and night
-	var views = {"city": [[0.0, -10.0, 180.0], [-46.0, -20.0, 180.0], [0.0, 75.0, 0.0]],
+	var views = {"gastro": [[40.0, -22.0, 180.0], [30.0, 4.0, 90.0], [-40.0, -4.0, -90.0], [-62.0, 30.0, 0.0]],
+		"city": [[0.0, -10.0, 180.0], [-46.0, -20.0, 180.0], [0.0, 75.0, 0.0]],
 		"berezki": [[40.0, -45.0, 180.0], [-81.5, -30.0, 180.0], [0.0, 20.0, 180.0]]}
 	var i = 0
 	for vw in views[d]:
@@ -552,6 +665,64 @@ func _run_district() -> void:
 	Game.state["at_fails"] = fails
 	log_line("travelling %s -> old_town" % d)
 	world.travel_to("old_town")
+
+
+## Gastro: park doors, motor ban in the park, the snow day with the frozen pond.
+func _gastro_checks() -> void:
+	var pl: Player = world.player
+	var o_d: Dictionary = Game.orders_data
+	var park_doors = []
+	for door in o_d["doors"]:
+		if door.get("kind", "") == "park":
+			park_doors.append(door)
+	check(park_doors.size() >= 5, "park delivery spots (%d)" % park_doors.size())
+	var start: Vector3 = pl.global_position
+	if not park_doors.is_empty():
+		var pd = v3(park_doors[0]["pos"])
+		var mp = world.nav.path(start, pd, "moped")
+		var last_road = mp[mp.size() - 2] if mp.size() >= 2 else start
+		check(last_road.distance_to(pd) > 4.0 and world.nav.path(start, pd, "foot").size() >= 2,
+			"park: the moped route ends at the park edge (%.0f m before the spot), on foot it leads in" % last_road.distance_to(pd))
+	check(o_d["restaurants"].has("fish") and o_d["restaurants"].has("ramen"), "market stalls and restaurants (%d pickups)" % o_d["restaurants"].size())
+	# the moped stops at the park gate
+	Game.state["owned"]["moped"] = true
+	Game.set_charge("moped", 100.0)
+	if pl.riding():
+		world.dismount_here()
+	world.swap_vehicle("moped")
+	var gate = Vector3(-8.0, 0, -4.0)   # on the crossing in front of the east gate (Blender -16, 4)
+	world.parked["body"].global_position = gate
+	world.parked["body"].rotation.y = -PI * 0.5
+	tp(gate + Vector3(0, 0, 0.8), -90.0)
+	world.mount_parked()
+	await wait(0.5)
+	pl.heading = -PI * 0.5
+	Input.action_press("move_forward")
+	await wait(3.0)
+	Input.action_release("move_forward")
+	var sf: String = world.level.surface_at(pl.global_position)
+	check(not (sf in ["p", "g"]), "moped does not ride into the park (stopped on '%s' at x=%.1f)" % [sf, pl.global_position.x])
+	await shot("gastro_05_park_gate")
+	world.dismount_here()
+	# snow day here: frozen pond
+	world.daynight.set_snow_day(true)
+	await wait(0.3)
+	var ice = false
+	for mi in world.level.find_children("pond*", "MeshInstance3D", true, false):
+		ice = ice or (mi as MeshInstance3D).material_override != null
+	check(ice, "snow day: the pond freezes")
+	world.daynight.hour = 12.0
+	tp(Vector3(-40.0, 0, -4.0), -90.0)
+	await wait(2.0)
+	await shot("gastro_06_snow_park")
+	tp(Vector3(40.0, 0, -22.0), 180.0)
+	await wait(1.5)
+	await shot("gastro_07_snow_market")
+	world.story._check_quests()
+	var cocoa = false
+	for of in world.orders.offers:
+		cocoa = cocoa or of.get("quest", "") == "skater_cocoa"
+	log_line("snow quest offered: %s" % cocoa)
 
 
 func _after_travel() -> void:

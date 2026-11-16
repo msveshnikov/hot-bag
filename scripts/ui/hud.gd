@@ -82,7 +82,7 @@ func _ready() -> void:
 	UiKit.place(bl, Control.PRESET_BOTTOM_LEFT, Vector2(18, -24))
 	var blv = UiKit.vbox(6)
 	bl.add_child(blv)
-	for k in [["battery", "Самокат", Color("3bd16a")], ["stamina", "Силы", Color("f6c945")], ["hunger", "Сытость", Color("ef8f3a")], ["phone", "Телефон", Color("7ec3e8")]]:
+	for k in [["battery", "Заряд", Color("3bd16a")], ["stamina", "Силы", Color("f6c945")], ["hunger", "Сытость", Color("ef8f3a")], ["phone", "Телефон", Color("7ec3e8")]]:
 		var row = UiKit.hbox(8)
 		var l = UiKit.label(k[1], 18)
 		l.custom_minimum_size = Vector2(92, 0)
@@ -158,11 +158,12 @@ func _process(delta: float) -> void:
 		var tl: float = world.orders.time_left(o)
 		var tm = "%d:%02d" % [int(abs(tl)) / 60, int(abs(tl)) % 60]
 		obj = ("» %s · %s %s" % [tgt["label"], "опоздание" if tl < 0 else "осталось", tm])
-		if tgt["kind"] == "door":
+		if tgt["kind"] == "door" and int(o["floor"]) > 0:
 			obj += " · этаж %d" % int(o["floor"])
 	obj_l.text = obj
 	var p: Player = world.player
-	var show_bat: bool = p.mode == Player.Mode.SCOOTER or (not world.parked.is_empty() and world.parked["kind"] == "scooter")
+	var cv: String = world.current_vehicle()
+	var show_bat: bool = cv != "" and Game.is_electric(cv)
 	bars["battery"][0].visible = show_bat
 	bars["battery"][1].value = world.battery / 100.0
 	bars["stamina"][1].value = p.stamina / 100.0

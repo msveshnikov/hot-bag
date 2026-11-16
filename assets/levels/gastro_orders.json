@@ -1,0 +1,1451 @@
+{
+ "level": "gastro",
+ "restaurants": {
+  "veg": {
+   "name": "Рынок: овощной ряд",
+   "items": [
+    [
+     "veg",
+     "Корзина овощей",
+     "heavy",
+     1.0
+    ],
+    [
+     "veg",
+     "Ящик мандаринов",
+     "heavy",
+     1.1
+    ]
+   ],
+   "cook": [
+    8,
+    20
+   ],
+   "slow": false,
+   "price": 0.9,
+   "pickup": [
+    31.0,
+    0.0,
+    -46.3
+   ],
+   "pickup_yaw": -180.0,
+   "cook_pos": [
+    31.0,
+    0.0,
+    -50.5
+   ],
+   "cook_yaw": 0.0,
+   "parking": [
+    34.5,
+    0.0,
+    -44.8
+   ],
+   "prop": "lunch_crate"
+  },
+  "fish": {
+   "name": "Рынок: рыбный ряд",
+   "items": [
+    [
+     "fish",
+     "Свежая рыба во льду",
+     "frozen",
+     1.3
+    ]
+   ],
+   "cook": [
+    10,
+    25
+   ],
+   "slow": false,
+   "price": 1.1,
+   "pickup": [
+    40.0,
+    0.0,
+    -46.3
+   ],
+   "pickup_yaw": -180.0,
+   "cook_pos": [
+    40.0,
+    0.0,
+    -50.5
+   ],
+   "cook_yaw": 0.0,
+   "parking": [
+    43.5,
+    0.0,
+    -44.8
+   ],
+   "prop": "ice_cream_tub"
+  },
+  "cheese": {
+   "name": "Рынок: сыр и мёд",
+   "items": [
+    [
+     "cheese",
+     "Сырная тарелка",
+     "fragile",
+     1.2
+    ],
+    [
+     "honey",
+     "Банка мёда",
+     "fragile",
+     0.9
+    ]
+   ],
+   "cook": [
+    8,
+    20
+   ],
+   "slow": false,
+   "price": 1.0,
+   "pickup": [
+    49.0,
+    0.0,
+    -46.3
+   ],
+   "pickup_yaw": -180.0,
+   "cook_pos": [
+    49.0,
+    0.0,
+    -50.5
+   ],
+   "cook_yaw": 0.0,
+   "parking": [
+    52.5,
+    0.0,
+    -44.8
+   ],
+   "prop": "cake_box"
+  },
+  "dumplings": {
+   "name": "Пельменная «Лепим!»",
+   "items": [
+    [
+     "dumplings",
+     "Пельмени со сметаной",
+     "hot",
+     1.0
+    ],
+    [
+     "cocoa",
+     "Какао",
+     "drink_hot",
+     0.5
+    ]
+   ],
+   "cook": [
+    15,
+    35
+   ],
+   "slow": false,
+   "price": 1.0,
+   "pickup": [
+    12.9,
+    0.0,
+    9.3
+   ],
+   "pickup_yaw": 0.0,
+   "cook_pos": [
+    12.9,
+    0.0,
+    11.4
+   ],
+   "cook_yaw": 180.0,
+   "parking": [
+    9.4,
+    0.0,
+    7.9
+   ],
+   "prop": "sushi_box"
+  },
+  "ramen": {
+   "name": "Раменная «Сугои»",
+   "items": [
+    [
+     "ramen",
+     "Рамен",
+     "drink_hot",
+     1.3
+    ],
+    [
+     "ramen",
+     "Гёдза",
+     "hot",
+     0.8
+    ]
+   ],
+   "cook": [
+    20,
+    45
+   ],
+   "slow": true,
+   "price": 1.2,
+   "pickup": [
+    26.9,
+    0.0,
+    9.3
+   ],
+   "pickup_yaw": 0.0,
+   "cook_pos": [
+    26.9,
+    0.0,
+    11.4
+   ],
+   "cook_yaw": 180.0,
+   "parking": [
+    23.4,
+    0.0,
+    7.9
+   ],
+   "prop": "paper_bag"
+  },
+  "grill": {
+   "name": "Гриль-бар «Уголёк»",
+   "items": [
+    [
+     "steak",
+     "Стейк",
+     "hot",
+     1.6
+    ],
+    [
+     "steak",
+     "Шашлык",
+     "hot",
+     1.3
+    ]
+   ],
+   "cook": [
+    25,
+    55
+   ],
+   "slow": true,
+   "price": 1.3,
+   "pickup": [
+    54.9,
+    0.0,
+    9.3
+   ],
+   "pickup_yaw": 0.0,
+   "cook_pos": [
+    54.9,
+    0.0,
+    11.4
+   ],
+   "cook_yaw": 180.0,
+   "parking": [
+    51.4,
+    0.0,
+    7.9
+   ],
+   "prop": "paper_bag"
+  },
+  "pancakes": {
+   "name": "Блинная «Масленица»",
+   "items": [
+    [
+     "pancakes",
+     "Блины с вареньем",
+     "hot",
+     0.8
+    ],
+    [
+     "cocoa",
+     "Какао с маршмеллоу",
+     "drink_hot",
+     0.6
+    ]
+   ],
+   "cook": [
+    10,
+    25
+   ],
+   "slow": false,
+   "price": 0.9,
+   "pickup": [
+    68.9,
+    0.0,
+    9.3
+   ],
+   "pickup_yaw": 0.0,
+   "cook_pos": [
+    68.9,
+    0.0,
+    11.4
+   ],
+   "cook_yaw": 180.0,
+   "parking": [
+    65.4,
+    0.0,
+    7.9
+   ],
+   "prop": "pizza_box"
+  }
+ },
+ "doors": [
+  {
+   "id": "G_1_0",
+   "street": "G",
+   "street_name": "Гастрономическая улица",
+   "number": 1,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 4,
+   "lift": false,
+   "kind": "house",
+   "pos": [
+    5.1,
+    0.0,
+    -11.7
+   ],
+   "yaw": -180.0,
+   "plate": [
+    6.2,
+    2.0,
+    -12.9
+   ],
+   "plate_text": "1\nпод. 1",
+   "label": "Гастрономическая улица, 1, под. 1",
+   "inst": 5
+  },
+  {
+   "id": "G_1_1",
+   "street": "G",
+   "street_name": "Гастрономическая улица",
+   "number": 1,
+   "corpus": 0,
+   "entrance": 2,
+   "floors": 4,
+   "lift": false,
+   "kind": "house",
+   "pos": [
+    10.9,
+    0.0,
+    -11.7
+   ],
+   "yaw": -180.0,
+   "plate": [
+    12.0,
+    2.0,
+    -12.9
+   ],
+   "plate_text": "1\nпод. 2",
+   "label": "Гастрономическая улица, 1, под. 2",
+   "inst": 5
+  },
+  {
+   "id": "G_3_0",
+   "street": "G",
+   "street_name": "Гастрономическая улица",
+   "number": 3,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 5,
+   "lift": false,
+   "kind": "house",
+   "pos": [
+    73.1,
+    0.0,
+    -11.2
+   ],
+   "yaw": -180.0,
+   "plate": [
+    74.2,
+    2.0,
+    -12.4
+   ],
+   "plate_text": "3\nпод. 1",
+   "label": "Гастрономическая улица, 3, под. 1",
+   "inst": 6
+  },
+  {
+   "id": "G_3_1",
+   "street": "G",
+   "street_name": "Гастрономическая улица",
+   "number": 3,
+   "corpus": 0,
+   "entrance": 2,
+   "floors": 5,
+   "lift": false,
+   "kind": "house",
+   "pos": [
+    78.9,
+    0.0,
+    -11.2
+   ],
+   "yaw": -180.0,
+   "plate": [
+    80.0,
+    2.0,
+    -12.4
+   ],
+   "plate_text": "3\nпод. 2",
+   "label": "Гастрономическая улица, 3, под. 2",
+   "inst": 6
+  },
+  {
+   "id": "L_2_0",
+   "street": "L",
+   "street_name": "Переулок Пекарей",
+   "number": 2,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 4,
+   "lift": false,
+   "kind": "house",
+   "pos": [
+    10.0,
+    0.0,
+    20.7
+   ],
+   "yaw": 0.0,
+   "plate": [
+    8.9,
+    2.0,
+    21.9
+   ],
+   "plate_text": "2\nпод. 1",
+   "label": "Переулок Пекарей, 2, под. 1",
+   "inst": 7
+  },
+  {
+   "id": "L_4_0",
+   "street": "L",
+   "street_name": "Переулок Пекарей",
+   "number": 4,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 4,
+   "lift": false,
+   "kind": "house",
+   "pos": [
+    27.4,
+    0.0,
+    19.7
+   ],
+   "yaw": 0.0,
+   "plate": [
+    26.3,
+    2.0,
+    20.9
+   ],
+   "plate_text": "4\nпод. 1",
+   "label": "Переулок Пекарей, 4, под. 1",
+   "inst": 8
+  },
+  {
+   "id": "L_4_1",
+   "street": "L",
+   "street_name": "Переулок Пекарей",
+   "number": 4,
+   "corpus": 0,
+   "entrance": 2,
+   "floors": 4,
+   "lift": false,
+   "kind": "house",
+   "pos": [
+    20.6,
+    0.0,
+    19.7
+   ],
+   "yaw": 0.0,
+   "plate": [
+    19.5,
+    2.0,
+    20.9
+   ],
+   "plate_text": "4\nпод. 2",
+   "label": "Переулок Пекарей, 4, под. 2",
+   "inst": 8
+  },
+  {
+   "id": "L_6_0",
+   "street": "L",
+   "street_name": "Переулок Пекарей",
+   "number": 6,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 6,
+   "lift": false,
+   "kind": "house",
+   "pos": [
+    40.0,
+    0.0,
+    20.7
+   ],
+   "yaw": 0.0,
+   "plate": [
+    38.9,
+    2.0,
+    21.9
+   ],
+   "plate_text": "6\nпод. 1",
+   "label": "Переулок Пекарей, 6, под. 1",
+   "inst": 9
+  },
+  {
+   "id": "L_8_0",
+   "street": "L",
+   "street_name": "Переулок Пекарей",
+   "number": 8,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 5,
+   "lift": false,
+   "kind": "house",
+   "pos": [
+    61.4,
+    0.0,
+    19.2
+   ],
+   "yaw": 0.0,
+   "plate": [
+    60.3,
+    2.0,
+    20.4
+   ],
+   "plate_text": "8\nпод. 1",
+   "label": "Переулок Пекарей, 8, под. 1",
+   "inst": 10
+  },
+  {
+   "id": "L_8_1",
+   "street": "L",
+   "street_name": "Переулок Пекарей",
+   "number": 8,
+   "corpus": 0,
+   "entrance": 2,
+   "floors": 5,
+   "lift": false,
+   "kind": "house",
+   "pos": [
+    54.6,
+    0.0,
+    19.2
+   ],
+   "yaw": 0.0,
+   "plate": [
+    53.5,
+    2.0,
+    20.4
+   ],
+   "plate_text": "8\nпод. 2",
+   "label": "Переулок Пекарей, 8, под. 2",
+   "inst": 10
+  },
+  {
+   "id": "L_10_0",
+   "street": "L",
+   "street_name": "Переулок Пекарей",
+   "number": 10,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 5,
+   "lift": false,
+   "kind": "house",
+   "pos": [
+    73.0,
+    0.0,
+    20.7
+   ],
+   "yaw": 0.0,
+   "plate": [
+    71.9,
+    2.0,
+    21.9
+   ],
+   "plate_text": "10\nпод. 1",
+   "label": "Переулок Пекарей, 10, под. 1",
+   "inst": 11
+  },
+  {
+   "id": "L_1_0",
+   "street": "L",
+   "street_name": "Переулок Пекарей",
+   "number": 1,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 6,
+   "lift": false,
+   "kind": "house",
+   "pos": [
+    12.4,
+    0.0,
+    61.8
+   ],
+   "yaw": -180.0,
+   "plate": [
+    13.5,
+    2.0,
+    60.6
+   ],
+   "plate_text": "1\nпод. 1",
+   "label": "Переулок Пекарей, 1, под. 1",
+   "inst": 12
+  },
+  {
+   "id": "L_3_0",
+   "street": "L",
+   "street_name": "Переулок Пекарей",
+   "number": 3,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 4,
+   "lift": false,
+   "kind": "house",
+   "pos": [
+    22.6,
+    0.0,
+    61.3
+   ],
+   "yaw": -180.0,
+   "plate": [
+    23.7,
+    2.0,
+    60.1
+   ],
+   "plate_text": "3\nпод. 1",
+   "label": "Переулок Пекарей, 3, под. 1",
+   "inst": 13
+  },
+  {
+   "id": "L_5_0",
+   "street": "L",
+   "street_name": "Переулок Пекарей",
+   "number": 5,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 5,
+   "lift": false,
+   "kind": "house",
+   "pos": [
+    39.1,
+    0.0,
+    61.8
+   ],
+   "yaw": -180.0,
+   "plate": [
+    40.2,
+    2.0,
+    60.6
+   ],
+   "plate_text": "5\nпод. 1",
+   "label": "Переулок Пекарей, 5, под. 1",
+   "inst": 14
+  },
+  {
+   "id": "L_5_1",
+   "street": "L",
+   "street_name": "Переулок Пекарей",
+   "number": 5,
+   "corpus": 0,
+   "entrance": 2,
+   "floors": 5,
+   "lift": false,
+   "kind": "house",
+   "pos": [
+    44.9,
+    0.0,
+    61.8
+   ],
+   "yaw": -180.0,
+   "plate": [
+    46.0,
+    2.0,
+    60.6
+   ],
+   "plate_text": "5\nпод. 2",
+   "label": "Переулок Пекарей, 5, под. 2",
+   "inst": 14
+  },
+  {
+   "id": "L_7_0",
+   "street": "L",
+   "street_name": "Переулок Пекарей",
+   "number": 7,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 5,
+   "lift": false,
+   "kind": "house",
+   "pos": [
+    58.0,
+    0.0,
+    60.8
+   ],
+   "yaw": -180.0,
+   "plate": [
+    59.1,
+    2.0,
+    59.6
+   ],
+   "plate_text": "7\nпод. 1",
+   "label": "Переулок Пекарей, 7, под. 1",
+   "inst": 15
+  },
+  {
+   "id": "L_9_0",
+   "street": "L",
+   "street_name": "Переулок Пекарей",
+   "number": 9,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 4,
+   "lift": false,
+   "kind": "house",
+   "pos": [
+    73.0,
+    0.0,
+    61.3
+   ],
+   "yaw": -180.0,
+   "plate": [
+    74.1,
+    2.0,
+    60.1
+   ],
+   "plate_text": "9\nпод. 1",
+   "label": "Переулок Пекарей, 9, под. 1",
+   "inst": 16
+  },
+  {
+   "id": "N_11_0",
+   "street": "N",
+   "street_name": "Северная набережная",
+   "number": 11,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 5,
+   "lift": false,
+   "kind": "house",
+   "pos": [
+    6.6,
+    0.0,
+    -91.2
+   ],
+   "yaw": -180.0,
+   "plate": [
+    7.7,
+    2.0,
+    -92.4
+   ],
+   "plate_text": "11\nпод. 1",
+   "label": "Северная набережная, 11, под. 1",
+   "inst": 17
+  },
+  {
+   "id": "N_11_1",
+   "street": "N",
+   "street_name": "Северная набережная",
+   "number": 11,
+   "corpus": 0,
+   "entrance": 2,
+   "floors": 5,
+   "lift": false,
+   "kind": "house",
+   "pos": [
+    13.4,
+    0.0,
+    -91.2
+   ],
+   "yaw": -180.0,
+   "plate": [
+    14.5,
+    2.0,
+    -92.4
+   ],
+   "plate_text": "11\nпод. 2",
+   "label": "Северная набережная, 11, под. 2",
+   "inst": 17
+  },
+  {
+   "id": "N_13_0",
+   "street": "N",
+   "street_name": "Северная набережная",
+   "number": 13,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 6,
+   "lift": false,
+   "kind": "house",
+   "pos": [
+    28.4,
+    0.0,
+    -91.2
+   ],
+   "yaw": -180.0,
+   "plate": [
+    29.5,
+    2.0,
+    -92.4
+   ],
+   "plate_text": "13\nпод. 1",
+   "label": "Северная набережная, 13, под. 1",
+   "inst": 18
+  },
+  {
+   "id": "N_15_0",
+   "street": "N",
+   "street_name": "Северная набережная",
+   "number": 15,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 4,
+   "lift": false,
+   "kind": "house",
+   "pos": [
+    38.6,
+    0.0,
+    -91.7
+   ],
+   "yaw": -180.0,
+   "plate": [
+    39.7,
+    2.0,
+    -92.9
+   ],
+   "plate_text": "15\nпод. 1",
+   "label": "Северная набережная, 15, под. 1",
+   "inst": 19
+  },
+  {
+   "id": "N_15_1",
+   "street": "N",
+   "street_name": "Северная набережная",
+   "number": 15,
+   "corpus": 0,
+   "entrance": 2,
+   "floors": 4,
+   "lift": false,
+   "kind": "house",
+   "pos": [
+    45.4,
+    0.0,
+    -91.7
+   ],
+   "yaw": -180.0,
+   "plate": [
+    46.5,
+    2.0,
+    -92.9
+   ],
+   "plate_text": "15\nпод. 2",
+   "label": "Северная набережная, 15, под. 2",
+   "inst": 19
+  },
+  {
+   "id": "N_17_0",
+   "street": "N",
+   "street_name": "Северная набережная",
+   "number": 17,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 6,
+   "lift": false,
+   "kind": "house",
+   "pos": [
+    58.0,
+    0.0,
+    -91.7
+   ],
+   "yaw": -180.0,
+   "plate": [
+    59.1,
+    2.0,
+    -92.9
+   ],
+   "plate_text": "17\nпод. 1",
+   "label": "Северная набережная, 17, под. 1",
+   "inst": 20
+  },
+  {
+   "id": "N_19_0",
+   "street": "N",
+   "street_name": "Северная набережная",
+   "number": 19,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 4,
+   "lift": false,
+   "kind": "house",
+   "pos": [
+    71.1,
+    0.0,
+    -91.7
+   ],
+   "yaw": -180.0,
+   "plate": [
+    72.2,
+    2.0,
+    -92.9
+   ],
+   "plate_text": "19\nпод. 1",
+   "label": "Северная набережная, 19, под. 1",
+   "inst": 21
+  },
+  {
+   "id": "N_19_1",
+   "street": "N",
+   "street_name": "Северная набережная",
+   "number": 19,
+   "corpus": 0,
+   "entrance": 2,
+   "floors": 4,
+   "lift": false,
+   "kind": "house",
+   "pos": [
+    76.9,
+    0.0,
+    -91.7
+   ],
+   "yaw": -180.0,
+   "plate": [
+    78.0,
+    2.0,
+    -92.9
+   ],
+   "plate_text": "19\nпод. 2",
+   "label": "Северная набережная, 19, под. 2",
+   "inst": 21
+  },
+  {
+   "id": "S_20_0",
+   "street": "S",
+   "street_name": "Южная улица",
+   "number": 20,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 4,
+   "lift": false,
+   "kind": "house",
+   "pos": [
+    10.0,
+    0.0,
+    91.7
+   ],
+   "yaw": 0.0,
+   "plate": [
+    8.9,
+    2.0,
+    92.9
+   ],
+   "plate_text": "20\nпод. 1",
+   "label": "Южная улица, 20, под. 1",
+   "inst": 22
+  },
+  {
+   "id": "S_22_0",
+   "street": "S",
+   "street_name": "Южная улица",
+   "number": 22,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 5,
+   "lift": false,
+   "kind": "house",
+   "pos": [
+    28.9,
+    0.0,
+    91.2
+   ],
+   "yaw": 0.0,
+   "plate": [
+    27.8,
+    2.0,
+    92.4
+   ],
+   "plate_text": "22\nпод. 1",
+   "label": "Южная улица, 22, под. 1",
+   "inst": 23
+  },
+  {
+   "id": "S_22_1",
+   "street": "S",
+   "street_name": "Южная улица",
+   "number": 22,
+   "corpus": 0,
+   "entrance": 2,
+   "floors": 5,
+   "lift": false,
+   "kind": "house",
+   "pos": [
+    23.1,
+    0.0,
+    91.2
+   ],
+   "yaw": 0.0,
+   "plate": [
+    22.0,
+    2.0,
+    92.4
+   ],
+   "plate_text": "22\nпод. 2",
+   "label": "Южная улица, 22, под. 2",
+   "inst": 23
+  },
+  {
+   "id": "S_24_0",
+   "street": "S",
+   "street_name": "Южная улица",
+   "number": 24,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 4,
+   "lift": false,
+   "kind": "house",
+   "pos": [
+    42.0,
+    0.0,
+    91.7
+   ],
+   "yaw": 0.0,
+   "plate": [
+    40.9,
+    2.0,
+    92.9
+   ],
+   "plate_text": "24\nпод. 1",
+   "label": "Южная улица, 24, под. 1",
+   "inst": 24
+  },
+  {
+   "id": "S_26_0",
+   "street": "S",
+   "street_name": "Южная улица",
+   "number": 26,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 5,
+   "lift": false,
+   "kind": "house",
+   "pos": [
+    61.4,
+    0.0,
+    91.2
+   ],
+   "yaw": 0.0,
+   "plate": [
+    60.3,
+    2.0,
+    92.4
+   ],
+   "plate_text": "26\nпод. 1",
+   "label": "Южная улица, 26, под. 1",
+   "inst": 25
+  },
+  {
+   "id": "S_26_1",
+   "street": "S",
+   "street_name": "Южная улица",
+   "number": 26,
+   "corpus": 0,
+   "entrance": 2,
+   "floors": 5,
+   "lift": false,
+   "kind": "house",
+   "pos": [
+    54.6,
+    0.0,
+    91.2
+   ],
+   "yaw": 0.0,
+   "plate": [
+    53.5,
+    2.0,
+    92.4
+   ],
+   "plate_text": "26\nпод. 2",
+   "label": "Южная улица, 26, под. 2",
+   "inst": 25
+  },
+  {
+   "id": "S_28_0",
+   "street": "S",
+   "street_name": "Южная улица",
+   "number": 28,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 4,
+   "lift": false,
+   "kind": "house",
+   "pos": [
+    76.4,
+    0.0,
+    91.7
+   ],
+   "yaw": 0.0,
+   "plate": [
+    75.3,
+    2.0,
+    92.9
+   ],
+   "plate_text": "28\nпод. 1",
+   "label": "Южная улица, 28, под. 1",
+   "inst": 26
+  },
+  {
+   "id": "P_0",
+   "street": "P",
+   "street_name": "Большой парк",
+   "number": 0,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 0,
+   "lift": false,
+   "kind": "park",
+   "pos": [
+    -62.0,
+    0.0,
+    14.0
+   ],
+   "yaw": 0,
+   "plate": null,
+   "plate_text": "",
+   "label": "Большой парк, у пруда (южный берег)",
+   "inst": -1
+  },
+  {
+   "id": "P_1",
+   "street": "P",
+   "street_name": "Большой парк",
+   "number": 0,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 0,
+   "lift": false,
+   "kind": "park",
+   "pos": [
+    -62.0,
+    0.0,
+    -24.0
+   ],
+   "yaw": 180,
+   "plate": null,
+   "plate_text": "",
+   "label": "Большой парк, у пруда (северный берег)",
+   "inst": -1
+  },
+  {
+   "id": "P_2",
+   "street": "P",
+   "street_name": "Большой парк",
+   "number": 0,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 0,
+   "lift": false,
+   "kind": "park",
+   "pos": [
+    -62.0,
+    0.0,
+    -40.0
+   ],
+   "yaw": 180,
+   "plate": null,
+   "plate_text": "",
+   "label": "Большой парк, у эстрады",
+   "inst": -1
+  },
+  {
+   "id": "P_3",
+   "street": "P",
+   "street_name": "Большой парк",
+   "number": 0,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 0,
+   "lift": false,
+   "kind": "park",
+   "pos": [
+    -86.0,
+    0.0,
+    50.0
+   ],
+   "yaw": 0,
+   "plate": null,
+   "plate_text": "",
+   "label": "Большой парк, детская площадка",
+   "inst": -1
+  },
+  {
+   "id": "P_4",
+   "street": "P",
+   "street_name": "Большой парк",
+   "number": 0,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 0,
+   "lift": false,
+   "kind": "park",
+   "pos": [
+    -36.0,
+    0.0,
+    -4.0
+   ],
+   "yaw": 90,
+   "plate": null,
+   "plate_text": "",
+   "label": "Большой парк, восточные ворота",
+   "inst": -1
+  },
+  {
+   "id": "P_5",
+   "street": "P",
+   "street_name": "Большой парк",
+   "number": 0,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 0,
+   "lift": false,
+   "kind": "park",
+   "pos": [
+    -110.0,
+    0.0,
+    -30.0
+   ],
+   "yaw": 90,
+   "plate": null,
+   "plate_text": "",
+   "label": "Большой парк, западная аллея",
+   "inst": -1
+  },
+  {
+   "id": "P_6",
+   "street": "P",
+   "street_name": "Большой парк",
+   "number": 0,
+   "corpus": 0,
+   "entrance": 1,
+   "floors": 0,
+   "lift": false,
+   "kind": "park",
+   "pos": [
+    -62.0,
+    0.0,
+    -94.0
+   ],
+   "yaw": 180,
+   "plate": null,
+   "plate_text": "",
+   "label": "Большой парк, северные ворота",
+   "inst": -1
+  }
+ ],
+ "regulars": [
+  {
+   "id": "chef_lev",
+   "name": "Шеф Лев",
+   "model": "cook",
+   "trait": "capricious",
+   "floors_min": 3,
+   "tip": 1.0,
+   "quest": "market_fish",
+   "lines": [
+    "Рыба утренняя? Покажи жабры! ...Годится.",
+    "Без свежей рыбы у меня нет меню. Спасибо!"
+   ],
+   "address": "S_26_0",
+   "floor": 5
+  },
+  {
+   "id": "picnic",
+   "name": "Студенты на пикнике",
+   "model": "student",
+   "trait": "polite",
+   "floors_min": 0,
+   "tip": 0.7,
+   "quest": "park_picnic",
+   "park": true,
+   "lines": [
+    "Ура, еда! Садись с нами!",
+    "Лучший пикник в сезоне!"
+   ],
+   "address": "P_2",
+   "floor": 0
+  },
+  {
+   "id": "skaters",
+   "name": "Фигуристы на пруду",
+   "model": "mom",
+   "trait": "polite",
+   "floors_min": 0,
+   "tip": 0.9,
+   "quest": "skater_cocoa",
+   "park": true,
+   "lines": [
+    "Горячее какао! Ты нас спас, руки ледяные!",
+    "Приезжай кататься!"
+   ],
+   "address": "P_3",
+   "floor": 0
+  },
+  {
+   "id": "poet",
+   "name": "Поэт Аполлон",
+   "model": "oldman",
+   "trait": "capricious",
+   "floors_min": 4,
+   "tip": 0.4,
+   "lines": [
+    "Курьер, как вестник муз, явился...",
+    "Блины! Это рифма к слову «мечты»."
+   ],
+   "address": "L_2_0",
+   "floor": 4
+  },
+  {
+   "id": "lena",
+   "name": "Блогер Лена",
+   "model": "student",
+   "trait": "no_call",
+   "floors_min": 3,
+   "tip": 0.8,
+   "lines": [
+    "Тсс, я в эфире! Сейчас сниму распаковку.",
+    "Подписчики в восторге от рамена!"
+   ],
+   "address": "S_24_0",
+   "floor": 3
+  }
+ ],
+ "random_lines": {
+  "polite": [
+   "Спасибо большое!",
+   "Как быстро! Вот это сервис.",
+   "Хорошего дня!"
+  ],
+  "capricious": [
+   "А почему так долго?",
+   "Я хотел без лука... ну ладно.",
+   "Звёзд не будет. Или будет. Посмотрим."
+  ],
+  "no_call": [
+   "Я же писал — не звонить!",
+   "О, спасибо, что не звонили."
+  ],
+  "leave_at_door": [
+   "Можно было оставить у двери!",
+   "Спасибо, что оставили у двери."
+  ]
+ },
+ "rules": {
+  "base_pay": 4.0,
+  "pay_per_100m": 1.6,
+  "time_base_s": 70.0,
+  "time_per_100m_s": 32.0,
+  "tip_on_time": [
+   0.0,
+   3.0
+  ],
+  "streak_bonus": [
+   3,
+   5.0
+  ],
+  "night_bonus": 0.25,
+  "rain_bonus": 0.3,
+  "rush_hours": [
+   [
+    12,
+    14
+   ],
+   [
+    18,
+    20
+   ]
+  ],
+  "rush_bonus": 0.2,
+  "rival_take_s": [
+   20,
+   45
+  ],
+  "max_offers": 4,
+  "offer_interval_s": [
+   8,
+   16
+  ],
+  "food": {
+   "hot": {
+    "cool_per_s": 0.35
+   },
+   "drink": {
+    "spill": 1.6
+   },
+   "drink_hot": {
+    "spill": 1.8,
+    "cool_per_s": 0.25
+   },
+   "frozen": {
+    "melt_per_s": 0.25,
+    "heat_mult": 2.5
+   },
+   "cold": {
+    "warm_per_s": 0.15
+   },
+   "fragile": {
+    "shake": 2.5
+   }
+  },
+  "rating": {
+   "start": 4.0,
+   "warn": 3.0,
+   "ban": 2.5
+  },
+  "tip_mult": 1.15
+ },
+ "food_props": {
+  "pizza": "pizza_box",
+  "burger": "paper_bag",
+  "drink": "cup_holder",
+  "sushi": "sushi_box",
+  "coffee": "cup_holder",
+  "icecream": "ice_cream_tub",
+  "cake": "cake_box",
+  "lunch": "lunch_crate",
+  "dream": "lunch_crate",
+  "wok": "paper_bag",
+  "salad": "sushi_box",
+  "burrito": "paper_bag",
+  "shawarma": "paper_bag",
+  "pastry": "paper_bag",
+  "pie": "cake_box",
+  "groceries": "lunch_crate",
+  "veg": "lunch_crate",
+  "fish": "ice_cream_tub",
+  "cheese": "cake_box",
+  "honey": "paper_bag",
+  "dumplings": "sushi_box",
+  "ramen": "paper_bag",
+  "steak": "paper_bag",
+  "pancakes": "pizza_box",
+  "cocoa": "cup_holder",
+  "picnic": "lunch_crate"
+ },
+ "quests": {
+  "market_fish": {
+   "title": "Рыба для шефа",
+   "giver": "chef_lev",
+   "restaurant": "fish",
+   "item": "fish",
+   "reward": 45,
+   "text": "Шеф Лев остался без рыбы в разгар ужина. Привези с рынка свежую рыбу во льду — и быстро, пока лёд не растаял!"
+  },
+  "park_picnic": {
+   "title": "Пикник в парке",
+   "giver": "picnic",
+   "restaurant": "grill",
+   "item": "picnic",
+   "reward": 40,
+   "text": "Студенты устроили пикник в Большом парке. На моторе в парк не въехать — паркуйся у ворот и неси шашлык пешком."
+  },
+  "skater_cocoa": {
+   "title": "Какао для фигуристов",
+   "giver": "skaters",
+   "restaurant": "pancakes",
+   "item": "cocoa",
+   "reward": 35,
+   "text": "Пруд замёрз, на льду катаются! Фигуристы замёрзли и просят горячего какао к катку."
+  }
+ },
+ "bignums": []
+}

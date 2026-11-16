@@ -347,12 +347,131 @@ def tram(name="tram"):
     return root
 
 
+# ------------------------------------------------------------------ run 3: e-bike, moped, e-car
+def ebike(name="ebike"):
+    """The bicycle frame in turquoise with a frame battery (EMIT_battery), a rear hub motor and a display."""
+    mat("bike_frame", "turq", rough=0.45)
+    mat("bike_cream", "#2f3236", rough=0.6)
+    mat("bike_leather", "#2f3236")
+    mat("wicker", "#2f3236")
+    mat("wicker_dark", "#1f2124")
+    root = bicycle(name)
+    coll = root.users_collection[0]
+    bat_m = mat("ebike_battery", "#2b2e33", rough=0.5)
+    parts = [box("battery", (0.09, 0.36, 0.1), (0, -0.12, 0.52), bat_m, bevel=0.03, rot=(math.radians(-24), 0, 0)),
+             cyl("hubmotor", 0.08, 0.07, (-0.035, 0.52, 0.3), "metal", n=16, rot=(0, math.radians(90), 0)),
+             box("ctrl", (0.07, 0.12, 0.06), (0, 0.18, 0.4), bat_m, bevel=0.015)]
+    group(name + "_motor", root, parts, coll)
+    led = box("EMIT_battery", (0.05, 0.012, 0.016), Vector((0, -0.2, 0.585)), mat("EMIT_battery", "#3bff6a",
+                                                                                emit="#3bff6a", emit_strength=1.5))
+    group("EMIT_battery", root, [led], coll)
+    return root
+
+
+def moped(name="moped"):
+    """Small step-through e-moped (rider uses the bicycle seat/grip points: seat_hips y=0.30 z=0.83, grips z=1.0)."""
+    coll = collection(name)
+    root = node(name, (0, 0, 0), coll)
+    body_m = mat("moped_body", "turq", rough=0.4)
+    cream = mat("moped_cream", "#f4ead6", rough=0.5)
+    dark = mat("moped_dark", "#2f3236", rough=0.7)
+    RW = 0.24
+    yf, yr = -0.58, 0.55
+    parts = [box("floor", (0.3, 0.5, 0.06), (0, -0.05, 0.2), dark, bevel=0.02),
+             box("floor_side", (0.32, 0.52, 0.1), (0, -0.05, 0.12), body_m, bevel=0.04),
+             sphere("cowl", 0.3, (0, 0.36, 0.52), body_m, seg=18, rings=10, scale=(0.75, 1.25, 0.72)),
+             box("cowl_low", (0.34, 0.5, 0.2), (0, 0.38, 0.3), body_m, bevel=0.08),
+             box("seat", (0.3, 0.56, 0.1), (0, 0.32, 0.7), dark, bevel=0.05),
+             box("seat_trim", (0.31, 0.57, 0.03), (0, 0.32, 0.67), cream, bevel=0.012),
+             box("shield", (0.36, 0.1, 0.62), (0, -0.33, 0.28), body_m, bevel=0.06, rot=(math.radians(-10), 0, 0)),
+             box("shield_in", (0.3, 0.04, 0.5), (0, -0.27, 0.32), cream, bevel=0.03, rot=(math.radians(-10), 0, 0)),
+             tube_path("rarm", [Vector((0, 0.25, 0.3)), Vector((0, yr, RW))], 0.035, dark),
+             tube_path("rguard", [Vector((0, yr + math.sin(a) * (RW + 0.05), RW + math.cos(a) * (RW + 0.05)))
+                                  for a in [math.radians(x) for x in range(-20, 120, 10)]], 0.05, body_m),
+             box("rack", (0.3, 0.34, 0.03), (0, 0.72, 0.78), "metal", bevel=0.01),
+             box("dbox", (0.44, 0.42, 0.4), (0, 0.74, 0.81), mat("bag_turq", "turq", rough=0.5), bevel=0.06),
+             box("dbox_lid", (0.46, 0.44, 0.05), (0, 0.74, 1.2), cream, bevel=0.02),
+             box("dbox_strip", (0.45, 0.43, 0.04), (0, 0.74, 0.98), mat("reflective", "#d8e3e6", rough=0.3)),
+             cyl("taillight", 0.04, 0.03, (0, yr + 0.27, 0.62), mat("EMIT_brake", "#c8302a", emit="#ff3b2f",
+                                                                   emit_strength=1.0), n=10,
+                 rot=(math.radians(90), 0, 0)),
+             tube_path("rstrut1", [Vector((0.12, 0.45, 0.45)), Vector((0.12, 0.6, 0.78))], 0.014, "metal"),
+             tube_path("rstrut2", [Vector((-0.12, 0.45, 0.45)), Vector((-0.12, 0.6, 0.78))], 0.014, "metal"),
+             cyl("stand", 0.012, 0.22, Vector((0.12, 0.15, 0.0)), "metal", n=6, rot=(math.radians(15), 0, 0))]
+    for sx in (-1, 1):
+        parts.append(box("peg%d" % sx, (0.1, 0.12, 0.03), (sx * 0.18, 0.12, 0.3), dark, bevel=0.01))
+    group(name + "_frame", root, parts, coll)
+    wheel("WHEEL_rear", RW, 0.12, (0, yr, RW), coll, root, spokes=False, hub_m=cream, wide=1.8)
+    st = node("STEER", (0, -0.42, 0.7), coll, root)
+    sp = [tube_path("forkl", [Vector((0.07, -0.4, 0.72)), Vector((0.07, yf, RW))], 0.022, "metal"),
+          tube_path("forkr", [Vector((-0.07, -0.4, 0.72)), Vector((-0.07, yf, RW))], 0.022, "metal"),
+          tube_path("column", [Vector((0, -0.4, 0.62)), Vector((0, -0.3, 0.98))], 0.04, body_m),
+          box("headset", (0.3, 0.16, 0.12), Vector((0, -0.3, 1.0)), body_m, bevel=0.05),
+          tube_path("bar", [Vector((0.28, -0.22, 1.0)), Vector((0, -0.28, 1.02)), Vector((-0.28, -0.22, 1.0))], 0.017,
+                    "black"),
+          cyl("gripL", 0.026, 0.1, Vector((0.22, -0.22, 1.0)), dark, n=8, rot=(0, math.radians(90), 0)),
+          cyl("gripR", 0.026, 0.1, Vector((-0.32, -0.22, 1.0)), dark, n=8, rot=(0, math.radians(90), 0)),
+          cyl("headlamp_rim", 0.1, 0.06, Vector((0, -0.4, 1.0)), cream, n=16, rot=(math.radians(90), 0, 0)),
+          cyl("headlamp", 0.085, 0.07, Vector((0, -0.41, 1.0)), "EMIT_lamp", n=16, rot=(math.radians(90), 0, 0)),
+          tube_path("fguard", [Vector((0, yf + math.sin(a) * (RW + 0.05), RW + math.cos(a) * (RW + 0.05)))
+                               for a in [math.radians(x) for x in range(-90, 30, 10)]], 0.05, body_m)]
+    for sx in (-1, 1):
+        sp.append(sphere("mirror%d" % sx, 0.05, Vector((sx * 0.25, -0.2, 1.22)), "steel", seg=8, rings=6,
+                         scale=(1, 0.4, 0.8)))
+        sp.append(tube_path("mstem%d" % sx, [Vector((sx * 0.2, -0.22, 1.02)), Vector((sx * 0.25, -0.2, 1.18))], 0.008,
+                            "black"))
+    group("STEER_mesh", st, sp, coll)
+    bat = box("EMIT_battery", (0.08, 0.012, 0.02), Vector((0, -0.37, 1.07)), mat("EMIT_battery", "#3bff6a",
+                                                                               emit="#3bff6a", emit_strength=1.5))
+    group("EMIT_battery", st, [bat], coll)
+    wheel("WHEEL_front", RW, 0.1, (0, yf, RW), coll, st, spokes=False, hub_m=cream, wide=1.6)
+    lh = point_light("LIGHT_head", (0, -0.6, 1.0), 50, color="#fff2cc", coll=coll)
+    lh.parent = st
+    lh.matrix_parent_inverse = st.matrix_world.inverted()
+    node("MARK_seat", (0, 0.30, 0.0), coll, root)
+    colb = colbox(name, (0.45, 1.6, 1.2), (0, 0, 0.1), coll)
+    colb.parent = root
+    return root
+
+
+def ecar_extra(W, L, H, top_z, ch, cab_y, cab_len, pm):
+    cream = mat("ecar_cream", "#f4ead6", rough=0.4)
+    out = [box("roofbox", (W * 0.7, cab_len * 0.8, 0.26), (0, cab_y + 0.05, top_z + ch - 0.06),
+               mat("roofbox", "#5d6670", rough=0.5), bevel=0.1),
+           box("rails", (W * 0.75, cab_len * 0.9, 0.04), (0, cab_y + 0.05, top_z + ch - 0.02), "metal"),
+           box("skirt", (W * 1.01, L * 0.92, 0.16), (0, 0, 0.27), pm, bevel=0.06),
+           box("roof_cream", (W * 0.87, cab_len * 1.01, 0.08), (0, cab_y, top_z + ch - 0.1), cream, bevel=0.04),
+           box("EMIT_battery", (0.16, 0.03, 0.05), (0, -L / 2 - 0.02, top_z - 0.12),
+               mat("EMIT_battery", "#3bff6a", emit="#3bff6a", emit_strength=1.5))]
+    for sx in (-1, 1):
+        out.append(cyl("roundlamp%d" % sx, 0.13, 0.06, (sx * W * 0.3, -L / 2 - 0.03, top_z - 0.25),
+                       mat("EMIT_headlight", "#fff6d8", emit="#fff2c0", emit_strength=0.0), n=16,
+                       rot=(math.radians(90), 0, 0)))
+        out.append(torus("lamprim%d" % sx, 0.13, 0.025, (sx * W * 0.3, -L / 2 - 0.05, top_z - 0.25), cream, n=16, nr=6,
+                         rot=(math.radians(90), 0, 0)))
+    return out
+
+
+def ecar(name="ecar"):
+    """Tiny two-seat electric city car (turquoise/cream, roof box). Driver sits at Blender x=+0.32, y=+0.25."""
+    root = car(name, L=2.7, W=1.5, H=1.55, paint="#2ec4b6", paint_name="ecar_paint", cabin=(0.66, 0.08),
+               wheel_r=0.3, extra=ecar_extra)
+    coll = root.users_collection[0]
+    seats = [box("seatL", (0.5, 0.45, 0.12), (0.32, 0.25, 0.4), "black", bevel=0.05),
+             box("seatLb", (0.5, 0.1, 0.55), (0.32, 0.5, 0.7), "black", bevel=0.05),
+             cyl("swheel", 0.17, 0.04, (0.32, -0.32, 0.92), "black", n=16, rot=(math.radians(60), 0, 0))]
+    group(name + "_interior", root, seats, coll)
+    node("MARK_seat", (0.32, 0.25, 0.0), coll, root)
+    return root
+
+
 CAT = [("bicycle", bicycle), ("scooter", scooter),
        ("car_hatch", lambda: car("car_hatch")),
        ("car_taxi", lambda: car("car_taxi", L=3.8, paint="#f6c945", paint_name="taxi_paint", extra=taxi_extra)),
        ("car_van", lambda: car("car_van", L=4.4, W=1.9, H=2.1, paint="#f7f3ea", paint_name="van_paint",
                                cabin=(0.3, -1.1), extra=van_extra)),
-       ("bus", bus), ("tram", tram)]
+       ("bus", bus), ("tram", tram),
+       ("ebike", ebike), ("moped", moped), ("ecar", ecar)]
 
 
 def main():

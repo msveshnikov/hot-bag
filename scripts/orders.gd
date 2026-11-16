@@ -109,13 +109,15 @@ func make_offer(rest = "", door_id = "", regular = "") -> Dictionary:
 			"trait": t, "tip": rs.randf_range(0.2, 0.7), "lines": data["random_lines"][t]}
 	var path: PackedVector3Array = world.nav.path(_v(r["pickup"]), _v(door["pos"]), "bicycle")
 	var dist = Nav.length(path)
-	var floor_n = int(cust.get("floor", rs.randi_range(1, int(door["floors"]))))
+	var floor_n = 0 if door.get("kind", "house") == "park" else int(cust.get("floor", rs.randi_range(1, max(1, int(door["floors"])))))
 	var pay = float(rules["base_pay"]) + float(rules["pay_per_100m"]) * dist / 100.0
 	pay *= float(r.get("price", 1.0)) * float(item[3]) * (0.8 + 0.2 * floor_n / 3.0)
 	if world.daynight.is_night():
 		pay *= 1.0 + float(rules["night_bonus"])
 	if world.daynight.rain > 0.4:
 		pay *= 1.0 + float(rules["rain_bonus"])
+	if world.daynight.snow_cover > 0.5:
+		pay *= 1.0 + float(rules["rain_bonus"]) * 1.2   # nobody wants to go out in the snow
 	for rh in rules["rush_hours"]:
 		if world.daynight.hour >= rh[0] and world.daynight.hour < rh[1]:
 			pay *= 1.0 + float(rules["rush_bonus"])
@@ -214,13 +216,14 @@ func _food_drift(o: Dictionary, delta: float) -> void:
 	var f: Dictionary = rules["food"].get(o["item"][2], {})
 	var heat: float = world.daynight.heat
 	var cool = 0.6 if Game.has_gear("cooling_pack") else 1.0
+	var frost = 1.0 + 0.6 * world.daynight.snow_cover * (0.3 if world.player.mode == Player.Mode.CAR else 1.0)
 	if f.has("cool_per_s"):
-		o["temp"] = max(0.0, o["temp"] - float(f["cool_per_s"]) * delta * (0.6 if heat > 0.5 else 1.0))
+		o["temp"] = max(0.0, o["temp"] - float(f["cool_per_s"]) * delta * (0.6 if heat > 0.5 else 1.0) * frost)
 	if f.has("melt_per_s"):
 		o["temp"] = max(0.0, o["temp"] - float(f["melt_per_s"]) * delta * cool * (1.0 + heat * (float(f.get("heat_mult", 1.0)) - 1.0)))
 	if f.has("warm_per_s"):
 		o["temp"] = max(0.0, o["temp"] - float(f["warm_per_s"]) * delta * cool * (1.0 + heat))
-	if world.daynight.rain > 0.4 and not Game.has_gear("waterproof_bag"):
+	if world.daynight.rain > 0.4 and not Game.has_gear("waterproof_bag") and world.player.mode != Player.Mode.CAR:
 		o["wet"] = min(100.0, o["wet"] + 1.2 * delta * world.daynight.rain)
 
 

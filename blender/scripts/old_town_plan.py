@@ -93,8 +93,9 @@ BASE_FRONT = 28.0
 DREAM_X = 23.0
 # exits to the run 2 districts (rects the player rides into) and arrival points (x, y, yaw)
 EXITS = [dict(to="city", rect=(53, 88, 63, 95), label="Мост в «Сити»"),
-         dict(to="berezki", rect=(91, 49, 96, 59), label="Дорога в «Берёзки»")]
-ENTRIES = {"city": (58.0, 80.0, 0.0), "berezki": (86.0, 62.0, -90.0)}
+         dict(to="berezki", rect=(91, 49, 96, 59), label="Дорога в «Берёзки»"),
+         dict(to="gastro", rect=(-120, 49, -117, 59), label="Проспект в Гастроквартал")]
+ENTRIES = {"city": (58.0, 80.0, 0.0), "berezki": (86.0, 62.0, -90.0), "gastro": (-108.0, 62.0, 90.0)}
 
 
 def house_dims(meta, name):
