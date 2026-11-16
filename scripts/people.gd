@@ -236,7 +236,19 @@ func _rivals(delta: float) -> void:
 
 
 # ---------------------------------------------------------------- thief
+## A vehicle can only be stolen while it stands parked, unlocked, with the courier at least 10 m away.
+func _can_steal(vehicle_node: Node3D) -> bool:
+	if not is_instance_valid(vehicle_node) or world.player.riding():
+		return false
+	var p: Dictionary = world.parked
+	if p.is_empty() or p.get("node") != vehicle_node or p.get("locked", false):
+		return false
+	return p["body"].global_position.distance_to(world.player.global_position) >= 10.0
+
+
 func steal(vehicle_node: Node3D, kind: String) -> void:
+	if not _can_steal(vehicle_node):
+		return
 	var marks = []
 	for m in Game.layout["markers"]:
 		if m["name"] == "MARK_thief":
@@ -260,6 +272,11 @@ func _thief(delta: float) -> void:
 	var t: Node3D = thief["node"]
 	thief["time"] += delta
 	var path: PackedVector3Array = thief["path"]
+	if thief["phase"] == "sneak" and not _can_steal(thief["veh"]):
+		# the courier is back on the vehicle (or next to it): the thief gives up and slips away
+		t.queue_free()
+		thief = {}
+		return
 	var spd = 2.2 if thief["phase"] == "sneak" else 6.5
 	if thief["i"] < path.size():
 		var d: Vector3 = path[thief["i"]] - t.position

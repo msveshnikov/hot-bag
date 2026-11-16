@@ -350,6 +350,18 @@ func _run() -> void:
 	# ---------------- theft, save/load, summary
 	Game.state["money"] = 500.0
 	world.events.flat = false
+	if not world.parked.is_empty():
+		var pb: Vector3 = world.parked["body"].global_position
+		tp(pb + Vector3(0.8, 0, 0), 0.0)
+		world.mount_parked()
+		await wait(0.4)
+		world.people.steal(pl.vehicle_model, pl.vehicle_kind)
+		await wait(0.5)
+		check(world.people.thief.is_empty() and pl.riding(), "a thief can't steal the vehicle from under the riding courier")
+		world.dismount_here()
+		await wait(0.3)
+		tp(world.parked["body"].global_position + Vector3(15, 0, 0), 0.0)
+		await wait(0.3)
 	var parked_kind = world.parked.get("kind", "")
 	if parked_kind != "":
 		world.people.steal(world.parked["node"], parked_kind)
