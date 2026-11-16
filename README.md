@@ -42,7 +42,7 @@ renders/                                  превью и скриншоты (.g
 build/                                    сборки (.gdignore, не в git)
 ```
 
-**▶ Играть в браузере (ПК и телефон): https://maxims.top/hotbag/** · **Android APK: https://maxims.top/hotbag/HotBag.apk****
+**▶ Играть в браузере (ПК и телефон): https://maxims.top/hotbag/** · **Android APK: https://maxims.top/hotbag/HotBag.apk**
 
 ## Управление
 
