@@ -5,6 +5,7 @@ extends Control
 
 var world: Node
 var money_l: Label
+var star_row: HBoxContainer
 var rating_l: Label
 var clock_l: Label
 var obj_l: Label
@@ -33,10 +34,17 @@ func _ready() -> void:
 	tl.add_theme_stylebox_override("panel", UiKit.box(Color(UiKit.CREAM, 0.94), UiKit.INK, 4, 22, 10))
 	var tlv = UiKit.vbox(2)
 	tl.add_child(tlv)
-	money_l = UiKit.label("● 0", 34, Color("c98a00"))
-	rating_l = UiKit.label("★ 4.0", 26, UiKit.INK)
-	tlv.add_child(money_l)
-	tlv.add_child(rating_l)
+	money_l = UiKit.label("0", 34, Color("c98a00"))
+	rating_l = UiKit.label("4.0", 24, UiKit.INK)
+	var mr = UiKit.hbox(8)
+	mr.add_child(Icon.make("coin", 30.0))
+	mr.add_child(money_l)
+	tlv.add_child(mr)
+	var rr = UiKit.hbox(6)
+	star_row = Icon.stars(4.0, 22.0)
+	rr.add_child(star_row)
+	rr.add_child(rating_l)
+	tlv.add_child(rr)
 	add_child(tl)
 	# top-centre: clock + objective
 	var tc = VBoxContainer.new()
@@ -129,18 +137,19 @@ func _process(delta: float) -> void:
 	if world == null or not world.started:
 		return
 	visible = world.screens.top_name() in ["", "phone"] or true
-	money_l.text = "● " + Game.money_text()
+	money_l.text = Game.money_text()
 	var r = float(Game.state["rating"])
-	rating_l.text = "%s %.1f" % [UiKit.stars(r), r]
+	rating_l.text = "%.1f" % r
+	Icon.set_stars(star_row, r)
 	rating_l.add_theme_color_override("font_color", UiKit.INK if r >= 3.0 else UiKit.CORAL)
 	clock_l.text = "День %d · %s" % [int(Game.state["day"]), world.daynight.clock_text()]
 	var w = ""
 	if world.daynight.rain > 0.4:
-		w = "☂ дождь"
+		w = "дождь"
 	elif world.daynight.heat > 0.5:
-		w = "☀ жара"
+		w = "жара"
 	elif world.daynight.is_night():
-		w = "☾ ночь"
+		w = "ночь"
 	weather_l.text = w
 	var tgt: Dictionary = world.gps_target
 	var obj: String = world.story.objective()
@@ -148,7 +157,7 @@ func _process(delta: float) -> void:
 		var o: Dictionary = tgt["order"]
 		var tl: float = world.orders.time_left(o)
 		var tm = "%d:%02d" % [int(abs(tl)) / 60, int(abs(tl)) % 60]
-		obj = ("➜ %s · %s %s" % [tgt["label"], "опоздание" if tl < 0 else "осталось", tm])
+		obj = ("» %s · %s %s" % [tgt["label"], "опоздание" if tl < 0 else "осталось", tm])
 		if tgt["kind"] == "door":
 			obj += " · этаж %d" % int(o["floor"])
 	obj_l.text = obj
@@ -189,7 +198,7 @@ func _update_food() -> void:
 		pnl.add_theme_stylebox_override("panel", UiKit.box(Color(UiKit.CREAM, 0.92), UiKit.INK, 4, 18, 10))
 		var v = UiKit.vbox(4)
 		pnl.add_child(v)
-		var st = {"to_restaurant": "→ ресторан", "waiting": "готовится", "carrying": "в сумке"}.get(o["state"], "")
+		var st = {"to_restaurant": "едем в ресторан", "waiting": "готовится", "carrying": "в сумке"}.get(o["state"], "")
 		v.add_child(UiKit.label("%s · %s" % [o["item"][1], st], 20))
 		if o["state"] == "carrying":
 			var row = UiKit.hbox(6)

@@ -116,7 +116,7 @@ func open_phone(tab = "") -> void:
 	var sp = Control.new()
 	sp.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	head.add_child(sp)
-	head.add_child(UiKit.label("%s %.1f  ▮%d%%" % [UiKit.stars(Game.state["rating"]), Game.state["rating"], int(world.player.phone)], 20))
+	head.add_child(UiKit.label("рейтинг %.1f · тел. %d%%" % [Game.state["rating"], int(world.player.phone)], 20))
 	v.add_child(head)
 	var tabs = UiKit.hbox(6)
 	for tb in [["orders", "Заказы"], ["active", "Мои"], ["map", "Карта"], ["profile", "Профиль"]]:
@@ -162,8 +162,8 @@ func _card(bg = Color("ffffff")) -> Array:
 	return [c, v]
 
 
-const TRAIT_NOTE = {"polite": "", "capricious": "⚠ привередливый клиент", "no_call": "☎ просит НЕ звонить",
-	"leave_at_door": "🚪 «оставьте у двери»"}
+const TRAIT_NOTE = {"polite": "", "capricious": "привередливый клиент!", "no_call": "просит НЕ звонить",
+	"leave_at_door": "просит оставить у двери"}
 const FOOD_ICON = {"pizza": "🍕", "burger": "🍔", "drink": "🥤", "sushi": "🍣", "coffee": "☕", "icecream": "🍦",
 	"cake": "🎂", "lunch": "📦"}
 
@@ -185,14 +185,14 @@ func _phone_orders(list: VBoxContainer) -> void:
 		var sp = Control.new()
 		sp.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		row.add_child(sp)
-		row.add_child(UiKit.label("● %d" % int(round(o["pay"])), 26, Color("c98a00")))
+		row.add_child(UiKit.label("%d мон." % int(round(o["pay"])), 26, Color("c98a00")))
 		v.add_child(row)
-		v.add_child(UiKit.label("%s  →  %s" % [o["item"][1], o["door"]["label"]], 20, UiKit.INK, true))
+		v.add_child(UiKit.label("%s  »  %s" % [o["item"][1], o["door"]["label"]], 20, UiKit.INK, true))
 		var info = "%d м · %d:%02d на доставку · этаж %d · риск: %s" % [int(o["dist"]), int(o["limit"]) / 60, int(o["limit"]) % 60, int(o["floor"]), o["risk"]]
 		v.add_child(UiKit.label(info, 17, Color("5d6670"), true))
 		var note: String = TRAIT_NOTE.get(o["customer"].get("trait", "polite"), "")
 		if o["customer"].get("id", "") != "":
-			note = "★ постоянный клиент: %s  %s" % [o["customer"]["name"], note]
+			note = "Постоянный клиент: %s  %s" % [o["customer"]["name"], note]
 		if o.get("quest", "") != "":
 			note = "КВЕСТ: " + Game.orders_data["quests"][o["quest"]]["title"] + ("  (нужен багажник)" if o.get("needs", "") == "rack" else "")
 		if note != "":
@@ -219,7 +219,7 @@ func _phone_active(list: VBoxContainer) -> void:
 		v.add_child(UiKit.label("Клиент: %s · %s · этаж %d" % [o["customer"].get("name", ""), o["door"]["label"], int(o["floor"])], 19, UiKit.INK, true))
 		var tl: float = world.orders.time_left(o)
 		var st = {"to_restaurant": "Едь в ресторан", "waiting": "Кухня готовит", "carrying": "Вези клиенту"}.get(o["state"], "")
-		v.add_child(UiKit.label("%s · %s %d:%02d · оплата ● %d" % [st, "осталось" if tl >= 0 else "опоздание", int(abs(tl)) / 60, int(abs(tl)) % 60, int(o["pay"])], 18, Color("5d6670"), true))
+		v.add_child(UiKit.label("%s · %s %d:%02d · оплата %d мон." % [st, "осталось" if tl >= 0 else "опоздание", int(abs(tl)) / 60, int(abs(tl)) % 60, int(o["pay"])], 18, Color("5d6670"), true))
 		var note: String = TRAIT_NOTE.get(o["customer"].get("trait", "polite"), "")
 		if note != "":
 			v.add_child(UiKit.label(note, 17, UiKit.CORAL))
@@ -246,11 +246,11 @@ func _phone_profile(list: VBoxContainer) -> void:
 	var s: Dictionary = Game.state["stats"]
 	list.add_child(UiKit.label(world.story.chapter_title(), 26, UiKit.TURQ_D, true))
 	list.add_child(UiKit.label(world.story.objective(), 20, UiKit.INK, true))
-	list.add_child(UiKit.label("Рейтинг: %s %.2f   (ниже 3,0 — предупреждение, ниже 2,5 — блокировка)" % [UiKit.stars(Game.state["rating"]), Game.state["rating"]], 19, UiKit.INK, true))
+	list.add_child(UiKit.label("Рейтинг: %.2f из 5   (ниже 3,0 — предупреждение, ниже 2,5 — блокировка)" % Game.state["rating"], 19, UiKit.INK, true))
 	list.add_child(UiKit.label("Доставлено: %d · опозданий: %d · чаевые: %d · штрафы: %d · падения: %d" % [int(s["delivered"]), int(s["late"]), int(s["tips"]), int(s["fines"]), int(s["falls"])], 18, Color("5d6670"), true))
 	list.add_child(UiKit.label("Задания дня", 24, UiKit.TURQ_D))
 	for t in Game.state["daily"]:
-		list.add_child(UiKit.label("%s %s — %d/%d (+%d)" % ["✔" if t["done"] else "•", t["text"], min(int(t["have"]), int(t["goal"])), int(t["goal"]), int(t["reward"])], 19, UiKit.INK if not t["done"] else Color("17807b"), true))
+		list.add_child(UiKit.label("%s %s — %d/%d (+%d)" % ["[готово]" if t["done"] else "•", t["text"], min(int(t["have"]), int(t["goal"])), int(t["goal"]), int(t["reward"])], 19, UiKit.INK if not t["done"] else Color("17807b"), true))
 	list.add_child(UiKit.label("Сумка: перекус %d · энергетик %d · павербанк %d · ремкомплект %d" % [Game.item_count("snack"), Game.item_count("energy_drink"), Game.item_count("powerbank"), Game.item_count("repair_kit")], 18, UiKit.INK, true))
 	list.add_child(UiKit.button("Использовать предмет (X)", func(): close_named("phone"); quick_item(), 480))
 
@@ -486,12 +486,10 @@ func _deliver(o: Dictionary, reply: String) -> void:
 	var v: VBoxContainer = m[1]
 	v.add_child(UiKit.title("Доставлено!" if not res["late"] else "Доставлено с опозданием", 36))
 	v.add_child(UiKit.label("— " + bye, 22, UiKit.INK, true))
-	var stars = ""
-	for i in 5:
-		stars += "★" if i < int(res["stars"]) else "☆"
-	var sl = UiKit.title(stars, 54, Color("e0ac1e"))
-	v.add_child(sl)
-	v.add_child(UiKit.label("Оплата ● %d   Чаевые ● %d%s" % [int(res["pay"]), int(res["tip"]), ("   Бонус ● %d" % int(res["bonus"])) if res["bonus"] > 0 else ""], 24, UiKit.INK))
+	var sc = CenterContainer.new()
+	sc.add_child(Icon.stars(float(res["stars"]), 52.0))
+	v.add_child(sc)
+	v.add_child(UiKit.label("Оплата %d мон.   Чаевые %d мон.%s" % [int(res["pay"]), int(res["tip"]), ("   Бонус %d мон." % int(res["bonus"])) if res["bonus"] > 0 else ""], 24, UiKit.INK))
 	v.add_child(UiKit.label("Рейтинг: %.2f" % Game.state["rating"], 20, Color("5d6670")))
 	v.add_child(UiKit.button("Дальше", func(): close_named("result"), 560))
 	push("result", m[0])
@@ -512,16 +510,16 @@ func _shop_row(v: VBoxContainer, id: String, after: Callable) -> void:
 		"upgrade":
 			have = "  ур. %d/%d" % [Game.upgrade_level(id), int(it.get("max", 1))]
 		"gear", "helmet":
-			have = "  ✔ есть" if Game.has_gear(id) else ""
+			have = "  (есть)" if Game.has_gear(id) else ""
 		"consumable":
 			have = "  в сумке: %d" % Game.item_count(id)
 		"vehicle":
-			have = "  ✔ свой" if Game.state["owned"].get(id, false) else ""
+			have = "  (свой)" if Game.state["owned"].get(id, false) else ""
 	row.add_child(UiKit.label(have, 18, Color("17807b")))
 	var sp = Control.new()
 	sp.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(sp)
-	var b = UiKit.button("● %d" % int(it["price"]), func():
+	var b = UiKit.button("%d мон." % int(it["price"]), func():
 		if Game.buy(id):
 			Sfx.play("coin")
 			world.story.on_buy(id)
@@ -552,7 +550,7 @@ func _shop_window(title: String, sub: String, build: Callable, name: String) -> 
 	var sp = Control.new()
 	sp.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	head.add_child(sp)
-	head.add_child(UiKit.label("● " + Game.money_text(), 32, Color("c98a00")))
+	head.add_child(UiKit.label(Game.money_text() + " мон.", 32, Color("c98a00")))
 	v.add_child(head)
 	if sub != "":
 		v.add_child(UiKit.label(sub, 19, Color("5d6670"), true))
@@ -609,7 +607,7 @@ func _garage_vehicle(list: VBoxContainer) -> void:
 	row.add_child(sb)
 	list.add_child(row)
 	if not owned_s:
-		var rb = UiKit.button("Арендовать самокат на день — ● %d" % Game.SCOOTER_RENT, func():
+		var rb = UiKit.button("Арендовать самокат на день — %d мон." % Game.SCOOTER_RENT, func():
 			if Game.state["money"] >= Game.SCOOTER_RENT:
 				Game.spend(Game.SCOOTER_RENT)
 				Game.state["rented_today"] = true
@@ -622,7 +620,7 @@ func _garage_vehicle(list: VBoxContainer) -> void:
 		list.add_child(rb)
 	_shop_row(list, "scooter", func(): open_garage())
 	if world.events.flat:
-		list.add_child(UiKit.button("Заклеить прокол — ● 10", func():
+		list.add_child(UiKit.button("Заклеить прокол — 10 мон.", func():
 			if Game.state["money"] >= 10:
 				Game.spend(10)
 				world.events.fix_flat()
@@ -664,7 +662,7 @@ func open_kiosk() -> void:
 func _kiosk_build(list: VBoxContainer) -> void:
 	for id in ["snack", "energy_drink", "powerbank", "repair_kit"]:
 		_shop_row(list, id, func(): open_kiosk())
-	list.add_child(UiKit.button("Съесть шаурму прямо сейчас — ● 7", _eat_now, 780, UiKit.SUN))
+	list.add_child(UiKit.button("Съесть шаурму прямо сейчас — 7 мон.", _eat_now, 780, UiKit.SUN))
 
 
 func _eat_now() -> void:
@@ -685,8 +683,8 @@ func open_cafe() -> void:
 
 
 func _cafe_build(list: VBoxContainer) -> void:
-	list.add_child(UiKit.button("Капучино (+50 сил) — ● 4", _coffee, 780, UiKit.SUN))
-	list.add_child(UiKit.button("Зарядить телефон до 100% — ● 3", _charge_phone, 780, UiKit.TURQ))
+	list.add_child(UiKit.button("Капучино (+50 сил) — 4 мон.", _coffee, 780, UiKit.SUN))
+	list.add_child(UiKit.button("Зарядить телефон до 100% — 3 мон.", _charge_phone, 780, UiKit.TURQ))
 	list.add_child(UiKit.button("Сохранить игру", func(): Game.save_game(); world.toast("Игра сохранена.", 1.5), 780, Color("e8dcc4")))
 
 
@@ -762,11 +760,11 @@ func open_summary() -> void:
 	var v: VBoxContainer = m[1]
 	v.add_child(UiKit.title("Смена %d окончена" % int(Game.state["day"]), 42))
 	v.add_child(UiKit.label("Доставлено заказов: %d   ·   пять звёзд: %d" % [n, five], 24))
-	v.add_child(UiKit.label("Заработано: ● %d (чаевые ● %d)" % [int(earned), int(tips)], 24))
-	v.add_child(UiKit.label("Рейтинг: %s %.2f" % [UiKit.stars(Game.state["rating"]), Game.state["rating"]], 24))
-	v.add_child(UiKit.label("Кошелёк: ● %s" % Game.money_text(), 24, Color("c98a00")))
+	v.add_child(UiKit.label("Заработано: %d мон. (чаевые %d)" % [int(earned), int(tips)], 24))
+	v.add_child(UiKit.label("Рейтинг: %.2f из 5" % Game.state["rating"], 24))
+	v.add_child(UiKit.label("Кошелёк: %s мон." % Game.money_text(), 24, Color("c98a00")))
 	for t in Game.state["daily"]:
-		v.add_child(UiKit.label("%s %s" % ["✔" if t["done"] else "✗", t["text"]], 19, Color("17807b") if t["done"] else Color("8f8a80")))
+		v.add_child(UiKit.label("%s %s" % ["[готово]" if t["done"] else "[нет]", t["text"]], 19, Color("17807b") if t["done"] else Color("8f8a80")))
 	v.add_child(UiKit.label(world.story.objective(), 20, UiKit.TURQ_D, true))
 	v.add_child(UiKit.button("Следующий день", func():
 		get_tree().paused = false

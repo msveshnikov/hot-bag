@@ -545,16 +545,20 @@ func _make_gps() -> void:
 	gps_line.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	add_child(gps_line)
 	gps_pin = Node3D.new()
-	var lbl = Label3D.new()
-	lbl.text = "▼"
-	lbl.font_size = 180
-	lbl.pixel_size = 0.006
-	lbl.billboard = BaseMaterial3D.BILLBOARD_ENABLED
-	lbl.modulate = Color(0.3, 1.0, 0.6)
-	lbl.outline_size = 24
-	lbl.outline_modulate = Color("1d4a3a")
-	lbl.no_depth_test = true
-	lbl.fixed_size = false
+	var lbl = MeshInstance3D.new()
+	var cone = CylinderMesh.new()
+	cone.top_radius = 0.7
+	cone.bottom_radius = 0.0
+	cone.height = 1.2
+	cone.radial_segments = 12
+	lbl.mesh = cone
+	var cm = StandardMaterial3D.new()
+	cm.albedo_color = Color(0.3, 1.0, 0.6)
+	cm.emission_enabled = true
+	cm.emission = Color(0.2, 0.9, 0.5)
+	cm.emission_energy_multiplier = 0.6
+	lbl.material_override = cm
+	lbl.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	gps_pin.add_child(lbl)
 	var beam = MeshInstance3D.new()
 	var cyl = CylinderMesh.new()

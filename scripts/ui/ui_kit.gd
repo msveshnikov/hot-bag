@@ -215,5 +215,5 @@ static func stars(r: float) -> String:
 	var full = int(floor(r + 0.25))
 	var s = ""
 	for i in 5:
-		s += "★" if i < full else "☆"
+		s += "*" if i < full else "-"
 	return s
