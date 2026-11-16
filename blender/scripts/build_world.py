@@ -54,9 +54,15 @@ def instance(coll_obj, name, x, y, yaw, parent_coll, z=0.0):
 def local_marks(coll_obj, root_name):
     """MARK_/INT_ objects inside a linked asset collection, positions relative to the asset root."""
     out = []
+
+    def world_of(o):
+        # linked library objects are not evaluated: compose the parent chain by hand
+        if o.parent is None:
+            return o.matrix_basis.copy()
+        return world_of(o.parent) @ o.matrix_parent_inverse @ o.matrix_basis
     for o in coll_obj.all_objects:
         if o.name.startswith("MARK_") or o.name.startswith("INT_"):
-            mw = o.matrix_world  # library objects are at the asset origin (root at 0)
+            mw = world_of(o)
             out.append((o.name.split(".")[0], mw.translation.copy(), mw.to_euler().z))
     return out
 
@@ -148,7 +154,7 @@ def ground(g, coll):
     W_ = [(-100, -34, -100, 20), (80, -34, 80, 20), (-100, -70, 80, -70), (-100, 28, -100, 44), (80, 28, 80, 44),
           (-100, -70, -100, -42), (80, -70, 80, -42), (-60, 28, -60, 44), (-52, 28, -52, 44), (30, 28, 30, 44),
           (38, 28, 38, 44), (-60, -70, -60, -42), (-52, -70, -52, -42), (30, -70, 30, -42), (38, -70, 38, -42),
-          (-52, -34, -52, -6), (30, -34, 30, -6), (-100, -34, -60, -34), (-100, 20, -60, 20)]
+          (-52, -34, -52, -6), (30, -34, 30, -6)]
     for (a, b, c, d) in W_:
         L = math.hypot(c - a, d - b)
         if L < 0.1:
@@ -329,18 +335,18 @@ def main():
 
     # lighting presets (Godot units): sun pitch/yaw degrees, colours hex, energies
     lighting = {
-        "morning": dict(time=8.0, sun_pitch=-20, sun_yaw=-60, sun_color="#ffe2b8", sun_energy=1.1, sky_top="#8fc7ef",
-                        sky_horizon="#f6dcc0", ambient="#c6d5e6", ambient_energy=0.6, fog_color="#e6e2da",
-                        fog_density=0.0025, emission=0.0, lamps=False),
-        "noon": dict(time=13.0, sun_pitch=-62, sun_yaw=-30, sun_color="#fff6e3", sun_energy=1.35, sky_top="#5fb2ef",
-                     sky_horizon="#cfe9fb", ambient="#d4e3f2", ambient_energy=0.7, fog_color="#dbe8f2",
-                     fog_density=0.0015, emission=0.0, lamps=False),
+        "morning": dict(time=8.0, sun_pitch=-20, sun_yaw=-60, sun_color="#ffe2b8", sun_energy=1.3, sky_top="#8fc7ef",
+                        sky_horizon="#f6dcc0", ambient="#c6d5e6", ambient_energy=0.55, fog_color="#eadfd0",
+                        fog_density=0.0012, emission=0.0, lamps=False),
+        "noon": dict(time=13.0, sun_pitch=-62, sun_yaw=-30, sun_color="#fff3dc", sun_energy=1.55, sky_top="#5fb2ef",
+                     sky_horizon="#cfe9fb", ambient="#cfdcef", ambient_energy=0.55, fog_color="#d6e6f4",
+                     fog_density=0.0008, emission=0.0, lamps=False),
         "evening": dict(time=19.0, sun_pitch=-12, sun_yaw=110, sun_color="#ffb070", sun_energy=1.0, sky_top="#6f86c9",
                         sky_horizon="#ffb58a", ambient="#d9b7a0", ambient_energy=0.55, fog_color="#f0c6a6",
                         fog_density=0.003, emission=1.2, lamps=True),
-        "night": dict(time=22.5, sun_pitch=-45, sun_yaw=150, sun_color="#8ea6ff", sun_energy=0.18, sky_top="#0f1a3d",
-                      sky_horizon="#2a3a6e", ambient="#4a5c8f", ambient_energy=0.45, fog_color="#1d2a4f",
-                      fog_density=0.004, emission=3.0, lamps=True),
+        "night": dict(time=22.5, sun_pitch=-50, sun_yaw=150, sun_color="#9fb4ff", sun_energy=0.42, sky_top="#16245a",
+                      sky_horizon="#3d4f8f", ambient="#7d8fc9", ambient_energy=0.85, fog_color="#2a3a6e",
+                      fog_density=0.0025, emission=3.0, lamps=True),
         "rain": dict(time=-1, sun_pitch=-50, sun_yaw=-40, sun_color="#d8e2ec", sun_energy=0.55, sky_top="#7d8fa3",
                      sky_horizon="#b4c0cc", ambient="#aab6c4", ambient_energy=0.65, fog_color="#a9b5c2",
                      fog_density=0.008, emission=0.6, lamps=True, wet=True),

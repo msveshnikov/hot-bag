@@ -24,7 +24,7 @@ var _food_t = 0.0
 
 
 func _ready() -> void:
-	set_anchors_preset(Control.PRESET_FULL_RECT)
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	theme = UiKit.theme()
 	# top-left: money + rating
@@ -40,9 +40,8 @@ func _ready() -> void:
 	add_child(tl)
 	# top-centre: clock + objective
 	var tc = VBoxContainer.new()
-	tc.set_anchors_preset(Control.PRESET_CENTER_TOP)
-	tc.position = Vector2(-420, 12)
 	tc.custom_minimum_size = Vector2(840, 0)
+	UiKit.place(tc, Control.PRESET_CENTER_TOP, Vector2(-420, 12))
 	tc.alignment = BoxContainer.ALIGNMENT_BEGIN
 	tc.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(tc)
@@ -65,16 +64,14 @@ func _ready() -> void:
 	# top-right: minimap
 	minimap = Minimap.new()
 	minimap.world = world
-	minimap.set_anchors_preset(Control.PRESET_TOP_RIGHT)
-	minimap.position = Vector2(-250, 16)
 	minimap.custom_minimum_size = Vector2(232, 232)
 	minimap.size = Vector2(232, 232)
+	UiKit.place(minimap, Control.PRESET_TOP_RIGHT, Vector2(-250, 16))
 	add_child(minimap)
 	# bottom-left gauges
 	var bl = UiKit.panel(Vector2(0, 0))
 	bl.add_theme_stylebox_override("panel", UiKit.box(Color(UiKit.CREAM, 0.9), UiKit.INK, 4, 22, 12))
-	bl.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
-	bl.position = Vector2(18, -214)
+	UiKit.place(bl, Control.PRESET_BOTTOM_LEFT, Vector2(18, -24))
 	var blv = UiKit.vbox(6)
 	bl.add_child(blv)
 	for k in [["battery", "Самокат", Color("3bd16a")], ["stamina", "Силы", Color("f6c945")], ["hunger", "Сытость", Color("ef8f3a")], ["phone", "Телефон", Color("7ec3e8")]]:
@@ -91,18 +88,16 @@ func _ready() -> void:
 	add_child(bl)
 	# bottom-right: carried food
 	food_box = VBoxContainer.new()
-	food_box.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
-	food_box.position = Vector2(-330, -260)
 	food_box.custom_minimum_size = Vector2(310, 0)
+	UiKit.place(food_box, Control.PRESET_BOTTOM_RIGHT, Vector2(-330, -30))
 	food_box.alignment = BoxContainer.ALIGNMENT_END
 	food_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(food_box)
 	# prompt
 	prompt = PanelContainer.new()
 	prompt.add_theme_stylebox_override("panel", UiKit.box(Color(UiKit.TURQ, 0.95), UiKit.INK, 4, 20, 10))
-	prompt.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
-	prompt.position = Vector2(-300, -150)
 	prompt.custom_minimum_size = Vector2(600, 0)
+	UiKit.place(prompt, Control.PRESET_CENTER_BOTTOM, Vector2(-300, -150))
 	prompt_l = UiKit.label("", 24, Color.WHITE, true, HORIZONTAL_ALIGNMENT_CENTER)
 	prompt_l.add_theme_constant_override("outline_size", 6)
 	prompt_l.add_theme_color_override("font_outline_color", UiKit.INK)
@@ -113,9 +108,8 @@ func _ready() -> void:
 	# banner
 	banner_p = PanelContainer.new()
 	banner_p.add_theme_stylebox_override("panel", UiKit.box(UiKit.SUN, UiKit.INK, 5, 26, 18))
-	banner_p.set_anchors_preset(Control.PRESET_CENTER)
-	banner_p.position = Vector2(-380, -250)
 	banner_p.custom_minimum_size = Vector2(760, 0)
+	UiKit.place(banner_p, Control.PRESET_CENTER_TOP, Vector2(-380, 150))
 	var bv = UiKit.vbox(6)
 	banner_t = UiKit.title("", 38)
 	banner_b = UiKit.label("", 24, UiKit.INK, true, HORIZONTAL_ALIGNMENT_CENTER)
@@ -126,8 +120,9 @@ func _ready() -> void:
 	banner_p.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(banner_p)
 	if Game.is_touch():
-		bl.position.y = -330
-		bl.scale = Vector2(0.85, 0.85)
+		UiKit.place(bl, Control.PRESET_TOP_LEFT, Vector2(18, 130))
+		UiKit.place(food_box, Control.PRESET_TOP_LEFT, Vector2(18, 380))
+		food_box.grow_vertical = Control.GROW_DIRECTION_END
 
 
 func _process(delta: float) -> void:
@@ -238,6 +233,7 @@ func banner(title: String, text: String) -> void:
 	banner_b.text = text
 	banner_p.visible = true
 	banner_time = 4.5
+	banner_p.modulate.a = 1.0
 	Sfx.play("notify", 0.5)
 
 

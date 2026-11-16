@@ -3,8 +3,8 @@ extends Node3D
 ## Background NPCs, cooks, the mentor, police, rival couriers, thieves (Task 4 population JSON).
 ## No physics: NPCs walk on walkable grid cells; streamed by distance to the player.
 
-const SPAWN_R = 75.0
-const DESPAWN_R = 95.0
+const SPAWN_R = 50.0
+const DESPAWN_R = 62.0
 
 var world: Node
 var npcs: Array = []        # dicts {data, node, home, target, t}
@@ -36,6 +36,8 @@ func setup(w: Node) -> void:
 	var chair: PackedScene = load("res://assets/props/cafe_set_turq.gltf")
 	if chair:
 		var cs: Node3D = chair.instantiate()
+		for b in cs.find_children("*", "StaticBody3D", true, false):
+			b.queue_free()   # the mentor's table must not block the player
 		cs.position = mentor.position + Vector3(0.75, 0, 0).rotated(Vector3.UP, mentor.rotation.y)
 		cs.rotation.y = mentor.rotation.y
 		add_child(cs)

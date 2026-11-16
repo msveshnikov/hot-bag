@@ -8,7 +8,7 @@ var _phone_tab = "orders"
 
 
 func _ready() -> void:
-	set_anchors_preset(Control.PRESET_FULL_RECT)
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	theme = UiKit.theme()
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -59,7 +59,7 @@ func close_named(name: String) -> void:
 
 func _modal(min_size: Vector2, bg = UiKit.CREAM, dim = 0.45) -> Array:
 	var root = Control.new()
-	root.set_anchors_preset(Control.PRESET_FULL_RECT)
+	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	root.process_mode = Node.PROCESS_MODE_ALWAYS
 	if dim > 0.0:
 		UiKit.dim(root, dim)
@@ -99,12 +99,11 @@ func open_phone(tab = "") -> void:
 		_phone_tab = tab
 	close_named("phone")
 	var root = Control.new()
-	root.set_anchors_preset(Control.PRESET_FULL_RECT)
+	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var phone = PanelContainer.new()
 	phone.add_theme_stylebox_override("panel", UiKit.box(Color("2f2a33"), UiKit.INK, 6, 46, 18))
-	phone.set_anchors_preset(Control.PRESET_CENTER_RIGHT)
 	phone.custom_minimum_size = Vector2(560, 830)
-	phone.position = Vector2(-600, -415)
+	UiKit.place(phone, Control.PRESET_CENTER_RIGHT, Vector2(-600, -415))
 	root.add_child(phone)
 	var screen = PanelContainer.new()
 	screen.add_theme_stylebox_override("panel", UiKit.box(UiKit.CREAM, Color("2f2a33"), 0, 32, 14))
@@ -375,19 +374,18 @@ func open_door(o: Dictionary, door: Dictionary) -> void:
 
 func open_stairs(o: Dictionary) -> void:
 	var root = Control.new()
-	root.set_anchors_preset(Control.PRESET_FULL_RECT)
+	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var bg = ColorRect.new()
 	bg.color = Color("efe2c8")
-	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	root.add_child(bg)
 	var art = Stairwell.new()
-	art.set_anchors_preset(Control.PRESET_FULL_RECT)
+	art.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	art.floors = int(o["floor"])
 	root.add_child(art)
 	var top = UiKit.vbox(8)
-	top.set_anchors_preset(Control.PRESET_CENTER_TOP)
-	top.position = Vector2(-400, 30)
 	top.custom_minimum_size = Vector2(800, 0)
+	UiKit.place(top, Control.PRESET_CENTER_TOP, Vector2(-400, 30))
 	root.add_child(top)
 	var title = UiKit.title("Подъезд без лифта: этаж 1 из %d" % int(o["floor"]), 36)
 	top.add_child(title)
@@ -396,9 +394,8 @@ func open_stairs(o: Dictionary) -> void:
 	var st_bar = UiKit.bar(world.player.stamina / 100.0, UiKit.SUN, 400, 22)
 	top.add_child(st_bar)
 	var up = UiKit.button("Вверх!", func(): pass, 300, UiKit.TURQ)
-	up.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
-	up.position = Vector2(-150, -140)
 	up.custom_minimum_size = Vector2(300, 90)
+	UiKit.place(up, Control.PRESET_CENTER_BOTTOM, Vector2(-150, -140))
 	root.add_child(up)
 	var s = {"progress": 0.0, "done": false}
 	var proc = func(delta: float):
@@ -850,8 +847,20 @@ func open_settings() -> void:
 		cb.toggled.connect(func(x):
 			Game.settings[key] = x
 			if key == "shadows" and world.daynight:
-				world.daynight.sun.shadow_enabled = x)
+				world.daynight.apply_quality())
 		v.add_child(cb)
+	var qr = UiKit.hbox(8)
+	qr.add_child(UiKit.label("Графика:", 22))
+	for opt in [[0, "Низкая"], [1, "Средняя"], [2, "Высокая"]]:
+		var qid: int = opt[0]
+		qr.add_child(UiKit.button(opt[1], func():
+			Game.settings["quality"] = qid
+			Game.settings["quality_set"] = true
+			world.daynight.apply_quality()
+			Game.save_settings()
+			close_named("settings")
+			open_settings(), 150, UiKit.TURQ if int(Game.settings["quality"]) == qid else Color("e8dcc4")))
+	v.add_child(qr)
 	var tr = UiKit.hbox(8)
 	tr.add_child(UiKit.label("Сенсорное управление:", 22))
 	for opt in [["auto", "Авто"], ["on", "Вкл"], ["off", "Выкл"]]:

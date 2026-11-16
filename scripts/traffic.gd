@@ -76,6 +76,8 @@ func _spawn_car(pi: int, s: float) -> void:
 	cs.position.y = 0.9
 	body.add_child(cs)
 	body.add_child(node)
+	var sh = Chars.blob(body, 1.3)
+	sh.scale = Vector3(1.0, 1.0, 2.6 if big else 1.9)
 	add_child(body)
 	cars.append({"node": node, "body": body, "path": pi, "s": s, "v": 0.0, "vmax": 7.0 + randf() * 2.5 - (2.0 if big else 0.0), "horn": 0.0})
 

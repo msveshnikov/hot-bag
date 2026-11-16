@@ -38,10 +38,44 @@ static func make(model: String, anim = "idle", keep_acc: Array = []) -> Node3D:
 		c.visible = false
 	var ap: AnimationPlayer = n.find_child("AnimationPlayer", true, false)
 	setup_anims(ap)
+	blob(n, 0.42)
 	if ap and ap.has_animation(anim):
 		ap.play(anim)
 		ap.seek(randf() * 1.5, true)
 	return n
+
+
+static var _blob_mat: StandardMaterial3D
+
+
+## Cheap round contact shadow (used when real shadows are off, looks fine with them too).
+static func blob(parent: Node3D, radius = 0.45) -> MeshInstance3D:
+	if _blob_mat == null:
+		var g = Gradient.new()
+		g.set_color(0, Color(0, 0, 0, 0.45))
+		g.set_color(1, Color(0, 0, 0, 0.0))
+		var gt = GradientTexture2D.new()
+		gt.gradient = g
+		gt.fill = GradientTexture2D.FILL_RADIAL
+		gt.fill_from = Vector2(0.5, 0.5)
+		gt.fill_to = Vector2(1.0, 0.5)
+		gt.width = 64
+		gt.height = 64
+		_blob_mat = StandardMaterial3D.new()
+		_blob_mat.albedo_texture = gt
+		_blob_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		_blob_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		_blob_mat.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED
+	var q = QuadMesh.new()
+	q.size = Vector2(radius * 2.0, radius * 2.0)
+	q.orientation = PlaneMesh.FACE_Y
+	var mi = MeshInstance3D.new()
+	mi.mesh = q
+	mi.material_override = _blob_mat
+	mi.position.y = 0.04
+	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	parent.add_child(mi)
+	return mi
 
 
 static func play(n: Node, anim: String, blend = 0.2) -> void:

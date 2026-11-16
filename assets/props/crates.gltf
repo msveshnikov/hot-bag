@@ -139,7 +139,7 @@
 						"NORMAL":17,
 						"TEXCOORD_0":18
 					},
-					"indices":19,
+					"indices":11,
 					"material":3
 				}
 			]
@@ -322,12 +322,6 @@
 			"componentType":5126,
 			"count":70,
 			"type":"VEC2"
-		},
-		{
-			"bufferView":19,
-			"componentType":5123,
-			"count":240,
-			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
@@ -444,12 +438,6 @@
 			"byteLength":560,
 			"byteOffset":19120,
 			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":480,
-			"byteOffset":19680,
-			"target":34963
 		}
 	],
 	"samplers":[
@@ -460,7 +448,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":20160,
+			"byteLength":19680,
 			"uri":"crates.bin"
 		}
 	]

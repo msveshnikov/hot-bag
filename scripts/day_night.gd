@@ -37,30 +37,49 @@ func setup(lv: Level, lighting: Dictionary) -> void:
 	var sky = Sky.new()
 	sky_mat = ProceduralSkyMaterial.new()
 	sky_mat.sun_angle_max = 25.0
+	sky_mat.sky_curve = 0.12
+	sky_mat.sky_energy_multiplier = 1.1
 	sky.sky_material = sky_mat
 	env.sky = sky
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
-	env.tonemap_mode = Environment.TONE_MAPPER_FILMIC
-	env.tonemap_exposure = 1.0
+	env.tonemap_mode = Environment.TONE_MAPPER_ACES
+	env.tonemap_exposure = 1.08
+	env.tonemap_white = 6.0
+	if true:
+		env.ssao_radius = 1.4
+		env.ssao_intensity = 1.6
+		env.ssao_detail = 0.6
 	env.fog_enabled = true
 	env.fog_mode = Environment.FOG_MODE_EXPONENTIAL
 	env.glow_enabled = true
 	env.glow_intensity = 0.5
 	env.glow_bloom = 0.05
-	env.glow_hdr_threshold = 1.2
+	env.glow_hdr_threshold = 1.6
 	env.adjustment_enabled = true
-	env.adjustment_saturation = 1.12
+	env.adjustment_saturation = 1.08
+	env.adjustment_contrast = 1.06
 	we.environment = env
 	add_child(we)
 	sun = DirectionalLight3D.new()
-	sun.shadow_enabled = bool(Game.settings.get("shadows", true))
-	sun.directional_shadow_max_distance = 70.0
-	sun.directional_shadow_mode = DirectionalLight3D.SHADOW_PARALLEL_2_SPLITS
+	apply_quality()
 	sun.shadow_bias = 0.04
 	sun.shadow_normal_bias = 1.5
 	add_child(sun)
 	_make_rain()
 	apply(true)
+
+
+func apply_quality() -> void:
+	var q = int(Game.settings.get("quality", 1))
+	sun.shadow_enabled = q >= 1 and bool(Game.settings.get("shadows", true))
+	sun.directional_shadow_mode = DirectionalLight3D.SHADOW_ORTHOGONAL if q < 2 else DirectionalLight3D.SHADOW_PARALLEL_2_SPLITS
+	sun.directional_shadow_max_distance = 22.0 if q < 2 else 60.0
+	if env:
+		env.ssao_enabled = q >= 2 and RenderingServer.get_current_rendering_method() != "gl_compatibility"
+		env.glow_enabled = q >= 1
+	get_viewport().msaa_3d = Viewport.MSAA_DISABLED if q == 0 else Viewport.MSAA_2X
+	if level:
+		level.apply_quality(q)
 
 
 func _make_rain() -> void:
@@ -78,11 +97,11 @@ func _make_rain() -> void:
 	pm.gravity = Vector3(0, -10, 0)
 	rain_fx.process_material = pm
 	var q = QuadMesh.new()
-	q.size = Vector2(0.03, 0.7)
+	q.size = Vector2(0.06, 1.1)
 	var m = StandardMaterial3D.new()
 	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	m.albedo_color = Color(0.8, 0.88, 1.0, 0.45)
+	m.albedo_color = Color(0.85, 0.9, 1.0, 0.6)
 	m.billboard_mode = BaseMaterial3D.BILLBOARD_FIXED_Y
 	q.material = m
 	rain_fx.draw_pass_1 = q

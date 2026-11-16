@@ -50,6 +50,7 @@ func _ready() -> void:
 	add_child(orders)
 	orders.setup(self)
 	level.add_plates(Game.orders_data["doors"])
+	level.apply_quality(int(Game.settings.get("quality", 1)))
 	events = Events.new()
 	add_child(events)
 	events.setup(self)
@@ -130,6 +131,8 @@ func park_vehicle(kind: String, node: Node3D, pos: Vector3, yaw: float) -> void:
 	body.add_child(cs)
 	body.add_child(node)
 	node.transform = Transform3D.IDENTITY
+	var sh = Chars.blob(body, 0.45)
+	sh.scale = Vector3(1.0, 1.0, 2.0)
 	add_child(body)
 	body.global_position = Vector3(pos.x, level.ground_height(pos), pos.z)
 	body.rotation.y = yaw

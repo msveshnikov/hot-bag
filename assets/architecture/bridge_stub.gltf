@@ -85,6 +85,12 @@
 			"doubleSided":true,
 			"name":"cobble",
 			"pbrMetallicRoughness":{
+				"baseColorFactor":[
+					1,
+					0.8549926280975342,
+					0.7230551242828369,
+					1
+				],
 				"baseColorTexture":{
 					"index":1
 				},

@@ -58,6 +58,7 @@ func build(d: Dictionary) -> void:
 		_scan(n, i)
 		if it["group"] == "backdrop":
 			_strip_backdrop(n)
+		_optimize(n, it)
 	_water()
 	if d.has("map"):
 		map_tex = load(d["map"]["image"])
@@ -115,7 +116,73 @@ func _scan(root: Node, inst = -1) -> void:
 		traffic_lights.append(tl)
 
 
+const SMALL = ["bench", "trash_bin", "flower_pot", "crates", "mailbox", "bollard", "menu_board", "traffic_cone",
+	"string_lights", "bike_rack", "cafe_set", "cafe_set_turq", "bush", "charger_station", "barrier_works"]
+
+
+## Performance: occluders for buildings, visibility ranges and no shadows for small props.
+func _optimize(n: Node3D, it: Dictionary) -> void:
+	var g: String = it["group"]
+	var asset: String = it["asset"]
+	var meshes = n.find_children("*", "MeshInstance3D", true, false)
+	if asset in SMALL or g == "prop" and not asset.begins_with("tree") and asset != "fountain" and asset != "parapet":
+		for m in meshes:
+			var mi: MeshInstance3D = m
+			mi.visibility_range_end = 55.0
+			mi.visibility_range_end_margin = 5.0
+			mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+			_far.append([mi, "prop"])
+	elif asset.begins_with("tree") or asset in ["parapet", "lamp_post", "traffic_light"]:
+		for m in meshes:
+			(m as MeshInstance3D).visibility_range_end = 110.0
+			if asset != "tree_round" and asset != "tree_round_b":
+				(m as MeshInstance3D).cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	elif g in ["house", "backdrop", "restaurant", "shop", "landmark"]:
+		for m in meshes:
+			var mi: MeshInstance3D = m
+			# small parts of a building (doors, intercoms, signs) fade out in the distance
+			if String(mi.name).begins_with("INT_") or mi.get_aabb().size.length() < 3.0:
+				mi.visibility_range_end = 60.0
+				mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+				_far.append([mi, "prop"])
+			elif g in ["house", "backdrop"]:
+				_far.append([mi, "house"])
+		var meta: Dictionary = Game.layout.get("meta", {})
+		# box occluder slightly inside the building body
+		var aabb = AABB()
+		var first = true
+		for m in meshes:
+			var mi: MeshInstance3D = m
+			if not String(mi.name).ends_with("_mesh") and not String(mi.name).ends_with("_body"):
+				continue
+			var a = mi.transform * mi.get_aabb()
+			aabb = a if first else aabb.merge(a)
+			first = false
+		if not first and aabb.size.x > 3.0 and aabb.size.z > 3.0:
+			var occ = OccluderInstance3D.new()
+			var bo = BoxOccluder3D.new()
+			bo.size = Vector3(aabb.size.x * 0.82, min(aabb.size.y, 14.0) * 0.85, aabb.size.z * 0.82)
+			occ.occluder = bo
+			occ.position = aabb.get_center() - Vector3(0, aabb.size.y * 0.5 - bo.size.y * 0.5, 0)
+			n.add_child(occ)
+
+
+var _far: Array = []      # [MeshInstance3D, kind]
+
+
+func apply_quality(q: int) -> void:
+	var house_r = [110.0, 170.0, 0.0][q]
+	var prop_r = [38.0, 55.0, 80.0][q]
+	for e in _far:
+		var mi: MeshInstance3D = e[0]
+		if not is_instance_valid(mi):
+			continue
+		mi.visibility_range_end = house_r if e[1] == "house" else prop_r
+
+
 func _strip_backdrop(n: Node3D) -> void:
+	for m in n.find_children("*", "MeshInstance3D", true, false):
+		(m as MeshInstance3D).cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	# backdrop houses keep collision but lose interactive parts and lights
 	for c in n.find_children("*", "", true, false):
 		if c is OmniLight3D:
@@ -133,7 +200,7 @@ func set_emission(level: float, wet = false) -> void:
 			var mat: StandardMaterial3D = m
 			mat.emission_enabled = level > 0.01
 			mat.emission = col
-			mat.emission_energy_multiplier = level * (1.6 if nm == "EMIT_window" else 2.2)
+			mat.emission_energy_multiplier = level * (0.55 if nm == "EMIT_window" else 1.3)
 	for nm in ["asphalt", "cobble"]:
 		pass
 

@@ -66,6 +66,10 @@ func _ready() -> void:
 	_parse_flags()
 	_build_input_map()
 	load_settings()
+	if not bool(settings.get("quality_set", false)):
+		settings["quality"] = _auto_quality()
+	if flag("quality"):
+		settings["quality"] = int(flags["quality"][0])
 	new_state()
 	if has_save():
 		load_game()
@@ -87,6 +91,15 @@ func _parse_flags() -> void:
 			i = j
 		else:
 			i += 1
+
+
+func _auto_quality() -> int:
+	if OS.has_feature("web") or OS.has_feature("mobile"):
+		return 0
+	var gpu = RenderingServer.get_video_adapter_name().to_lower()
+	if "intel" in gpu or "uhd" in gpu or "llvmpipe" in gpu:
+		return 0
+	return 1
 
 
 func flag(name: String) -> bool:

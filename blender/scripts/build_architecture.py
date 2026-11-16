@@ -94,9 +94,7 @@ def window(prefix, x, z, y_front, coll, w=1.1, h=1.5, rs=None, accent=None, flow
         for k in range(4):
             c = rs.choice(["coral", "pink", "sun", "red", "lilac"])
             objs.append(sphere(prefix + "_fl%d" % k, 0.17, (x - w * 0.4 + k * w * 0.27, y_front + s * 0.3, z - 0.08),
-                               mat("flower_" + c, c), seg=8, rings=6, coll=coll))
-            objs.append(sphere(prefix + "_lf%d" % k, 0.15, (x - w * 0.3 + k * w * 0.27, y_front + s * 0.33, z - 0.16),
-                               "leaf", seg=8, rings=6, coll=coll))
+                               mat("flower_" + c, c), seg=6, rings=4, coll=coll))
     return objs
 
 
@@ -191,7 +189,6 @@ def house(name, w=8.0, d=10.0, floors=4, color="pink", roof="gable", ground="pla
         for k, x in enumerate(xs):
             objs += window("%s_w%d_%d" % (name, f, k), x, z, yf, coll, rs=rs, accent=accent,
                            flowers=rs.random() < 0.35, shutters=shutters)
-            objs += window("%s_wb%d_%d" % (name, f, k), x, z, d / 2, coll, back=True)
     if bay and floors >= 3:
         # green bay window column on the front (like the art)
         bw = 2.4

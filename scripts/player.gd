@@ -77,6 +77,8 @@ func setup(w: Node, pos: Vector3, yaw_deg: float) -> void:
 	add_child(ride_shape)
 	visual = Node3D.new()
 	add_child(visual)
+	var bl = Chars.blob(self, 0.6)
+	bl.scale = Vector3(1.0, 1.0, 1.6)
 	build_model()
 	cam_pivot = Node3D.new()
 	cam_pivot.top_level = true
@@ -296,7 +298,7 @@ func _foot(delta: float, ax: float, ay: float) -> void:
 		input = input.normalized()
 	var cy = cyaw + PI  # camera forward yaw
 	var fwd = Vector3(sin(cy), 0, cos(cy))
-	var right = Vector3(cos(cy), 0, -sin(cy))
+	var right = Vector3(-cos(cy), 0, sin(cy))
 	var dir = fwd * input.y + right * input.x
 	var target = dir * max_speed() * surface_mult()[0]
 	var hv = Vector3(velocity.x, 0, velocity.z)

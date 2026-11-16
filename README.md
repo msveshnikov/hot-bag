@@ -25,6 +25,58 @@ renders/                                  превью и скриншоты (.g
 build/                                    сборки (.gdignore, не в git)
 ```
 
+**▶ Играть в браузере (ПК и телефон): https://severance.lol/6/** · **Android APK: https://severance.lol/6/HotBag.apk**
+
+## Управление
+
+| Действие | Клавиатура / геймпад | Телефон |
+|---|---|---|
+| Движение | WASD / стрелки / левый стик | левый стик (дальше от центра — ускорение) |
+| Ускорение / бег | Shift / RB | стик за кольцо |
+| Тормоз | Пробел / B | «Тормоз» |
+| Действие (забрать, доставить, поговорить) | E / A | «Действие» |
+| Сесть / слезть | F / Y | «Сесть» |
+| Телефон «Хоп!» | Tab или Q / Back | «Хоп!» |
+| Позвонить клиенту | C / X | «Звонок» |
+| Замок | L | «Замок» |
+| Звонок велосипеда / гудок | R / LB | «Дзынь» |
+| Предмет из сумки | X / D-pad вверх | «Сумка» |
+| Камера | мышь, V — сброс / правый стик | свайп справа |
+| Пауза | Esc / Start | «Меню» |
+
 ## Rebuild
 
-Заполняется задачами task1–task5.
+`blender` = `C:\Program Files\Blender Foundation\Blender 5.2\blender.exe`, запускать из `blender/scripts`;
+`godot` = `C:\Users\msves\OneDrive\Рабочий стол\Godot_v4.7.2-stable_win64.exe`.
+
+```
+python make_textures.py                                  # текстуры (numpy) -> assets/textures
+python make_audio.py                                     # звуки и музыка -> assets/audio
+blender -b --factory-startup -P build_architecture.py    # дома, башня, рестораны, база [-- --no-render | --only a,b]
+blender -b --factory-startup -P build_props.py           # пропсы и еда
+blender -b --factory-startup -P build_characters.py      # 12 персонажей + 40 анимаций [-- --only courier_m]
+blender -b --factory-startup -P build_vehicles.py        # велосипед, самокат, машины, трамвай
+blender -b --factory-startup -P build_world.py           # уровень: old_town_layout.json, ground, карта, рендеры
+blender -b --factory-startup -P build_scene.py           # население, заказы, события (+ рендеры)
+```
+
+Порядок важен: текстуры → архитектура/пропсы → персонажи/транспорт → уровень → население. Потом в корне проекта:
+
+```
+godot --headless --path . --import
+godot --path . -- --autotest               # прохождение + скриншоты renders/game/*.png и autotest.log
+godot --path . -- --autotest --touch       # то же с сенсорным управлением
+godot --path . -- --tour x,z,yaw[,час] ... # скриншоты в точках
+godot --path . -- --play [--newgame]       # сразу в игру
+godot --headless --path . --export-release "Windows Desktop" build/windows/HotBag.exe
+godot --headless --path . --export-release "Web" build/web/index.html
+godot --headless --path . --export-debug "Android" build/android/HotBag.apk
+scp build/web/* build/android/HotBag.apk ubuntu@severance.lol:/var/www/severance/6/
+```
+
+## Формат данных уровня (Godot: x, y, z; yaw — градусы вокруг Y)
+
+- `old_town_layout.json`: `instances` (asset, gltf, group, pos, yaw, адрес для домов), `markers` (name, pos, yaw, inst), `streets`, `grid` (сетка 2 м; строка j = z0 − j·2; коды `# a s c p g t q w b z`), `heights`, `traffic` (пути, трамвай, переходы со светофорами), `water`, `kill_y`, `lighting` (пресеты), `map` (картинка + rect).
+- `old_town_population.json`: `npcs` (модель, поведение, расписание), `cooks`, `mentor`, `police`, `rivals`, `thieves`, `traffic`, `fx`, `player`.
+- `old_town_orders.json`: `restaurants` (меню, время готовки), `doors` (адреса), `regulars`, `quests`, `rules`.
+- `old_town_events.json`: проблемы курьера с весами по главам.

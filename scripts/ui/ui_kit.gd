@@ -97,6 +97,26 @@ static func theme() -> Theme:
 	return t
 
 
+## Anchor a control to a screen corner/edge with an offset from that anchor; it grows toward the screen inside.
+static func place(c: Control, preset: int, off: Vector2) -> void:
+	c.set_anchors_preset(preset)
+	var sz = c.custom_minimum_size
+	c.offset_left = off.x
+	c.offset_top = off.y
+	c.offset_right = off.x + sz.x
+	c.offset_bottom = off.y + sz.y
+	var right = preset in [Control.PRESET_TOP_RIGHT, Control.PRESET_BOTTOM_RIGHT, Control.PRESET_CENTER_RIGHT]
+	var bottom = preset in [Control.PRESET_BOTTOM_LEFT, Control.PRESET_BOTTOM_RIGHT, Control.PRESET_CENTER_BOTTOM]
+	var hc = preset in [Control.PRESET_CENTER_TOP, Control.PRESET_CENTER_BOTTOM, Control.PRESET_CENTER]
+	var vc = preset in [Control.PRESET_CENTER_LEFT, Control.PRESET_CENTER_RIGHT, Control.PRESET_CENTER]
+	c.grow_horizontal = Control.GROW_DIRECTION_BEGIN if right else (Control.GROW_DIRECTION_BOTH if hc else Control.GROW_DIRECTION_END)
+	c.grow_vertical = Control.GROW_DIRECTION_BEGIN if bottom else (Control.GROW_DIRECTION_BOTH if vc else Control.GROW_DIRECTION_END)
+
+
+static func full(c: Control) -> void:
+	c.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+
+
 static func label(text: String, size = 24, color = INK, wrap = false, align = HORIZONTAL_ALIGNMENT_LEFT) -> Label:
 	var l = Label.new()
 	l.text = text
@@ -152,14 +172,14 @@ static func panel(min_size = Vector2(600, 400), bg = CREAM) -> PanelContainer:
 static func dim(parent: Control, alpha = 0.5) -> ColorRect:
 	var c = ColorRect.new()
 	c.color = Color(0.08, 0.1, 0.16, alpha)
-	c.set_anchors_preset(Control.PRESET_FULL_RECT)
+	c.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	parent.add_child(c)
 	return c
 
 
 static func center(parent: Control, child: Control) -> CenterContainer:
 	var cc = CenterContainer.new()
-	cc.set_anchors_preset(Control.PRESET_FULL_RECT)
+	cc.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	cc.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	parent.add_child(cc)
 	cc.add_child(child)
