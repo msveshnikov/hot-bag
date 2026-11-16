@@ -209,8 +209,9 @@ def traffic_paths():
     ccw = [(-110 - 3, -80 - 3), (90 + 3, -80 - 3), (90 + 3, 54 + 3), (-110 - 3, 54 + 3)]
     # orientation check: drive on the right => inner lane goes counter-clockwise when seen from above? We simply
     # give both closed loops; Godot moves cars along point order.
-    return [dict(id="loop_inner", points=[list(p) for p in cw[::-1]], loop=True),
-            dict(id="loop_outer", points=[list(p) for p in ccw[::-1]], loop=True)]
+    # right-hand traffic: the inner lane runs clockwise when seen from above (east on the avenue's south half)
+    return [dict(id="loop_inner", points=[list(p) for p in cw], loop=True),
+            dict(id="loop_outer", points=[list(p) for p in ccw], loop=True)]
 
 
 TRAM = dict(id="tram", points=[[-130, 54], [110, 54]], loop=False, period=90.0)

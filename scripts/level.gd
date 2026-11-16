@@ -125,6 +125,10 @@ func _optimize(n: Node3D, it: Dictionary) -> void:
 	var g: String = it["group"]
 	var asset: String = it["asset"]
 	var meshes = n.find_children("*", "MeshInstance3D", true, false)
+	if g == "prop" or asset in SMALL:
+		# props collide with the player (layer 8) but do not push the camera into the courier's head
+		for b in n.find_children("*", "StaticBody3D", true, false):
+			(b as StaticBody3D).collision_layer = 8
 	if asset in SMALL or g == "prop" and not asset.begins_with("tree") and asset != "fountain" and asset != "parapet":
 		for m in meshes:
 			var mi: MeshInstance3D = m

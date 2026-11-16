@@ -23,6 +23,13 @@ func _run() -> void:
 		world.daynight.env.fog_enabled = false
 	if Game.flag("nofx"):
 		world.fx.visible = false
+	if Game.flag("dbgcars"):
+		var c0 = world.traffic.cars[0]
+		var pth = world.traffic.paths[c0["path"]]
+		print("PATH len ", pth["len"], " pts ", pth["pts"], " cum ", pth["cum"], " s ", c0["s"], " pos_at ", world.traffic._pos_at(pth, c0["s"]))
+		for c in world.traffic.cars:
+			var b: Node3D = c["body"]
+			print("CAR ", b.global_position, " vis ", b.is_visible_in_tree(), " v ", c["v"], " kids ", b.get_child_count(), " node_in_tree ", c["node"].is_inside_tree(), " node_pos ", c["node"].global_position)
 	var spots: Array = Game.flags.get("tour", [])
 	var i = 0
 	for s in spots:

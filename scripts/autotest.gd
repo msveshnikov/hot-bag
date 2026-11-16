@@ -81,6 +81,14 @@ func _run() -> void:
 	var o_d: Dictionary = Game.orders_data
 	await wait(2.5)
 	await shot("00_start")
+	# ---------------- traffic: cars must be spread over the roads, not stuck at the origin
+	var on_road = 0
+	var cars: Array = world.traffic.cars
+	for c in cars:
+		var bp: Vector3 = c["body"].global_position
+		if world.level.surface_at(bp) in ["a", "z"] and bp.length() > 30.0:
+			on_road += 1
+	check(cars.size() > 0 and on_road == cars.size(), "traffic: %d of %d cars are on the roads" % [on_road, cars.size()])
 	# ---------------- left/right on foot: camera right must be screen right
 	tp(pl.global_position, 0.0)
 	await wait(0.6)

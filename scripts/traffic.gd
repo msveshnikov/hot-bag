@@ -66,6 +66,7 @@ func _spawn_car(pi: int, s: float) -> void:
 				d.albedo_color = paint
 				m.set_surface_override_material(k, d)
 	var body = AnimatableBody3D.new()
+	body.sync_to_physics = false
 	body.collision_layer = 4
 	body.collision_mask = 0
 	var cs = CollisionShape3D.new()
@@ -87,6 +88,7 @@ func _make_tram(td: Dictionary) -> void:
 	var a: Array = tr["points"][0]
 	var b: Array = tr["points"][1]
 	var body = AnimatableBody3D.new()
+	body.sync_to_physics = false
 	body.collision_layer = 4
 	var cs = CollisionShape3D.new()
 	var bx = BoxShape3D.new()
@@ -137,7 +139,7 @@ func _pos_at(path: Dictionary, s: float) -> Array:
 	return [pts[0], (pts[1] - pts[0]).normalized()]
 
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if not world.started:
 		return
 	t += delta
