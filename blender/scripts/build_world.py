@@ -23,7 +23,8 @@ ARGS = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
 NO_RENDER = "--no-render" in ARGS
 LEVEL = "old_town"
 
-Z = {"a": 0.0, "s": 0.03, "c": 0.0, "p": 0.02, "g": 0.04, "t": 0.0, "q": -3.0, "w": -4.2, "b": 0.0, "z": 0.005}
+# every rideable surface is flush (no steps): a 3 cm sidewalk edge stopped the bicycle dead
+Z = {"a": 0.0, "s": 0.0, "c": 0.0, "p": 0.0, "g": 0.0, "t": 0.0, "q": -3.0, "w": -4.2, "b": 0.0, "z": 0.0}
 SURF_MAT = {"a": "asphalt", "s": "sidewalk", "c": "cobble", "p": "park_path", "g": "grass", "q": "stone",
             "w": "water", "z": "asphalt"}
 

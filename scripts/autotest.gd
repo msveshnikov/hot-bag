@@ -89,6 +89,26 @@ func _run() -> void:
 		if world.level.surface_at(bp) in ["a", "z"] and bp.length() > 30.0:
 			on_road += 1
 	check(cars.size() > 0 and on_road == cars.size(), "traffic: %d of %d cars are on the roads" % [on_road, cars.size()])
+	# ---------------- ride the bicycle from the sidewalk / park onto the roads (curb steps)
+	for trip in [[Vector3(-29, 0, -45.5), 180.0, "z<", -51.0, "sidewalk -> avenue"], [Vector3(-26, 0, -66.0), 0.0, "z>", -57.0, "park -> sidewalk -> avenue"], [Vector3(74, 0, -24.0), 90.0, "x>", 86.0, "lane -> sidewalk -> east road"]]:
+		world.swap_vehicle("bicycle")
+		await wait(0.2)
+		var vb: Node3D = world.parked["body"]
+		vb.global_position = trip[0]
+		vb.rotation.y = deg_to_rad(trip[1])
+		tp(trip[0] + Vector3(0.8, 0, 0), trip[1])
+		world.mount_parked()
+		await wait(0.6)
+		var falls0 = int(Game.state["stats"]["falls"])
+		Input.action_press("move_forward")
+		await wait(3.0)
+		Input.action_release("move_forward")
+		var gp = pl.global_position
+		var crossed = (gp.z < trip[3]) if trip[2] == "z<" else ((gp.z > trip[3]) if trip[2] == "z>" else (gp.x > trip[3]))
+		check(crossed and int(Game.state["stats"]["falls"]) == falls0, "bike %s: reached %s (pos %.1f, %.1f)" % [trip[4], trip[3], gp.x, gp.z])
+		await shot("00_curb_" + str(trip[3]))
+		world.dismount_here()
+		await wait(0.6)
 	# ---------------- left/right on foot: camera right must be screen right
 	tp(pl.global_position, 0.0)
 	await wait(0.6)

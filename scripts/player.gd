@@ -57,7 +57,8 @@ func setup(w: Node, pos: Vector3, yaw_deg: float) -> void:
 	world = w
 	collision_layer = 2
 	collision_mask = 1 | 4 | 8
-	floor_snap_length = 0.4
+	floor_snap_length = 0.45
+	safe_margin = 0.02
 	floor_max_angle = deg_to_rad(50)
 	global_position = pos + Vector3(0, 0.2, 0)
 	heading = deg_to_rad(yaw_deg)
@@ -69,10 +70,12 @@ func setup(w: Node, pos: Vector3, yaw_deg: float) -> void:
 	foot_shape.position.y = 0.75
 	add_child(foot_shape)
 	ride_shape = CollisionShape3D.new()
-	var bx = BoxShape3D.new()
-	bx.size = Vector3(0.6, 1.4, 1.5)
-	ride_shape.shape = bx
-	ride_shape.position.y = 0.75
+	# rounded bottom: rolls over small edges instead of hitting them like a flat box
+	var rc = CapsuleShape3D.new()
+	rc.radius = 0.42
+	rc.height = 1.6
+	ride_shape.shape = rc
+	ride_shape.position.y = 0.8
 	ride_shape.disabled = true
 	add_child(ride_shape)
 	visual = Node3D.new()
