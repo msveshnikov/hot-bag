@@ -54,6 +54,24 @@ func hold(action: String, secs: float) -> void:
 	Input.action_release(action)
 
 
+## Each wheel's mesh must be centred on its spin axis, and STEER/WHEEL nodes must be found by name.
+func _check_wheels(vm: Node3D, kind: String) -> void:
+	if vm == null:
+		check(false, kind + ": no vehicle model")
+		return
+	for wname in ["WHEEL_front", "WHEEL_rear"]:
+		var wn: Node3D = vm.find_child(wname, true, false)
+		if wn == null:
+			check(false, "%s: %s node found" % [kind, wname])
+			continue
+		var mi: MeshInstance3D = wn.find_children("*", "MeshInstance3D", true, false)[0]
+		var c = mi.global_transform * mi.get_aabb().get_center()
+		var off = c.distance_to(wn.global_position)
+		var h = vm.to_local(wn.global_position).y
+		check(off < 0.05 and h > 0.05 and h < 0.4, "%s: %s centred on its axle (off %.3f m, axle height %.2f m)" % [kind, wname, off, h])
+	check(vm.find_child("STEER", true, false) != null, kind + ": STEER node found")
+
+
 func v3(a: Array) -> Vector3:
 	return Vector3(a[0], a[1], a[2])
 
@@ -140,6 +158,7 @@ func _run() -> void:
 	Input.action_press("move_forward")
 	await wait(1.5)
 	await shot("07_riding_bike")
+	_check_wheels(pl.vehicle_model, "bicycle")
 	var h0 = pl.heading
 	var fpos = pl.global_position
 	Input.action_press("move_right")
@@ -215,6 +234,8 @@ func _run() -> void:
 	Input.action_press("move_forward")
 	await wait(2.0)
 	await shot("16_riding_scooter")
+	_check_wheels(pl.vehicle_model if pl.riding() else world.parked.get("node"), "scooter")
+	log_line("scooter still riding: %s" % pl.riding())
 	Input.action_release("move_forward")
 	var b0 = world.battery
 	check(b0 < 100.0, "scooter battery drains (%.1f)" % b0)

@@ -28,13 +28,13 @@
 		},
 		{
 			"mesh":2,
-			"name":"WHEEL_fl_mesh.003"
+			"name":"WHEEL_fl_mesh"
 		},
 		{
 			"children":[
 				2
 			],
-			"name":"WHEEL_fl.003",
+			"name":"WHEEL_fl",
 			"translation":[
 				1.1299999952316284,
 				0.47999998927116394,
@@ -43,13 +43,13 @@
 		},
 		{
 			"mesh":3,
-			"name":"WHEEL_fr_mesh.003"
+			"name":"WHEEL_fr_mesh"
 		},
 		{
 			"children":[
 				4
 			],
-			"name":"WHEEL_fr.003",
+			"name":"WHEEL_fr",
 			"translation":[
 				-1.1299999952316284,
 				0.47999998927116394,
@@ -58,13 +58,13 @@
 		},
 		{
 			"mesh":4,
-			"name":"WHEEL_rl_mesh.003"
+			"name":"WHEEL_rl_mesh"
 		},
 		{
 			"children":[
 				6
 			],
-			"name":"WHEEL_rl.003",
+			"name":"WHEEL_rl",
 			"translation":[
 				1.1299999952316284,
 				0.47999998927116394,
@@ -73,13 +73,13 @@
 		},
 		{
 			"mesh":5,
-			"name":"WHEEL_rr_mesh.003"
+			"name":"WHEEL_rr_mesh"
 		},
 		{
 			"children":[
 				8
 			],
-			"name":"WHEEL_rr.003",
+			"name":"WHEEL_rr",
 			"translation":[
 				-1.1299999952316284,
 				0.47999998927116394,
@@ -290,7 +290,7 @@
 			]
 		},
 		{
-			"name":"WHEEL_fl_mesh.003",
+			"name":"WHEEL_fl_mesh",
 			"primitives":[
 				{
 					"attributes":{
@@ -313,7 +313,7 @@
 			]
 		},
 		{
-			"name":"WHEEL_fr_mesh.003",
+			"name":"WHEEL_fr_mesh",
 			"primitives":[
 				{
 					"attributes":{
@@ -336,7 +336,7 @@
 			]
 		},
 		{
-			"name":"WHEEL_rl_mesh.003",
+			"name":"WHEEL_rl_mesh",
 			"primitives":[
 				{
 					"attributes":{
@@ -359,7 +359,7 @@
 			]
 		},
 		{
-			"name":"WHEEL_rr_mesh.003",
+			"name":"WHEEL_rr_mesh",
 			"primitives":[
 				{
 					"attributes":{

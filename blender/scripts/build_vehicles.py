@@ -20,11 +20,17 @@ ONLY = ARGS[ARGS.index("--only") + 1].split(",") if "--only" in ARGS else None
 
 
 def node(name, loc, coll, parent=None):
+    """Pivot empty at WORLD position loc (also when parented)."""
     e = bpy.data.objects.new(name, None)
-    e.location = loc
     coll.objects.link(e)
     if parent:
+        bpy.context.view_layer.update()
         e.parent = parent
+        e.matrix_parent_inverse.identity()
+        e.location = Vector(loc) - parent.matrix_world.translation
+    else:
+        e.location = loc
+    bpy.context.view_layer.update()
     return e
 
 
@@ -350,31 +356,33 @@ CAT = [("bicycle", bicycle), ("scooter", scooter),
 
 
 def main():
-    reset()
-    std_mats()
-    mat("car_glass", "#3a5a78", rough=0.1)
-    R.setup_render((480, 400))
-    R.world()
-    R.sun()
-    R.ground_plane()
-    built = []
     for name, fn in CAT:
         if ONLY and name not in ONLY:
             continue
+        reset()
+        std_mats()
+        mat("car_glass", "#3a5a78", rough=0.1)
+        R.setup_render((480, 400))
+        R.world()
+        R.sun()
+        R.ground_plane()
         root = fn()
+        bpy.context.view_layer.update()
+        for o in root.children_recursive:
+            if "." in o.name:
+                print("WARNING duplicate name", o.name)
         saved = scale_lights_for_export(root)
         export_gltf(root, os.path.join(ASSETS, "vehicles", name + ".gltf"))
         restore_lights(saved)
-        built.append(root)
         print("built", name)
-    if not NO_RENDER:
-        R.mood("day")
-        for root in built:
+        if not NO_RENDER:
+            R.mood("day")
             kids = [root] + list(root.children_recursive)
             R.isolate(kids)
             R.frame_objects([k for k in kids if k.type == "MESH"], yaw=-60, pitch=15, margin=1.0)
-            R.render(os.path.join(RENDERS, "previews", "veh_%s.png" % root.name))
-    bpy.ops.wm.save_as_mainfile(filepath=os.path.join(BLEND, "vehicles.blend"))
+            R.render(os.path.join(RENDERS, "previews", "veh_%s.png" % name))
+        if name in ("bicycle", "scooter"):
+            bpy.ops.wm.save_as_mainfile(filepath=os.path.join(BLEND, "vehicle_%s.blend" % name))
     print("DONE")
 
 
