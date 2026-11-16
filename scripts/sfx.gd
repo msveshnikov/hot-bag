@@ -76,6 +76,10 @@ func stop_loops() -> void:
 
 
 func play_music(name: String) -> void:
+	if float(Game.settings["music"]) <= 0.001:
+		music_name = name
+		music.stop()
+		return
 	if name == music_name and music.playing:
 		music.volume_db = _db(0.5 * float(Game.settings["music"]))
 		return
@@ -92,4 +96,11 @@ func play_music(name: String) -> void:
 
 
 func refresh_volume() -> void:
+	if float(Game.settings["music"]) <= 0.001:
+		music.stop()
+		return
 	music.volume_db = _db(0.5 * float(Game.settings["music"]))
+	if not music.playing and music_name != "":
+		var n = music_name
+		music_name = ""
+		play_music(n)

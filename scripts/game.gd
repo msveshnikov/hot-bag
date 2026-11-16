@@ -20,7 +20,7 @@ var go_play = false     # skip the title menu (next day / continue)
 var flags = {}          # parsed debug flags after "--"
 
 var settings = {
-	"music": 0.6, "sfx": 0.8, "quality": 1, "mouse_sens": 0.22, "invert_y": false, "touch": "auto",
+	"music": 0.0, "sfx": 0.8, "quality": 1, "mouse_sens": 0.22, "invert_y": false, "touch": "auto",
 	"shadows": true, "fullscreen": false,
 }
 
@@ -169,6 +169,10 @@ func load_settings() -> void:
 		if typeof(d) == TYPE_DICTIONARY:
 			for k in d.keys():
 				settings[k] = d[k]
+	# music is off by default (user request 2026-11-16); mute it once for older saved settings too
+	if not bool(settings.get("music_default_off", false)):
+		settings["music"] = 0.0
+		settings["music_default_off"] = true
 
 
 func save_settings() -> void:
