@@ -31,6 +31,7 @@ const SNOW_KEY = {"sun_color": "#f6f1ea", "sun_energy": 0.85, "sun_pitch": -42.0
 	"sky_horizon": "#dfe6ee", "ambient": "#c9d3e2", "ambient_energy": 0.62, "fog_color": "#dde4ec", "fog_density": 0.0022,
 	"emission": 0.6}
 var _last_h = -1
+var _apply_t = 0.0
 var _lamp_timer = 0.0
 var follow: Node3D
 
@@ -88,7 +89,11 @@ func apply_quality() -> void:
 	if env:
 		env.ssao_enabled = q >= 2 and RenderingServer.get_current_rendering_method() != "gl_compatibility"
 		env.glow_enabled = q >= 1
-	get_viewport().msaa_3d = Viewport.MSAA_DISABLED if q == 0 else Viewport.MSAA_2X
+	# No MSAA on the Compatibility renderer (phones, web): on a Mali GPU (Redmi, OpenGL ES) every frame with MSAA
+	# leaked ~3.5 MB/s inside the driver until Android killed the game after ~30 min ("Scudo: Out of memory").
+	# Found with `--soak --bisect` on the phone: the native heap stayed flat only while MSAA was off.
+	var compat = RenderingServer.get_current_rendering_method() == "gl_compatibility"
+	get_viewport().msaa_3d = Viewport.MSAA_DISABLED if q == 0 or compat else Viewport.MSAA_2X
 	if level:
 		level.apply_quality(q)
 
@@ -188,7 +193,12 @@ func _process(delta: float) -> void:
 	rain = move_toward(rain, rain_target, delta * 0.15)
 	snow = move_toward(snow, snow_target, delta * 0.08)
 	heat = clamp(1.0 - abs(hour - 13.5) / 2.5, 0.0, 1.0) * (1.0 - rain) * (1.0 - snow_cover)
-	apply(false)
+	# light, sky and every emissive material: 5 times a second is plenty (an in-game hour is a real minute), and
+	# a sky changed every frame re-renders its radiance map every frame — heavy on phones and integrated GPUs
+	_apply_t -= delta
+	if _apply_t <= 0.0:
+		_apply_t = 0.2
+		apply(false)
 	if follow:
 		rain_fx.global_position = follow.global_position + Vector3(0, 14, 0)
 	rain_fx.emitting = rain > 0.15

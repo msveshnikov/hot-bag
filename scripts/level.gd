@@ -156,6 +156,8 @@ func _optimize(n: Node3D, it: Dictionary) -> void:
 	var g: String = it["group"]
 	var asset: String = it["asset"]
 	var meshes = n.find_children("*", "MeshInstance3D", true, false)
+	if (g == "prop" or g == "landmark") and not asset in NO_FADE:
+		_add_fade(meshes, asset)
 	if g == "prop" or asset in SMALL:
 		# props collide with the player (layer 8) but do not push the camera into the courier's head
 		for b in n.find_children("*", "StaticBody3D", true, false):
@@ -193,7 +195,9 @@ func _optimize(n: Node3D, it: Dictionary) -> void:
 			var a = mi.transform * mi.get_aabb()
 			aabb = a if first else aabb.merge(a)
 			first = false
+		_solidify(n)
 		if not first and aabb.size.x > 3.0 and aabb.size.z > 3.0:
+			_camera_proxy(n, aabb)
 			var occ = OccluderInstance3D.new()
 			var bo = BoxOccluder3D.new()
 			bo.size = Vector3(aabb.size.x * 0.82, min(aabb.size.y, 14.0) * 0.85, aabb.size.z * 0.82)
@@ -203,6 +207,64 @@ func _optimize(n: Node3D, it: Dictionary) -> void:
 
 
 var _far: Array = []      # [MeshInstance3D, kind]
+var fade_items: Array = []  # [{meshes: Array[MeshInstance3D], aabb: AABB (world)}] — see-through when they hide the courier
+const NO_FADE = ["parapet", "bridge_stub", "stairs_wide", "fountain", "clock_tower"]
+const CAM_LAYER = 16        # camera-only boxes around building bodies (balconies, roofs, bays): the player ignores them
+var _convex_cache = {}       # per level: shapes of one load (instance ids are not reused while the scenes live)
+
+
+## Building collision comes from Blender "-colonly" boxes, which Godot imports as hollow trimeshes: a courier
+## pushed through a wall (dismounting next to it) ended up in an empty "room" with no way out. A box made of
+## 8 vertices becomes a solid convex shape instead: nothing can stay inside it, physics pushes the body out.
+func _solidify(n: Node3D) -> void:
+	for cs in n.find_children("*", "CollisionShape3D", true, false):
+		var c: CollisionShape3D = cs
+		var sh = c.shape
+		if not (sh is ConcavePolygonShape3D):
+			continue
+		var key = sh.get_instance_id()
+		if not _convex_cache.has(key):
+			var pts = {}
+			for v in (sh as ConcavePolygonShape3D).get_faces():
+				pts[v.snapped(Vector3(0.001, 0.001, 0.001))] = true
+				if pts.size() > 8:
+					break
+			if pts.size() == 8:
+				var cv = ConvexPolygonShape3D.new()
+				cv.points = PackedVector3Array(pts.keys())
+				_convex_cache[key] = cv
+			else:
+				_convex_cache[key] = null
+		var conv = _convex_cache[key]
+		if conv:
+			c.shape = conv
+
+
+func _camera_proxy(n: Node3D, aabb: AABB) -> void:
+	var b = StaticBody3D.new()
+	b.collision_layer = CAM_LAYER
+	b.collision_mask = 0
+	var cs = CollisionShape3D.new()
+	var bx = BoxShape3D.new()
+	bx.size = aabb.size + Vector3(0.2, 0.0, 0.2)
+	cs.shape = bx
+	cs.position = aabb.get_center()
+	b.add_child(cs)
+	n.add_child(b)
+
+
+func _add_fade(meshes: Array, asset: String) -> void:
+	var list: Array[MeshInstance3D] = []
+	var ab = AABB()
+	for m in meshes:
+		var mi: MeshInstance3D = m
+		if mi.mesh == null:
+			continue
+		var a = mi.global_transform * mi.get_aabb()
+		ab = a if list.is_empty() else ab.merge(a)
+		list.append(mi)
+	if not list.is_empty() and ab.size.length() > 1.2:
+		fade_items.append({"meshes": list, "aabb": ab, "asset": asset})
 
 
 ## Snow cover: a next_pass on the static level materials paints snow on up-facing surfaces (roofs, ground, benches).

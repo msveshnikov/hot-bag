@@ -1,7 +1,7 @@
 extends Node
 ## Global state: progress, settings, catalogue, save/load, input map. Autoload "Game".
 
-const VERSION = "0.4.1"
+const VERSION = "0.4.3"
 const SAVE_PATH = "user://save.json"
 const SETTINGS_PATH = "user://settings.json"
 const DISTRICTS = {
@@ -122,6 +122,11 @@ var events_data: Dictionary
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	args = OS.get_cmdline_user_args()
+	if args.is_empty() and OS.has_feature("mobile") and FileAccess.file_exists("user://cmdline.txt"):
+		# Android test runs: the launcher drops intent extras, so flags come from a file written over adb
+		# (adb shell run-as com.maxsoft.hotbag sh -c 'echo "--soak 25" > files/cmdline.txt'); used once, then deleted
+		args = PackedStringArray(FileAccess.get_file_as_string("user://cmdline.txt").strip_edges().split(" ", false))
+		DirAccess.remove_absolute(ProjectSettings.globalize_path("user://cmdline.txt"))
 	_parse_flags()
 	_build_input_map()
 	load_settings()
@@ -317,7 +322,7 @@ func save_settings() -> void:
 func _apply_window() -> void:
 	if OS.has_feature("web") or OS.has_feature("mobile"):
 		return
-	if flag("autotest") or flag("tour") or flag("trailer"):
+	if flag("autotest") or flag("tour") or flag("trailer") or flag("soak"):
 		return
 	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN if settings["fullscreen"] else DisplayServer.WINDOW_MODE_WINDOWED)
 
