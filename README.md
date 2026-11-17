@@ -63,6 +63,10 @@ build/                                    сборки (.gdignore, не в git)
 
 **▶ Играть в браузере (ПК и телефон): https://maxims.top/hotbag/** · **Android APK: https://maxims.top/hotbag/HotBag.apk**
 
+**Google Play: https://play.google.com/store/apps/details?id=com.maxsoft.hotbag** (отправлено на проверку 17.11.2026).
+Сборка для Play: `godot --headless --path . --export-release "Android Play" build/play/HotBag.aab` (подпись — ключ загрузки
+вне репозитория, см. [store/listing_ru.md](store/listing_ru.md)); тексты страницы — там же, графика — `python tools/play_store.py`.
+
 **itch.io: https://extender777.itch.io/hot-bag** (веб, Windows, Android). Обновление: `butler push build/web extender777/hot-bag:html5`, `butler push build/windows extender777/hot-bag:windows`, `butler push <папка с apk> extender777/hot-bag:android` (+ `--userversion X.Y.Z`); butler лежит в `~/bin`.
 
 ## Управление
