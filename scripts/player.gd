@@ -20,6 +20,8 @@ var speed = 0.0            # signed forward speed (m/s)
 var steer = 0.0
 var lean = 0.0
 var control = true
+var autopilot: Array = []        # waypoints for scripted driving (trailer)
+var autopilot_throttle = 1.0
 var busy = 0.0             # seconds of locked control (mount, fall, pickup)
 var fallen = 0.0
 var carrying = false
@@ -318,6 +320,16 @@ func _physics_process(delta: float) -> void:
 	if ok:
 		ax = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
 		ay = Input.get_action_strength("move_forward") - Input.get_action_strength("move_back")
+	if not autopilot.is_empty() and mode != Mode.FOOT:
+		# trailer / demo driving: steer toward the next waypoint
+		var tgt: Vector3 = autopilot[0]
+		var d = Vector2(tgt.x - global_position.x, tgt.z - global_position.z)
+		if d.length() < 2.2:
+			autopilot.remove_at(0)
+		else:
+			var diff = wrapf(atan2(d.x, d.y) - heading, -PI, PI)
+			ax = clamp(-diff * 2.2, -1.0, 1.0)
+			ay = autopilot_throttle * (0.6 if abs(diff) > 0.8 else 1.0)
 	var lookx = Input.get_action_strength("look_right") - Input.get_action_strength("look_left")
 	if abs(lookx) > 0.1:
 		cyaw -= lookx * 2.4 * delta

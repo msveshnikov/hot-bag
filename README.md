@@ -132,6 +132,13 @@ scp build/web/* build/android/HotBag.apk ubuntu@severance.lol:/var/www/severance
 если его нет — старый процедурный WAV; смена трека — плавная. Треки пережаты в 128 кбит/с с затуханием по краям,
 чтобы петля не щёлкала. Музыка по умолчанию выключена (Настройки → Музыка).
 
+## Промо-ролик
+
+`renders/trailer/hot_bag_trailer_small.mp4` (~53 с). Сцены снимает сама игра: `--trailer <сцена>` в
+`scripts/trailer.gd` (час, погода, транспорт, маршрут на автопилоте, движение камеры), запись — Godot Movie Maker.
+`python tools/trailer.py record` → `sheet` (контактные листы) → `edit` (нарезка, подписи, голос диктора ElevenLabs
+`renders/trailer/vo_full.mp3`, реплика Михалыча, музыка с приглушением под голос, финальная карточка `endcard.png`).
+
 ## Иконка
 
 `concept/ui/app_icon.png` (ChatGPT) → `python tools/make_icons.py` → `icon.png` (окно, веб), `assets/icons/`

@@ -5,8 +5,8 @@ var menu: CanvasLayer
 
 
 func _ready() -> void:
-	if Game.go_play or Game.flag("autotest") or Game.flag("tour") or Game.flag("play"):
-		if (Game.flag("autotest") or Game.flag("newgame")) and not Game.booted:
+	if Game.go_play or Game.flag("autotest") or Game.flag("tour") or Game.flag("play") or Game.flag("trailer"):
+		if (Game.flag("autotest") or Game.flag("newgame") or Game.flag("trailer")) and not Game.booted:
 			Game.new_state()
 		if Game.flag("district") and not Game.booted:
 			Game.state["district"] = Game.flags["district"][0]
@@ -37,7 +37,7 @@ func _show_menu() -> void:
 	title.custom_minimum_size = Vector2(1000, 0)
 	UiKit.place(title, Control.PRESET_CENTER_TOP, Vector2(-500, 40))
 	root.add_child(title)
-	var sub = UiKit.hud_label("симулятор курьера · Старый город, «Сити», «Берёзки»", 30, Color("ffffff"))
+	var sub = UiKit.hud_label("симулятор курьера · четыре района большого города", 30, Color("ffffff"))
 	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	sub.custom_minimum_size = Vector2(1000, 0)
 	UiKit.place(sub, Control.PRESET_CENTER_TOP, Vector2(-500, 160))

@@ -122,6 +122,12 @@ func _ready() -> void:
 		var tt = load("res://scripts/shot_tour.gd").new()
 		tt.world = self
 		add_child(tt)
+	elif Game.flag("trailer"):
+		Game.state["tutorial"] = 9
+		Game.state["chapter"] = 5
+		var tr = load("res://scripts/trailer.gd").new()
+		tr.world = self
+		add_child(tr)
 
 
 func _v(a: Array) -> Vector3:
@@ -430,7 +436,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _capture_mouse() -> void:
-	if Game.is_touch() or Game.flag("autotest") or Game.flag("tour"):
+	if Game.is_touch() or Game.flag("autotest") or Game.flag("tour") or Game.flag("trailer"):
 		return
 	if ui_free():
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)

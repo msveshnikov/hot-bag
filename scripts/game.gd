@@ -317,7 +317,7 @@ func save_settings() -> void:
 func _apply_window() -> void:
 	if OS.has_feature("web") or OS.has_feature("mobile"):
 		return
-	if flag("autotest") or flag("tour"):
+	if flag("autotest") or flag("tour") or flag("trailer"):
 		return
 	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN if settings["fullscreen"] else DisplayServer.WINDOW_MODE_WINDOWED)
 

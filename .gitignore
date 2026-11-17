@@ -7,3 +7,12 @@ override.cfg
 *.import
 __pycache__/
 *.pyc
+renders/trailer/raw/
+renders/trailer/tmp/
+renders/trailer/chk_*.png
+renders/trailer/rv_*.png
+renders/trailer/all_*.png
+renders/trailer/re_*.png
+renders/trailer/grid_*.png
+renders/trailer/review.png
+renders/trailer/hot_bag_trailer.mp4
