@@ -91,10 +91,16 @@ func _run() -> void:
 	if Game.district() != "old_town":
 		await _run_district()
 		return
+	if Game.flag("only7"):
+		await wait(2.0)
+		await _run7_checks()
+		_finish()
+		return
 	if Game.flag("only5"):
 		await wait(2.0)
 		await _run5_checks()
 		await _run6_checks()
+		await _run7_checks()
 		_finish()
 		return
 	var pl: Player = world.player
@@ -253,7 +259,7 @@ func _run() -> void:
 	await wait(1.2)
 	await shot("10_stairs")
 	var t = 0.0
-	while world.screens.top_name() == "stairs" and t < 30.0:
+	while world.screens.top_name() == "stairs" and t < 60.0:
 		await wait(0.5)
 		t += 0.5
 	Input.action_release("interact")
@@ -1224,3 +1230,64 @@ func _garden_wall_face(c: CollisionShape3D, bx: ConvexPolygonShape3D, out: Array
 			face.y = lv.ground_height(face)
 			out.append([face, n])
 			break
+
+
+## The ride up to the customer is 3D: the player's courier climbs a cutaway stairwell and knocks, the lift rides up.
+func _run7_checks() -> void:
+	var pl: Player = world.player
+	world.screens.close_all()
+	var o = world.orders.make_offer()
+	o["floor"] = 5
+	o["expires"] = 999.0
+	o["door"]["lift"] = false
+	world.orders.offers.append(o)
+	world.orders.accept(o)
+	pl.stamina = 100.0
+	var el0 = float(o["elapsed"])
+	world.screens.open_stairs(o)
+	await wait(0.8)
+	var art: Stairwell3D = null
+	for c in world.screens.find_children("*", "SubViewportContainer", true, false):
+		if c is Stairwell3D:
+			art = c
+	check(art != null and art.courier != null, "run7: the stairs screen shows the 3D stairwell with the courier")
+	check(get_viewport().disable_3d, "run7: the city does not render behind the stairwell")
+	await shot("57_stairs3d_start")
+	Input.action_press("interact")
+	await wait(3.2)
+	await shot("58_stairs3d_climb")
+	var y_mid = art.courier.position.y if art else 0.0
+	await wait(3.0)
+	await shot("59_stairs3d_climb2")
+	var t = 0.0
+	var knocked = false
+	var st_knock = 100.0
+	while world.screens.top_name() == "stairs" and t < 40.0:
+		if art and is_instance_valid(art) and art._arrive_t > 0.6 and not knocked:
+			knocked = true
+			st_knock = pl.stamina
+			check(absf(art.courier.position.y - 4 * Stairwell3D.H) < 0.05, "run7: the courier stands on the 5th floor (y %.2f)" % art.courier.position.y)
+			await shot("60_stairs3d_door")
+		await wait(0.2)
+		t += 0.2
+	Input.action_release("interact")
+	check(y_mid > 0.5, "run7: the courier climbs (height %.2f m after 3 s)" % y_mid)
+	check(knocked, "run7: the courier knocks at the door")
+	check(world.screens.top_name() == "dialog", "run7: the stairs lead to the customer")
+	check(float(o["elapsed"]) - el0 > 8.0 and st_knock < 80.0, "run7: climbing 4 floors costs time (%.1f s) and stamina (%.0f left)" % [float(o["elapsed"]) - el0, st_knock])
+	world.screens.close_all()
+	await wait(0.3)
+	check(not get_viewport().disable_3d, "run7: the city renders again after the stairs")
+	o["floor"] = 9
+	world.screens.open_lift(o)
+	await wait(1.6)
+	await shot("61_lift3d")
+	t = 0.0
+	while world.screens.top_name() == "lift" and t < 20.0:
+		await wait(0.2)
+		t += 0.2
+	check(world.screens.top_name() == "dialog", "run7: the lift leads to the customer")
+	world.screens.close_all()
+	world.orders.cancel(o)
+	await wait(0.3)
+	await shot("62_after_ride")

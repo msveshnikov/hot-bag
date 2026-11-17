@@ -479,35 +479,10 @@ func _show_preview() -> void:
 
 
 func _courier_model() -> Node3D:
-	var look: Dictionary = Game.state["look"]
-	var ps: PackedScene = load("res://assets/characters/courier_%s.gltf" % ("f" if look["gender"] == "f" else "m"))
-	var m: Node3D = ps.instantiate()
-	var helmet: String = Game.state.get("helmet", "")
-	for a in m.find_children("ACC_*", "", true, false):
-		var nm = String(a.name)
-		var vis = false
-		if nm.begins_with("ACC_hair_"):
-			vis = nm == "ACC_hair_" + String(look["hair"]) and (helmet == "" or nm == "ACC_hair_ponytail")
-			if helmet == "" and look.get("cap", true) and nm in ["ACC_hair_curly", "ACC_hair_bun"]:
-				vis = false
-		elif nm == "ACC_cap":
-			vis = helmet == "" and bool(look.get("cap", true))
-		elif nm.begins_with("ACC_helmet_"):
-			vis = ("helmet_" + nm.substr(11)) == helmet
-		elif nm == "ACC_bag":
-			vis = true
-		a.visible = vis
-	for h in m.find_children("HELD_*", "", true, false):
-		h.visible = false
-	Chars.set_jacket(m, Color(look["jacket"]))
-	Chars.set_bag(m, Color(look.get("bag", Game.BAGS[0])))
+	var m = Chars.courier()
 	var ap: AnimationPlayer = m.find_child("AnimationPlayer", true, false)
-	if ap:
-		Chars.setup_anims(ap)
-		if ap.has_animation("happy"):
-			ap.play("happy")
-		elif ap.has_animation("idle"):
-			ap.play("idle")
+	if ap and ap.has_animation("happy"):
+		ap.play("happy")
 	return m
 
 

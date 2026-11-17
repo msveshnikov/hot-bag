@@ -452,163 +452,93 @@ func _go_up(o: Dictionary, door: Dictionary) -> void:
 		open_stairs(o)
 
 
+## Lift and stairs are a 3D scene (Stairwell3D) with the player's own courier; the UI is just a strip on top.
 func open_lift(o: Dictionary) -> void:
 	var root = Control.new()
 	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	var bg = ColorRect.new()
-	bg.color = Color("cfd6da")
-	bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	root.add_child(bg)
-	var art = Lift.new()
-	art.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	art.floors = int(o["floor"])
+	var art = Stairwell3D.make("lift", int(o["floor"]), world.daynight.is_night())
 	root.add_child(art)
-	var title = UiKit.title("Лифт: этаж 1", 40)
-	title.custom_minimum_size = Vector2(800, 0)
+	var top = _ride_strip(root)
+	var title = UiKit.title("Лифт: на %d этаж" % int(o["floor"]), 36)
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	UiKit.place(title, Control.PRESET_CENTER_TOP, Vector2(-400, 40))
-	root.add_child(title)
+	top.add_child(title)
 	var dur = 1.6 + int(o["floor"]) * 0.18
-	var s = {"t": 0.0, "done": false}
 	Sfx.play("ui")
-	art.proc = func(delta: float):
-		if s["done"]:
-			return
-		s["t"] += delta
-		var k = clamp(s["t"] / dur, 0.0, 1.0)
-		art.progress = k
-		title.text = "Лифт: этаж %d" % max(1, int(round(1 + k * (int(o["floor"]) - 1))))
-		if k >= 1.0:
-			s["done"] = true
-			o["elapsed"] = float(o["elapsed"]) + dur * 2.0
-			Sfx.play("bell", 0.6)
-			close_named("lift")
-			_customer(o)
+	art.ride(dur, func():
+		o["elapsed"] = float(o["elapsed"]) + dur * 2.0
+		close_named("lift")
+		_customer(o))
 	push("lift", root)
 
 
-class Lift:
-	extends Control
-	var floors = 5
-	var progress = 0.0
-	var proc: Callable
-
-	func _process(delta: float) -> void:
-		if proc.is_valid():
-			proc.call(delta)
-		queue_redraw()
-
-	func _draw() -> void:
-		var w = size.x
-		var h = size.y
-		var cx = w * 0.5
-		# shaft with moving floor lines, the cabin in the middle
-		var off = fmod(progress * floors * 220.0, 220.0)
-		for i in range(-1, 6):
-			var y = h * 0.15 + i * 220.0 + off
-			draw_rect(Rect2(Vector2(cx - 260, y), Vector2(520, 14)), Color("8d989f"))
-		draw_rect(Rect2(Vector2(cx - 170, h * 0.32), Vector2(340, 380)), Color("e9e2d2"))
-		draw_rect(Rect2(Vector2(cx - 170, h * 0.32), Vector2(340, 380)), Color("6b7378"), false, 10.0)
-		draw_rect(Rect2(Vector2(cx - 4, h * 0.32), Vector2(8, 380)), Color("9aa4ad"))
-		# the courier with the bag inside
-		var by = h * 0.32 + 250
-		draw_rect(Rect2(Vector2(cx - 40, by - 90), Vector2(80, 100)), Color("22b8b0"))
-		draw_rect(Rect2(Vector2(cx + 30, by - 100), Vector2(60, 70)), Color("1a8f89"))
-		draw_circle(Vector2(cx, by - 130), 38.0, Color("f2c39b"))
-		draw_rect(Rect2(Vector2(cx - 36, by - 172), Vector2(76, 24)), Color("22b8b0"))
-		draw_circle(Vector2(cx - 12, by - 134), 5.0, Color("2b2320"))
-		draw_circle(Vector2(cx + 12, by - 134), 5.0, Color("2b2320"))
-		draw_rect(Rect2(Vector2(cx - 30, by + 10), Vector2(22, 70)), Color("56483f"))
-		draw_rect(Rect2(Vector2(cx + 8, by + 10), Vector2(22, 70)), Color("56483f"))
+## A cream strip at the top of the 3D ride with the title and hints.
+func _ride_strip(root: Control) -> VBoxContainer:
+	var p = PanelContainer.new()
+	p.add_theme_stylebox_override("panel", UiKit.box(Color(UiKit.CREAM, 0.92), UiKit.INK, 4, 22, 12))
+	p.custom_minimum_size = Vector2(820, 0)
+	UiKit.place(p, Control.PRESET_CENTER_TOP, Vector2(-410, 24))
+	root.add_child(p)
+	var top = UiKit.vbox(6)
+	p.add_child(top)
+	return top
 
 
 func open_stairs(o: Dictionary) -> void:
 	var root = Control.new()
 	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	var bg = ColorRect.new()
-	bg.color = Color("efe2c8")
-	bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	root.add_child(bg)
-	var art = Stairwell.new()
-	art.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	art.floors = int(o["floor"])
+	var art = Stairwell3D.make("stairs", int(o["floor"]), world.daynight.is_night())
 	root.add_child(art)
-	var top = UiKit.vbox(8)
-	top.custom_minimum_size = Vector2(800, 0)
-	UiKit.place(top, Control.PRESET_CENTER_TOP, Vector2(-400, 30))
-	root.add_child(top)
+	var top = _ride_strip(root)
 	var stair_word = "Лестница (лифт сломан)" if o["door"].get("lift", false) else "Подъезд без лифта"
-	var title = UiKit.title("%s: этаж 1 из %d" % [stair_word, int(o["floor"])], 36)
+	var title = UiKit.title("%s: этаж 1 из %d" % [stair_word, int(o["floor"])], 32)
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	top.add_child(title)
-	var hint = UiKit.label("Держи E / пробел (или кнопку «Вверх!») чтобы подниматься. Силы тратятся!", 22, UiKit.INK, true, HORIZONTAL_ALIGNMENT_CENTER)
+	var hint = UiKit.label("Держи E / пробел (или кнопку «Вверх!»), чтобы подниматься. Силы тратятся!", 21, UiKit.INK, true, HORIZONTAL_ALIGNMENT_CENTER)
 	top.add_child(hint)
-	var st_bar = UiKit.bar(world.player.stamina / 100.0, UiKit.SUN, 400, 22)
-	top.add_child(st_bar)
+	var st_row = UiKit.hbox(10)
+	st_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	st_row.add_child(UiKit.label("Силы", 20, UiKit.INK))
+	var st_bar = UiKit.bar(world.player.stamina / 100.0, UiKit.SUN, 380, 20)
+	st_row.add_child(st_bar)
+	top.add_child(st_row)
 	var up = UiKit.button("Вверх!", func(): pass, 300, UiKit.TURQ)
 	up.custom_minimum_size = Vector2(300, 90)
 	UiKit.place(up, Control.PRESET_CENTER_BOTTOM, Vector2(-150, -140))
 	root.add_child(up)
-	var s = {"progress": 0.0, "done": false}
+	var s = {"progress": 0.0, "done": false, "step": 0.0}
+	var last = float(int(o["floor"]) - 1)
 	var proc = func(delta: float):
 		if s["done"]:
 			return
 		var holding = Input.is_action_pressed("interact") or Input.is_action_pressed("brake") or up.button_pressed
+		var spd = 0.0
 		if holding:
-			var spd = 0.75 if world.player.stamina > 5.0 else 0.32
-			s["progress"] += delta * spd
-			world.player.stamina = max(0.0, world.player.stamina - 7.0 * delta)
-			o["elapsed"] += delta * 2.0   # climbing takes real delivery time
-			if int(s["progress"] * 3.0) != int((s["progress"] - delta * spd) * 3.0):
-				Sfx.play("step", 0.5, randf_range(0.9, 1.1))
-		var fl: int = min(int(o["floor"]), 1 + int(s["progress"]))
-		title.text = "%s: этаж %d из %d" % [stair_word, fl, int(o["floor"])]
+			# ~2.7 s of delivery time and ~7 stamina per floor
+			spd = 0.42 if world.player.stamina > 5.0 else 0.18
+			s["progress"] = min(last, s["progress"] + delta * spd)
+			# the player regains 6/s while standing (Player._stamina), so the net cost is ~3/s
+			world.player.stamina = max(0.0, world.player.stamina - 9.0 * delta)
+			o["elapsed"] += delta * 1.12
+			s["step"] += delta * spd * 18.0
+			if s["step"] >= 1.0:
+				s["step"] -= 1.0
+				Sfx.play("step", 0.45, randf_range(0.9, 1.1))
+		art.moving = spd > 0.0
+		art.tired = spd > 0.0 and spd < 0.3
 		art.progress = s["progress"]
+		var fl: int = min(int(o["floor"]), 1 + int(s["progress"] + 0.02))
+		title.text = "%s: этаж %d из %d" % [stair_word, fl, int(o["floor"])]
 		st_bar.value = world.player.stamina / 100.0
-		if s["progress"] >= float(o["floor"]) - 0.999:
+		if s["progress"] >= last - 0.0001:
 			s["done"] = true
-			close_named("stairs")
-			_customer(o)
+			art.moving = false
+			up.visible = false
+			hint.text = "Тук-тук! Квартира на %d этаже." % int(o["floor"])
+			art.arrive(func():
+				close_named("stairs")
+				_customer(o))
 	art.proc = proc
 	push("stairs", root)
-
-
-class Stairwell:
-	extends Control
-	var floors = 3
-	var progress = 0.0
-	var proc: Callable
-
-	func _process(delta: float) -> void:
-		if proc.is_valid():
-			proc.call(delta)
-		queue_redraw()
-
-	func _draw() -> void:
-		var w = size.x
-		var h = size.y
-		var step_w = 70.0
-		var step_h = 34.0
-		var off = fmod(progress, 1.0) * step_h * 8.0
-		for i in range(-2, 22):
-			var x = w * 0.5 - 360.0 + i * step_w * 0.5
-			var y = h - 120.0 - i * step_h + off
-			draw_rect(Rect2(Vector2(x, y), Vector2(step_w * 3.0, step_h)), Color("c9a77c"))
-			draw_rect(Rect2(Vector2(x, y), Vector2(step_w * 3.0, 6)), Color("8a6a46"))
-		for i in 3:
-			var ry = h - 420.0 + i * 200.0 + fmod(off, 200.0)
-			draw_rect(Rect2(Vector2(w * 0.5 + 220, ry), Vector2(140, 90)), Color("6b5446"))
-			draw_string(get_theme_default_font(), Vector2(w * 0.5 + 255, ry + 60), "%d" % (int(progress) + 2 - i), HORIZONTAL_ALIGNMENT_LEFT, -1, 40, Color("fbf3e2"))
-		# the courier (simple cartoon)
-		var cx = w * 0.5 - 60.0
-		var cy = h * 0.55 + sin(progress * 25.0) * 6.0
-		draw_rect(Rect2(Vector2(cx - 34, cy - 60), Vector2(68, 76)), Color("22b8b0"))
-		draw_rect(Rect2(Vector2(cx - 50, cy - 70), Vector2(36, 62)), Color("1a8f89"))
-		draw_circle(Vector2(cx + 4, cy - 92), 34.0, Color("f2c39b"))
-		draw_circle(Vector2(cx + 16, cy - 98), 5.0, Color("2b2320"))
-		draw_rect(Rect2(Vector2(cx - 30, cy - 130), Vector2(70, 22)), Color("22b8b0"))
-		var leg = sin(progress * 25.0) * 14.0
-		draw_line(Vector2(cx - 12, cy + 16), Vector2(cx - 12 + leg, cy + 60), Color("5a4436"), 14.0)
-		draw_line(Vector2(cx + 14, cy + 16), Vector2(cx + 14 - leg, cy + 60), Color("5a4436"), 14.0)
 
 
 func _customer(o: Dictionary) -> void:
