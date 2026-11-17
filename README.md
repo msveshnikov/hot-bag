@@ -63,6 +63,8 @@ build/                                    сборки (.gdignore, не в git)
 
 **▶ Играть в браузере (ПК и телефон): https://maxims.top/hotbag/** · **Android APK: https://maxims.top/hotbag/HotBag.apk**
 
+**itch.io: https://extender777.itch.io/hot-bag** (веб, Windows, Android). Обновление: `butler push build/web extender777/hot-bag:html5`, `butler push build/windows extender777/hot-bag:windows`, `butler push <папка с apk> extender777/hot-bag:android` (+ `--userversion X.Y.Z`); butler лежит в `~/bin`.
+
 ## Управление
 
 | Действие | Клавиатура / геймпад | Телефон |
