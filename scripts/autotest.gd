@@ -48,6 +48,14 @@ func tp(p: Vector3, yaw_deg = 0.0) -> void:
 	pl.cam_pivot.global_position = pl.global_position + Vector3(0, 1.6, 0)
 
 
+## A spot next to a parked vehicle that is not inside a building (the courier is pushed out of buildings).
+func _free_near(p: Vector3) -> Vector3:
+	for o in [Vector3(0.8, 0, 0), Vector3(-0.8, 0, 0), Vector3(0, 0, 0.8), Vector3(0, 0, -0.8)]:
+		if not world.player._inside_at(p + o):
+			return p + o
+	return p
+
+
 func hold(action: String, secs: float) -> void:
 	Input.action_press(action)
 	await wait(secs)
@@ -83,6 +91,11 @@ func _run() -> void:
 	if Game.district() != "old_town":
 		await _run_district()
 		return
+	if Game.flag("only5"):
+		await wait(2.0)
+		await _run5_checks()
+		_finish()
+		return
 	var pl: Player = world.player
 	var o_d: Dictionary = Game.orders_data
 	await wait(2.5)
@@ -96,6 +109,10 @@ func _run() -> void:
 			on_road += 1
 	check(cars.size() > 0 and on_road == cars.size(), "traffic: %d of %d cars are on the roads" % [on_road, cars.size()])
 	# ---------------- ride the bicycle from the sidewalk / park onto the roads (curb steps)
+	# (traffic off for these: a car waiting for the courier on the east road made the check depend on timing)
+	world.traffic.set_physics_process(false)
+	for c in world.traffic.cars:
+		(c["body"] as Node3D).global_position.y = -60.0
 	for trip in [[Vector3(-29, 0, -45.5), 180.0, "z<", -51.0, "sidewalk -> avenue"], [Vector3(-26, 0, -66.0), 0.0, "z>", -57.0, "park -> sidewalk -> avenue"], [Vector3(74, 0, -24.0), 90.0, "x>", 86.0, "lane -> sidewalk -> east road"]]:
 		world.swap_vehicle("bicycle")
 		await wait(0.2)
@@ -107,7 +124,14 @@ func _run() -> void:
 		await wait(0.6)
 		var falls0 = int(Game.state["stats"]["falls"])
 		Input.action_press("move_forward")
-		await wait(3.0)
+		for k in 6:
+			await wait(0.5)
+			if Game.flag("dbgtrip"):
+				var cols = []
+				for ci in pl.get_slide_collision_count():
+					var cc = pl.get_slide_collision(ci)
+					cols.append("%s/%s n=%s" % [(cc.get_collider() as Node).get_parent().name if cc.get_collider() else "?", (cc.get_collider() as Node).name if cc.get_collider() else "?", cc.get_normal()])
+				log_line("DBG %s t=%.1f pos=%s speed=%.1f mode=%d busy=%.1f fallen=%.1f cols=%s" % [trip[4], k * 0.5, pl.global_position, pl.speed, pl.mode, pl.busy, pl.fallen, cols])
 		Input.action_release("move_forward")
 		var gp = pl.global_position
 		var crossed = (gp.z < trip[3]) if trip[2] == "z<" else ((gp.z > trip[3]) if trip[2] == "z>" else (gp.x > trip[3]))
@@ -124,6 +148,11 @@ func _run() -> void:
 	var moved = pl.global_position - p0
 	var cam_right = cam.global_transform.basis.x
 	check(moved.dot(cam_right) > 0.5, "foot: D moves to the camera's right (%.2f)" % moved.dot(cam_right))
+	world.traffic.set_physics_process(true)
+	if Game.flag("dbgtrip"):
+		log_line("DBG foot p0=%s p1=%s busy=%.1f mode=%d ui_free=%s control=%s" % [p0, pl.global_position, pl.busy, pl.mode, world.ui_free(), pl.control])
+		_finish()
+		return
 	# ---------------- walk from the start to the mentor with real input
 	var ps: Dictionary = Game.population["player"]
 	tp(v3(ps["pos"]), float(ps["yaw"]))
@@ -134,6 +163,9 @@ func _run() -> void:
 	while tt < 8.0 and Vector2(pl.global_position.x - mp.x, pl.global_position.z - mp.z).length() > 2.0:
 		var dd = mp - pl.global_position
 		pl.cyaw = atan2(dd.x, dd.z) + PI
+		pl.cam_idle = 0.0          # steering by hand: no automatic swing off walls
+		pl.cam_avoid = 0.0
+		pl._avoid_target = 0.0
 		await wait(0.1)
 		tt += 0.1
 	Input.action_release("move_forward")
@@ -185,7 +217,7 @@ func _run() -> void:
 	tp(v3(r["pickup"]) + Vector3(0, 0, 3), 0.0)
 	world.swap_vehicle("bicycle")
 	await wait(0.3)
-	tp(world.parked["body"].global_position + Vector3(0.8, 0, 0), rad_to_deg(world.parked["body"].rotation.y))
+	tp(_free_near(world.parked["body"].global_position), rad_to_deg(world.parked["body"].rotation.y))
 	world.mount_parked()
 	await wait(0.8)
 	check(pl.mode == Player.Mode.BIKE, "mounted the bicycle")
@@ -262,7 +294,7 @@ func _run() -> void:
 	# ---------------- scooter
 	world.swap_vehicle("scooter")
 	await wait(0.3)
-	tp(world.parked["body"].global_position + Vector3(0.8, 0, 0), rad_to_deg(world.parked["body"].rotation.y))
+	tp(_free_near(world.parked["body"].global_position), rad_to_deg(world.parked["body"].rotation.y))
 	world.mount_parked()
 	await wait(0.6)
 	check(pl.mode == Player.Mode.SCOOTER, "mounted the scooter")
@@ -296,6 +328,7 @@ func _run() -> void:
 	world.daynight.hour = 10.0
 	await _run3_checks()
 	await _run4_checks()
+	await _run5_checks()
 	# ---------------- views of the town
 	var views = [[-11.0, -2.0, 180.0, "21_square"], [-16.0, 2.0, 180.0, "22_restaurants"], [-20.0, -54.0, 90.0, "23_avenue"], [0.0, -76.0, 90.0, "24_park"]]
 	world.dismount_here()
@@ -390,6 +423,10 @@ func _run() -> void:
 	await wait(1.5)
 	check(world.screens.top_name() == "summary", "shift summary")
 	await shot("28_summary")
+	_finish()
+
+
+func _finish() -> void:
 	log_line("DONE fails=%d" % fails)
 	var f = FileAccess.open(ProjectSettings.globalize_path(out_dir + "autotest.log"), FileAccess.WRITE)
 	if f:
@@ -397,6 +434,112 @@ func _run() -> void:
 	get_tree().paused = false
 	Game.delete_save()
 	get_tree().quit()
+
+
+## Run 5 (bug fixes): building boxes are solid, dismounting by a wall never puts the courier inside, a courier
+## teleported into a house is put back on the street, the camera never looks from inside a wall, props between
+## the camera and the courier turn see-through.
+func _run5_checks() -> void:
+	var pl: Player = world.player
+	var lv: Level = world.level
+	if pl.riding():
+		world.dismount_here()
+		await wait(0.5)
+	var house: Node3D = null
+	var half = Vector3.ZERO
+	for i in lv.instances.size():
+		var it: Dictionary = Game.layout["instances"][i]
+		var n: Node3D = lv.instances[i]
+		if n == null or it["group"] != "house":
+			continue
+		for c in n.find_children("*", "CollisionShape3D", true, false):
+			var sh = (c as CollisionShape3D).shape
+			if sh is ConvexPolygonShape3D:
+				for v in (sh as ConvexPolygonShape3D).points:
+					half = half.max(v.abs())
+				house = n
+				break
+		if house:
+			# a free front: the street in front of the house must be walkable
+			var front = house.global_transform * Vector3(0, 0, half.z + 2.5)
+			if lv.surface_at(front) in ["s", "c", "a", "p", "z", "b", "g"] and half.x > 3.0:
+				break
+			house = null
+			half = Vector3.ZERO
+	var n_conv = 0
+	var n_conc = 0
+	for c in lv.find_children("*", "CollisionShape3D", true, false):
+		if (c as CollisionShape3D).shape is ConvexPolygonShape3D:
+			n_conv += 1
+		elif (c as CollisionShape3D).shape is ConcavePolygonShape3D:
+			n_conc += 1
+	log_line("run5: %d solid boxes, %d trimesh shapes left" % [n_conv, n_conc])
+	check(house != null, "run5: a house with a solid (convex) collision box")
+	if house == null:
+		return
+	var hb = house.global_transform.basis
+	var spot = house.global_transform * Vector3(0, 0, half.z + 0.6)
+	spot.y = lv.ground_height(spot)
+	var into = -hb.z.normalized()                 # from the street into the house
+	var head_yaw = atan2(-into.z, into.x)         # heading whose right side (cos h, 0, -sin h) points into the wall
+	# 1) teleported inside: the force field puts the courier back on the street
+	tp(spot, rad_to_deg(head_yaw))
+	await wait(0.8)
+	var mid = house.global_position + Vector3(0, 0.3, 0)
+	pl.global_position = mid
+	await wait(0.8)
+	var back_out = not pl._inside_at(pl.global_position) and house.to_local(pl.global_position).z > half.z - 0.05
+	check(back_out, "run5: courier put inside a house is back outside (local z %.2f, wall at %.2f)" % [house.to_local(pl.global_position).z, half.z])
+	# 2) dismount with the wall on the right: never inside
+	world.swap_vehicle("bicycle")
+	await wait(0.2)
+	var vb: Node3D = world.parked["body"]
+	vb.global_position = spot
+	vb.rotation.y = head_yaw
+	tp(spot, rad_to_deg(head_yaw))
+	world.mount_parked()
+	await wait(0.8)
+	world.dismount_here()
+	await wait(0.6)
+	var lz = house.to_local(pl.global_position).z
+	check(not pl._inside_at(pl.global_position) and lz > half.z, "run5: dismount next to a wall stays on the street (local z %.2f, wall at %.2f)" % [lz, half.z])
+	await shot("50_dismount_wall")
+	# 3) camera pointed into the wall: it must stay in front of it, the courier visible
+	tp(spot + hb.z.normalized() * 0.4, rad_to_deg(atan2(hb.x.x, hb.x.z)))
+	pl.cyaw = atan2(into.x, into.z)               # boom (+Z of the pivot) into the house
+	pl.cam_idle = 0.0
+	await wait(1.5)
+	var cp = pl.camera.global_position
+	var head = pl.global_position + Vector3(0, 1.55, 0)
+	var clear = pl._ray(cp, head).is_empty() and pl._ray(head, cp).is_empty()
+	check(clear and house.to_local(cp).z > half.z, "run5: camera aimed at a wall stays outside, courier visible (cam local z %.2f, dist %.2f)" % [house.to_local(cp).z, cp.distance_to(head)])
+	await shot("51_camera_wall")
+	await wait(2.5)
+	await shot("52_camera_wall_swing")
+	log_line("run5: camera swing %.2f rad, distance %.2f" % [pl.cam_avoid, pl.cam_dist])
+	# 4) a tree between the camera and the courier turns see-through
+	var tree_i = -1
+	for i in lv.fade_items.size():
+		var ab: AABB = lv.fade_items[i]["aabb"]
+		if String(lv.fade_items[i]["asset"]).begins_with("tree"):
+			var behind = ab.get_center() + Vector3(3.5, 0, 0)
+			if lv.surface_at(behind) in ["s", "c", "p", "z", "g"] and not pl._inside_at(behind):
+				tree_i = i
+				break
+	check(tree_i >= 0, "run5: a tall prop (tree) to test see-through")
+	if tree_i >= 0:
+		var ab: AABB = lv.fade_items[tree_i]["aabb"]
+		var p = ab.get_center() + Vector3(3.5, 0, 0)
+		p.y = lv.ground_height(p)
+		tp(p, 90.0)                                # facing +X: the camera is behind, toward the tree
+		pl.cam_pitch = -0.15
+		await wait(1.2)
+		var hd = pl.global_position + Vector3(0, 1.55, 0)
+		log_line("run5: tree aabb %s, camera %s, head %s, hit %s" % [ab, pl.camera.global_position, hd, ab.grow(0.15).intersects_segment(pl.camera.global_position, hd)])
+		var mi: MeshInstance3D = lv.fade_items[tree_i]["meshes"][0]
+		check(mi.transparency > 0.4, "run5: tree between camera and courier is see-through (%.2f)" % mi.transparency)
+		await shot("53_tree_fade")
+		pl.cam_pitch = -0.32
 
 
 
@@ -573,7 +716,7 @@ func _run3_checks() -> void:
 				snowy += 1
 	check(snowy > 50, "snow cover on the level materials (%d meshes)" % snowy)
 	world.swap_vehicle("scooter")
-	tp(world.parked["body"].global_position + Vector3(0.8, 0, 0), 0.0)
+	tp(_free_near(world.parked["body"].global_position), 0.0)
 	world.mount_parked()
 	await wait(0.4)
 	var grip_snow: float = pl.surface_mult()[1]

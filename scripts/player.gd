@@ -39,11 +39,20 @@ var vehicle_kind = ""      # Game.VEH key when riding
 var vehicle_model: Node3D
 var cur_anim = ""
 var cam_pivot: Node3D
-var spring: SpringArm3D
 var camera: Camera3D
 var cyaw = 0.0             # camera yaw in world space (behind = heading + PI)
 var cam_pitch = -0.32
 var cam_idle = 0.0
+var cam_len = 4.2          # wanted camera distance (smoothed)
+var cam_dist = 4.2         # actual distance after walls: snaps in, eases out
+var cam_avoid = 0.0        # automatic yaw offset that swings the camera to a clear side of a wall
+var _avoid_target = 0.0
+var _probe_t = 0.0
+var _faded = {}            # Level.fade_items index -> current see-through amount
+var last_out = Vector3.ZERO  # last floor position outside every building box
+var _inside_t = 0.0
+const CAM_MASK = 1 | 16    # level geometry + camera-only boxes around building bodies (Level.CAM_LAYER)
+const FADE = 0.72
 var foot_shape: CollisionShape3D
 var ride_shape: CollisionShape3D
 var car_shape: CollisionShape3D
@@ -96,24 +105,18 @@ func setup(w: Node, pos: Vector3, yaw_deg: float) -> void:
 	cam_pivot = Node3D.new()
 	cam_pivot.top_level = true
 	add_child(cam_pivot)
-	spring = SpringArm3D.new()
-	spring.spring_length = 4.6
-	spring.margin = 0.3
-	spring.collision_mask = 1
-	var sh = SphereShape3D.new()
-	sh.radius = 0.25
-	spring.shape = sh
-	spring.add_excluded_object(get_rid())
-	cam_pivot.add_child(spring)
 	camera = Camera3D.new()
 	camera.fov = 68.0
 	camera.far = 900.0
-	spring.add_child(camera)
+	camera.near = 0.08
+	camera.position = Vector3(0, 0, cam_dist)
+	cam_pivot.add_child(camera)
 	camera.current = true
 	apply_camera_fx()
 	cam_pivot.global_position = global_position + Vector3(0, 1.7, 0)
 	cyaw = heading + PI
 	last_safe = global_position
+	last_out = global_position
 
 
 ## Soft tilt-shift look of the concept art: the far background is slightly out of focus (Forward+ only;
@@ -277,10 +280,46 @@ func dismount() -> Node3D:
 	lean = 0.0
 	visual.rotation = Vector3.ZERO
 	_play("idle", true)
-	# step to the side so the parked vehicle is free
+	# step to the side so the parked vehicle is free — but never through a wall: try right, left, back, shorter
 	var side = Vector3(cos(heading), 0, -sin(heading))
-	global_position += side * (1.35 if vm and vm.find_child("WHEEL_fl", true, false) else 0.75)
+	var back = -Vector3(sin(heading), 0, cos(heading))
+	var d = 1.35 if vm and vm.find_child("WHEEL_fl", true, false) else 0.75
+	for off in [side * d, -side * d, back * d, side * d * 0.6, -side * d * 0.6, back * d * 0.6]:
+		var o: Vector3 = off
+		if not test_move(global_transform.translated(Vector3(0, 0.05, 0)), o) and not _inside_at(global_position + o):
+			global_position += o
+			break
+	last_out = global_position if not _inside_at(global_position) else last_out
 	return vm
+
+
+## True when a point is inside a solid building box of the level (Level._solidify): the courier must never be there.
+func _inside_at(p: Vector3) -> bool:
+	if world == null or world.level == null:
+		return false
+	var q = PhysicsPointQueryParameters3D.new()
+	q.position = p + Vector3(0, 0.9, 0)
+	q.collision_mask = 1
+	for r in get_world_3d().direct_space_state.intersect_point(q, 4):
+		var c = r.get("collider")
+		if c is StaticBody3D and world.level.is_ancestor_of(c):
+			return true
+	return false
+
+
+## Force field: if the courier ever ends up inside a building (a teleport, a glitch), put them back on the street.
+func _guard_inside(delta: float) -> void:
+	_inside_t -= delta
+	if _inside_t > 0.0:
+		return
+	_inside_t = 0.2
+	if _inside_at(global_position):
+		global_position = last_out + Vector3(0, 0.15, 0)
+		velocity = Vector3.ZERO
+		speed = 0.0
+		hint("inside", "В дома заходить нельзя — только через подъезд (E у двери).", 10.0)
+	elif is_on_floor():
+		last_out = global_position
 
 
 func fall(seconds = 2.5) -> void:
@@ -349,6 +388,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		_ride(delta, ax, ay)
 	_gravity_and_move(delta)
+	_guard_inside(delta)
 	_stats(delta)
 	_camera(delta)
 	_animate(delta)
@@ -365,7 +405,7 @@ func _foot(delta: float, ax: float, ay: float) -> void:
 	var input = Vector2(ax, ay)
 	if input.length() > 1.0:
 		input = input.normalized()
-	var cy = cyaw + PI  # camera forward yaw
+	var cy = cam_pivot.rotation.y + PI  # forward of the camera as seen on screen (incl. the auto swing off walls)
 	var fwd = Vector3(sin(cy), 0, cos(cy))
 	var right = Vector3(-cos(cy), 0, sin(cy))
 	var dir = fwd * input.y + right * input.x
@@ -523,20 +563,46 @@ func hint(id: String, text: String, cd = 25.0) -> void:
 	world.toast(text, 3.5)
 
 
+## Chase camera. The courier must always be visible:
+## - rays from the head to the camera against buildings (and camera-only boxes around balconies and roofs):
+##   the camera snaps in front of a wall at once and eases back out when the view clears;
+## - if a wall keeps blocking the view, the camera swings sideways to a clear angle (only while the player is
+##   not turning it by hand), and returns behind the courier when the way is clear again;
+## - trees, lamp posts, stops and other props between the camera and the courier turn see-through.
 func _camera(delta: float) -> void:
-	var target = global_position + Vector3(0, 1.55 if mode == Mode.FOOT else (2.1 if mode == Mode.CAR else 1.75), 0)
-	cam_pivot.global_position = cam_pivot.global_position.lerp(target, clamp(14.0 * delta, 0.0, 1.0))
+	var head = global_position + Vector3(0, 1.55 if mode == Mode.FOOT else (2.1 if mode == Mode.CAR else 1.75), 0)
+	var piv = cam_pivot.global_position.lerp(head, clamp(16.0 * delta, 0.0, 1.0))
+	if piv.distance_squared_to(head) > 0.01 and _ray(head, piv).size() > 0:
+		piv = head    # the lagging pivot cut a corner through a wall
+	cam_pivot.global_position = piv
+	if cam_idle == 0.0 and cam_avoid != 0.0:
+		# the player took the camera: keep the current view, drop the automatic offset
+		cyaw += cam_avoid
+		cam_avoid = 0.0
+		_avoid_target = 0.0
 	cam_idle += delta
 	var behind = heading + PI
 	if mode != Mode.FOOT:
-		if cam_idle > 1.2 or abs(speed) > 2.0:
-			cyaw = lerp_angle(cyaw, behind, clamp((1.5 + abs(speed) * 0.4) * delta, 0.0, 1.0))
+		if cam_idle > 1.0 or abs(speed) > 1.5:
+			cyaw = lerp_angle(cyaw, behind, clamp((1.1 + abs(speed) * 0.22) * delta, 0.0, 1.0))
 	elif cam_idle > 2.5 and speed > 0.5:
 		cyaw = lerp_angle(cyaw, behind, clamp(1.2 * delta, 0.0, 1.0))
-	cam_pivot.rotation.y = lerp_angle(cam_pivot.rotation.y, cyaw, clamp(10.0 * delta, 0.0, 1.0))
-	cam_pivot.rotation.x = lerp(cam_pivot.rotation.x, cam_pitch, clamp(8.0 * delta, 0.0, 1.0))
 	var L = 4.2 if mode == Mode.FOOT else (6.6 if mode == Mode.CAR else 5.2) + abs(speed) * 0.08
-	spring.spring_length = lerp(spring.spring_length, L, clamp(3.0 * delta, 0.0, 1.0))
+	cam_len = lerp(cam_len, L, clamp(3.0 * delta, 0.0, 1.0))
+	_probe_t -= delta
+	if _probe_t <= 0.0:
+		_probe_t = 0.15
+		_probe_avoid(piv)
+	cam_avoid = lerp_angle(cam_avoid, _avoid_target, clamp(2.2 * delta, 0.0, 1.0))
+	cam_pivot.rotation.y = lerp_angle(cam_pivot.rotation.y, cyaw + cam_avoid, clamp(9.0 * delta, 0.0, 1.0))
+	cam_pivot.rotation.x = lerp(cam_pivot.rotation.x, cam_pitch, clamp(8.0 * delta, 0.0, 1.0))
+	var free = _cam_free(piv, cam_pivot.global_transform.basis, cam_len)
+	if free < cam_dist:
+		cam_dist = free
+	else:
+		cam_dist = lerp(cam_dist, free, clamp(2.5 * delta, 0.0, 1.0))
+	camera.position = Vector3(0, 0, cam_dist)
+	_fade_props(head, delta)
 	camera.fov = lerp(camera.fov, 66.0 + abs(speed) * 0.9, clamp(3.0 * delta, 0.0, 1.0))
 	if shake > 0.0:
 		shake = max(0.0, shake - delta)
@@ -547,9 +613,87 @@ func _camera(delta: float) -> void:
 		camera.v_offset = 0.0
 
 
+func _ray(a: Vector3, b: Vector3) -> Dictionary:
+	var ex: Array[RID] = [get_rid()]
+	if not world.parked.is_empty() and is_instance_valid(world.parked["body"]):
+		ex.append((world.parked["body"] as StaticBody3D).get_rid())   # the parked bike must not shove the camera
+	var q = PhysicsRayQueryParameters3D.create(a, b, CAM_MASK, ex)
+	q.hit_from_inside = false
+	return get_world_3d().direct_space_state.intersect_ray(q)
+
+
+## Free distance from the head along the camera boom (+Z of the pivot basis): centre ray + four rays around it
+## (the near plane is wider than a point). A box the head is inside of (a shop awning) is ignored by the rays.
+func _cam_free(from: Vector3, b: Basis, length: float) -> float:
+	var dir = b.z.normalized()
+	var best = length
+	for o in [Vector3.ZERO, b.x * 0.3, -b.x * 0.3, b.y * 0.25, -b.y * 0.2]:
+		var off: Vector3 = o
+		var h = _ray(from + off * 0.3, from + off + dir * (length + 0.3))
+		if not h.is_empty():
+			best = min(best, (h["position"] - from).dot(dir) - 0.3)
+	return clamp(best, 0.35, length)
+
+
+## Look for a clear angle when a wall hides the courier; come back behind them when the way is clear.
+func _probe_avoid(piv: Vector3) -> void:
+	var pitch = cam_pivot.rotation.x
+	var want = cam_len * 0.8
+	var free_home = _cam_free(piv, Basis.from_euler(Vector3(pitch, cyaw, 0)), cam_len)
+	if free_home >= want or cam_idle < 0.7:
+		_avoid_target = 0.0
+		return
+	var free_now = _cam_free(piv, Basis.from_euler(Vector3(pitch, cyaw + _avoid_target, 0)), cam_len)
+	if _avoid_target != 0.0 and free_now >= want:
+		return    # keep the clear angle found before (no flip-flopping)
+	var sgn = 1.0 if _avoid_target >= 0.0 else -1.0
+	var best = _avoid_target
+	var best_free = free_now
+	for a in [0.45, 0.85, 1.25, 1.65]:
+		for s in [sgn, -sgn]:
+			var f = _cam_free(piv, Basis.from_euler(Vector3(pitch, cyaw + a * s, 0)), cam_len)
+			if f > best_free + 0.4:
+				best_free = f
+				best = a * s
+		if best_free >= want:
+			break
+	_avoid_target = best
+
+
+## Props between the camera and the courier (trees, lamp posts, stops, kiosks) fade to see-through.
+func _fade_props(head: Vector3, delta: float) -> void:
+	var items: Array = world.level.fade_items
+	var cp = camera.global_position
+	var chest = head - Vector3(0, 0.5, 0)
+	for i in items.size():
+		var it: Dictionary = items[i]
+		var ab: AABB = it["aabb"]
+		var want = 0.0
+		if ab.get_center().distance_squared_to(head) < 900.0:
+			var g = ab.grow(0.15)
+			if g.has_point(cp):
+				want = 1.0     # the camera is inside the crown: hide it, a see-through crown still tints the screen
+			elif g.intersects_segment(cp, head) or g.intersects_segment(cp, chest):
+				want = FADE
+		var cur: float = _faded.get(i, 0.0)
+		if want == cur:
+			continue
+		cur = move_toward(cur, want, 4.0 * delta)
+		for m in it["meshes"]:
+			var mi: MeshInstance3D = m
+			if is_instance_valid(mi):
+				mi.transparency = cur
+		if cur <= 0.0:
+			_faded.erase(i)
+		else:
+			_faded[i] = cur
+
+
 func reset_camera() -> void:
 	cyaw = heading + PI
 	cam_pitch = -0.32
+	cam_avoid = 0.0
+	_avoid_target = 0.0
 	cam_pivot.rotation.y = cyaw
 
 

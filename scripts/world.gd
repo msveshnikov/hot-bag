@@ -122,6 +122,10 @@ func _ready() -> void:
 		var tt = load("res://scripts/shot_tour.gd").new()
 		tt.world = self
 		add_child(tt)
+	elif Game.flag("soak"):
+		var sk = load("res://scripts/soak.gd").new()
+		sk.world = self
+		add_child(sk)
 	elif Game.flag("trailer"):
 		Game.state["tutorial"] = 9
 		Game.state["chapter"] = 5
@@ -142,6 +146,9 @@ func _park_start_vehicle(start: Vector3) -> void:
 	Game.state["vehicle"] = kind
 	battery = Game.charge_of(kind)
 	var side = Vector3(cos(player.heading), 0, -sin(player.heading))
+	var q = PhysicsRayQueryParameters3D.create(start + Vector3(0, 0.6, 0), start + side * 2.0 + Vector3(0, 0.6, 0), 1)
+	if not get_world_3d().direct_space_state.intersect_ray(q).is_empty():
+		side = -side   # a wall on that side: park on the other one
 	park_vehicle(kind, Vehicles.make(kind), start + side * 1.4, player.heading)
 
 
@@ -436,7 +443,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _capture_mouse() -> void:
-	if Game.is_touch() or Game.flag("autotest") or Game.flag("tour") or Game.flag("trailer"):
+	if Game.is_touch() or Game.flag("autotest") or Game.flag("tour") or Game.flag("trailer") or Game.flag("soak"):
 		return
 	if ui_free():
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)

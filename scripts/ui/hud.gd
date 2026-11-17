@@ -191,7 +191,19 @@ func refresh_orders() -> void:
 	_food_t = 0.0
 
 
+var _food_sig = ""
+
+
+## Order cards: rebuilt only when something shown on them changes (not 4 times a second regardless) —
+## fewer controls, text buffers and canvas items created and destroyed over a long shift.
 func _update_food() -> void:
+	var sig = ""
+	for o in world.orders.active:
+		sig += "%s|%s|%d|%d|%d|%d|%s;" % [o["item"][1], o["state"], int(o["condition"]) / 4, int(o["temp"]) / 4,
+			int(o["wet"]) if o["wet"] > 10.0 else 0, int(o["cook_left"]) if o["cook_left"] > 0.5 else -1, o["item"][2]]
+	if sig == _food_sig:
+		return
+	_food_sig = sig
 	for c in food_box.get_children():
 		c.queue_free()
 	for o in world.orders.active:
@@ -251,6 +263,7 @@ class Minimap:
 	extends Control
 	var world: Node
 	var span = 110.0   # metres shown edge to edge
+	var _frame: StyleBoxFlat
 
 	func _process(_d: float) -> void:
 		queue_redraw()
@@ -259,7 +272,9 @@ class Minimap:
 		if world == null or world.level == null or world.level.map_tex == null:
 			return
 		var sz = size
-		draw_style_box(UiKit.box(Color(UiKit.CREAM, 0.95), UiKit.INK, 4, 26, 0), Rect2(Vector2.ZERO, sz))
+		if _frame == null:
+			_frame = UiKit.box(Color(UiKit.CREAM, 0.95), UiKit.INK, 4, 26, 0)
+		draw_style_box(_frame, Rect2(Vector2.ZERO, sz))
 		var lv: Level = world.level
 		var mr: Rect2 = lv.map_rect
 		var tex: Texture2D = lv.map_tex

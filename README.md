@@ -124,6 +124,15 @@ godot --headless --path . --export-debug "Android" build/android/HotBag.apk
 scp build/web/* build/android/HotBag.apk ubuntu@severance.lol:/var/www/severance/6/
 ```
 
+## Вылеты и утечки
+- **Лог игры на Windows**: `%APPDATA%\Godot\app_userdata\Горячая сумка\logs\godot.log` (последние 5 запусков).
+  При вылете Godot пишет туда «Program crashed» и трассировку — её и нужно присылать.
+- **Android**: `adb logcat -s godot:V AndroidRuntime:E DEBUG:E` во время игры (APK собирается как debug).
+- **Soak-тест**: `godot --path . -- --soak 16` (или `HotBag.exe -- --soak 16`) — курьер ездит на автопилоте, время ×3,
+  переезд в другой район каждые 2,5 мин, после 23:00 — следующий день; счётчики объектов/узлов/«сирот»/ресурсов и
+  памяти — в `user://soak.log`. Память процесса снаружи смотреть в диспетчере задач (Private bytes).
+- `--autotest --only5` — быстрые проверки камеры, прозрачности и «сплошных» домов.
+
 ## Музыка
 
 `assets/audio/music/*.mp3` — инструментальные треки из Suno (бесплатный план: только некоммерческое использование):

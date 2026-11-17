@@ -1,7 +1,7 @@
 extends Node
 ## Global state: progress, settings, catalogue, save/load, input map. Autoload "Game".
 
-const VERSION = "0.4.1"
+const VERSION = "0.4.2"
 const SAVE_PATH = "user://save.json"
 const SETTINGS_PATH = "user://settings.json"
 const DISTRICTS = {
@@ -122,6 +122,9 @@ var events_data: Dictionary
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	args = OS.get_cmdline_user_args()
+	if args.is_empty() and OS.has_feature("mobile"):
+		# Android: adb shell am start ... --esa command_line_params --soak,15 (no "--" separator there)
+		args = OS.get_cmdline_args()
 	_parse_flags()
 	_build_input_map()
 	load_settings()
@@ -317,7 +320,7 @@ func save_settings() -> void:
 func _apply_window() -> void:
 	if OS.has_feature("web") or OS.has_feature("mobile"):
 		return
-	if flag("autotest") or flag("tour") or flag("trailer"):
+	if flag("autotest") or flag("tour") or flag("trailer") or flag("soak"):
 		return
 	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN if settings["fullscreen"] else DisplayServer.WINDOW_MODE_WINDOWED)
 

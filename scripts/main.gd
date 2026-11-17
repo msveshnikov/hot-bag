@@ -5,8 +5,8 @@ var menu: CanvasLayer
 
 
 func _ready() -> void:
-	if Game.go_play or Game.flag("autotest") or Game.flag("tour") or Game.flag("play") or Game.flag("trailer"):
-		if (Game.flag("autotest") or Game.flag("newgame") or Game.flag("trailer")) and not Game.booted:
+	if Game.go_play or Game.flag("autotest") or Game.flag("tour") or Game.flag("play") or Game.flag("trailer") or Game.flag("soak"):
+		if (Game.flag("autotest") or Game.flag("newgame") or Game.flag("trailer") or Game.flag("soak")) and not Game.booted:
 			Game.new_state()
 		if Game.flag("district") and not Game.booted:
 			Game.state["district"] = Game.flags["district"][0]
