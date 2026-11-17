@@ -134,7 +134,7 @@ scp build/web/* build/android/HotBag.apk ubuntu@severance.lol:/var/www/severance
 
 ## Промо-ролик
 
-`renders/trailer/hot_bag_trailer_small.mp4` (~53 с). Сцены снимает сама игра: `--trailer <сцена>` в
+`renders/trailer/hot_bag_trailer_small.mp4` (~53 с), на YouTube: https://youtu.be/6r6PyO_7iiU (канал Manga TV, встроен в страницу itch.io). Сцены снимает сама игра: `--trailer <сцена>` в
 `scripts/trailer.gd` (час, погода, транспорт, маршрут на автопилоте, движение камеры), запись — Godot Movie Maker.
 `python tools/trailer.py record` → `sheet` (контактные листы) → `edit` (нарезка, подписи, голос диктора ElevenLabs
 `renders/trailer/vo_full.mp3`, реплика Михалыча, музыка с приглушением под голос, финальная карточка `endcard.png`).
