@@ -26,7 +26,7 @@ func _ready() -> void:
 	if t0 < 0.0:
 		t0 = Time.get_ticks_msec() / 1000.0
 		_log("time_s objects nodes orphans resources static_mb video_mb fps district")
-	Engine.time_scale = 3.0
+	Engine.time_scale = 1.0 if Game.flag("bisect") else 3.0    # bisect: no end of shift (scene reload) mid-run
 	Game.state["tutorial"] = 9
 	Game.state["chapter"] = 5
 
@@ -82,7 +82,9 @@ func _process(delta: float) -> void:
 			pl.global_position = b.global_position + Vector3(0.6, 0.3, 0)
 			world.mount_parked()
 		return
-	if _here > 150.0:
+	if Game.flag("bisect"):
+		_bisect(rd)
+	elif _here > 150.0:
 		hop += 1
 		Engine.time_scale = 1.0
 		world.travel_to(DISTRICTS[hop % DISTRICTS.size()])
@@ -99,3 +101,69 @@ func _process(delta: float) -> void:
 					pl.autopilot = Array(path)
 					pl.autopilot_throttle = 1.0
 					break
+
+
+# ---------------------------------------------------------------- --bisect: find what grows the GPU driver's memory
+## Stays in one district; every 60 s turns one subsystem off (and the previous one back on), logging the phase,
+## so the memory slope of each minute (adb shell dumpsys meminfo) shows which subsystem feeds the growth.
+const PHASES_1 = ["all_on", "no_3d", "no_ui", "no_particles", "no_daynight", "no_label3d", "no_fade", "no_traffic_people", "all_on_again"]
+# round 2 (the growth stopped only with 3D off): which part of the 3D scene
+const PHASES = ["all_on", "no_chars", "no_traffic", "no_gps", "no_water", "no_level", "no_sky", "no_fade", "no_3d"]
+var _phase = -1
+var _phase_t = 0.0
+
+
+func _bisect(rd: float) -> void:
+	_phase_t -= rd
+	if _phase_t > 0.0:
+		return
+	_phase_t = 45.0
+	if _phase >= 0:
+		_set_phase(PHASES[_phase], true)
+	_phase += 1
+	if _phase >= PHASES.size():
+		_log("done")
+		get_tree().quit()
+		return
+	_set_phase(PHASES[_phase], false)
+	_log("PHASE %s at %.0f" % [PHASES[_phase], _elapsed()])
+
+
+func _set_phase(name: String, on: bool) -> void:
+	match name:
+		"no_3d":
+			get_viewport().disable_3d = not on
+		"no_ui":
+			for c in world.find_children("*", "CanvasLayer", true, false):
+				(c as CanvasLayer).visible = on
+		"no_particles":
+			for p in get_tree().root.find_children("*", "GPUParticles3D", true, false):
+				(p as GPUParticles3D).visible = on
+		"no_daynight":
+			world.daynight.set_process(on)
+		"no_label3d":
+			for l in get_tree().root.find_children("*", "Label3D", true, false):
+				(l as Label3D).visible = on
+		"no_fade":
+			world.player.set_meta("no_fade", not on)
+		"no_chars":
+			world.people.visible = on
+			world.player.visual.visible = on
+		"no_traffic":
+			world.traffic.visible = on
+		"no_gps":    # stop rebuilding the GPS ribbon (ImmediateMesh) too, not only hide it
+			world._gps_t = 0.0 if on else 1.0e9
+			world.gps_line.visible = on
+			world.gps_pin.visible = on
+		"no_water":
+			for m in world.level.get_children():
+				if m is MeshInstance3D and (m as MeshInstance3D).material_override == world.level.water_mat:
+					(m as MeshInstance3D).visible = on
+		"no_level":
+			world.level.visible = on
+		"no_sky":
+			var env: Environment = world.daynight.env
+			env.background_mode = Environment.BG_SKY if on else Environment.BG_COLOR
+		"no_traffic_people":
+			world.traffic.visible = on
+			world.people.visible = on

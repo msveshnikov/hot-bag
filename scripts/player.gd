@@ -662,6 +662,9 @@ func _probe_avoid(piv: Vector3) -> void:
 
 ## Props between the camera and the courier (trees, lamp posts, stops, kiosks) fade to see-through.
 func _fade_props(head: Vector3, delta: float) -> void:
+	if has_meta("no_fade"):
+		if get_meta("no_fade"):
+			return
 	var items: Array = world.level.fade_items
 	var cp = camera.global_position
 	var chest = head - Vector3(0, 0.5, 0)

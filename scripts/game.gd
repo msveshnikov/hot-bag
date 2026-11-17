@@ -122,9 +122,11 @@ var events_data: Dictionary
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	args = OS.get_cmdline_user_args()
-	if args.is_empty() and OS.has_feature("mobile"):
-		# Android: adb shell am start ... --esa command_line_params --soak,15 (no "--" separator there)
-		args = OS.get_cmdline_args()
+	if args.is_empty() and OS.has_feature("mobile") and FileAccess.file_exists("user://cmdline.txt"):
+		# Android test runs: the launcher drops intent extras, so flags come from a file written over adb
+		# (adb shell run-as com.maxsoft.hotbag sh -c 'echo "--soak 25" > files/cmdline.txt'); used once, then deleted
+		args = PackedStringArray(FileAccess.get_file_as_string("user://cmdline.txt").strip_edges().split(" ", false))
+		DirAccess.remove_absolute(ProjectSettings.globalize_path("user://cmdline.txt"))
 	_parse_flags()
 	_build_input_map()
 	load_settings()
