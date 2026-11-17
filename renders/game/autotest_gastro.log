@@ -44,49 +44,50 @@ AUTOTEST OK   cheese: delivered, money 77
 AUTOTEST OK   accept dumplings order
 AUTOTEST OK   dumplings: focus on the pickup counter
 AUTOTEST OK   dumplings: food in the bag
-AUTOTEST OK   dumplings: focus on the door Северная набережная, 11, под. 1
-AUTOTEST dumplings: going up via stairs (floor 3)
-AUTOTEST OK   dumplings: stairs leads to the customer (2.5 s)
-AUTOTEST OK   dumplings: delivered, money 105
+AUTOTEST OK   dumplings: focus on the door Гастрономическая улица, 3, под. 2
+AUTOTEST dumplings: going up via stairs (floor 5)
+AUTOTEST OK   dumplings: stairs leads to the customer (5.0 s)
+AUTOTEST OK   dumplings: delivered, money 97
 AUTOTEST OK   accept ramen order
 AUTOTEST OK   ramen: focus on the pickup counter
 AUTOTEST OK   ramen: food in the bag
-AUTOTEST OK   ramen: focus on the door Переулок Пекарей, 9, под. 1
-AUTOTEST ramen: going up via stairs (floor 2)
-AUTOTEST OK   ramen: stairs leads to the customer (1.5 s)
-AUTOTEST OK   ramen: delivered, money 121
+AUTOTEST OK   ramen: focus on the door Переулок Пекарей, 10, под. 1
+AUTOTEST ramen: going up via stairs (floor 3)
+AUTOTEST OK   ramen: stairs leads to the customer (3.0 s)
+AUTOTEST OK   ramen: delivered, money 110
 AUTOTEST OK   accept grill order
 AUTOTEST OK   grill: focus on the pickup counter
 AUTOTEST OK   grill: food in the bag
-AUTOTEST OK   grill: focus on the door Северная набережная, 19, под. 2
-AUTOTEST grill: going up via stairs (floor 3)
-AUTOTEST OK   grill: stairs leads to the customer (3.0 s)
-AUTOTEST OK   grill: delivered, money 146
+AUTOTEST OK   grill: focus on the door Большой парк, у пруда (южный берег)
+AUTOTEST OK   grill: park customer right at the bench
+AUTOTEST grill: going up via dialog (floor 0)
+AUTOTEST OK   grill: dialog leads to the customer (0.0 s)
+AUTOTEST OK   grill: delivered, money 128
 AUTOTEST OK   accept pancakes order
 AUTOTEST OK   pancakes: focus on the pickup counter
 AUTOTEST OK   pancakes: food in the bag
-AUTOTEST OK   pancakes: focus on the door Переулок Пекарей, 1, под. 1
-AUTOTEST pancakes: going up via stairs (floor 4)
-AUTOTEST OK   pancakes: stairs leads to the customer (4.0 s)
-AUTOTEST OK   pancakes: delivered, money 151
+AUTOTEST OK   pancakes: focus on the door Южная улица, 28, под. 1
+AUTOTEST pancakes: going up via stairs (floor 1)
+AUTOTEST OK   pancakes: stairs leads to the customer (0.5 s)
+AUTOTEST OK   pancakes: delivered, money 149
 AUTOTEST quest offered: market_fish
 AUTOTEST OK   gastro quest offered
 AUTOTEST shot gastro_10_view_day
 AUTOTEST fps 10.0 at gastro view 0
 AUTOTEST shot gastro_10_view_night
-AUTOTEST fps 10.0 at gastro view 0
+AUTOTEST fps 4.0 at gastro view 0
 AUTOTEST shot gastro_11_view_day
-AUTOTEST fps 5.0 at gastro view 1
+AUTOTEST fps 8.0 at gastro view 1
 AUTOTEST shot gastro_11_view_night
-AUTOTEST fps 4.0 at gastro view 1
+AUTOTEST fps 8.0 at gastro view 1
 AUTOTEST shot gastro_12_view_day
-AUTOTEST fps 7.0 at gastro view 2
-AUTOTEST shot gastro_12_view_night
 AUTOTEST fps 9.0 at gastro view 2
+AUTOTEST shot gastro_12_view_night
+AUTOTEST fps 10.0 at gastro view 2
 AUTOTEST shot gastro_13_view_day
-AUTOTEST fps 9.0 at gastro view 3
+AUTOTEST fps 12.0 at gastro view 3
 AUTOTEST shot gastro_13_view_night
-AUTOTEST fps 8.0 at gastro view 3
+AUTOTEST fps 9.0 at gastro view 3
 AUTOTEST OK   travel: arrived in the Old Town
 AUTOTEST OK   travel: player at the entry from gastro (-108.0, -62.0)
 AUTOTEST OK   travel: the shift clock kept running (15.52)

@@ -232,6 +232,7 @@ func _run() -> void:
 	await wait(0.6)
 	await shot("12_delivered")
 	check(int(Game.state["stats"]["delivered"]) == before + 1, "delivery counted, money %s, rating %.2f" % [Game.money_text(), Game.state["rating"]])
+	check(int(Game.state.get("xp", 0)) >= 10, "delivery gives courier XP (%d)" % int(Game.state.get("xp", 0)))
 	world.screens.close_all()
 	# ---------------- back to mentor -> chapter 2
 	world.story.talk_mentor()
@@ -294,6 +295,7 @@ func _run() -> void:
 		await shot(hh[1])
 	world.daynight.hour = 10.0
 	await _run3_checks()
+	await _run4_checks()
 	# ---------------- views of the town
 	var views = [[-11.0, -2.0, 180.0, "21_square"], [-16.0, 2.0, 180.0, "22_restaurants"], [-20.0, -54.0, 90.0, "23_avenue"], [0.0, -76.0, 90.0, "24_park"]]
 	world.dismount_here()
@@ -400,6 +402,100 @@ func _run() -> void:
 
 # ---------------------------------------------------------------- run 2: «Сити» / «Берёзки»
 ## Run 3: the girl courier, the e-bike / e-moped / e-car, per-vehicle batteries, a snow day.
+## Run 4: music, ranks up to «Курьер-легенда», weekly tasks, keepsakes, bag colours, closures on the map, workshop call.
+func _run4_checks() -> void:
+	var pl: Player = world.player
+	# Suno music: mp3 tracks with crossfade, a separate snow-day track
+	var mv = Game.settings["music"]
+	Game.settings["music"] = 0.6
+	Sfx.music_name = ""
+	Sfx.play_music("music_day")
+	await wait(2.0)
+	check(Sfx.music.playing and Sfx.music.stream is AudioStreamMP3, "day music is the Suno mp3")
+	Sfx.play_music("music_snow")
+	await wait(3.0)
+	check(Sfx.music.playing and Sfx.music_name == "music_snow" and Sfx.music.stream is AudioStreamMP3, "snow music crossfades in")
+	Game.settings["music"] = mv
+	Sfx.refresh_volume()
+	# ranks: the ebike is locked for a novice, XP crosses the line, top rank gives the gold bag
+	var xp0 = int(Game.state.get("xp", 0))
+	Game.state["xp"] = 0
+	Game.state["money"] = 3000.0
+	var owned_eb = Game.state["owned"].get("ebike", false)
+	Game.state["owned"]["ebike"] = false
+	check(not Game.can_buy("ebike") and Game.buy_block_reason("ebike") != "", "ebike needs a rank: %s" % Game.buy_block_reason("ebike"))
+	var up = Game.add_xp(90)
+	check(up == 1 and Game.can_buy("ebike"), "rank up to «%s» opens the ebike" % Game.rank_title())
+	Game.state["owned"]["ebike"] = owned_eb
+	up = Game.add_xp(1300)
+	check(up == Game.RANKS.size() - 1, "top rank reached: %s" % Game.rank_title())
+	world.story.on_rank_up(up)
+	await wait(0.6)
+	check(Game.state["look"].get("bag", "") == Game.BAG_GOLD, "«Курьер-легенда» gets the gold bag")
+	await shot("37_rank_legend")
+	world.screens.close_all()
+	world.story.week()
+	world.story.new_weekly()
+	check(Game.state["weekly"].size() == 3, "weekly tasks: %d" % Game.state["weekly"].size())
+	var wd = int(Game.state["weekly"][0]["have"])
+	world.story._weekly_add("deliver", 1)
+	check(int(Game.state["weekly"][0]["have"]) == wd + 1, "weekly delivery task counts")
+	# a quest gives a keepsake for the restaurant
+	var had = Game.state["keepsakes"].duplicate()
+	Game.state["keepsakes"].erase("cake")
+	world.story.on_deliver({"quest": "cake", "item": ["cake", "Торт", "fragile", 1.5]}, {"stars": 5, "tip": 0.0, "late": false})
+	await wait(0.3)
+	check("cake" in Game.state["keepsakes"], "quest «cake» gives the keepsake «%s»" % Game.KEEPSAKES["cake"][0])
+	if not ("cake" in had):
+		pass
+	world.screens.close_all()
+	world.screens.open_phone("profile")
+	await wait(0.4)
+	await shot("38_profile_rank_weekly")
+	world.screens.close_all()
+	# bag colour tile in the garage
+	Game.state["look"]["bag"] = Game.BAGS[1]
+	pl.apply_look()
+	world.screens.open_garage("look")
+	await wait(0.5)
+	var gs: GarageScreen = null
+	for c in world.screens.find_children("*", "GarageScreen", true, false):
+		if not c.is_queued_for_deletion():
+			gs = c
+	var pv = "" if gs == null or gs.preview_root.get_child_count() == 0 else String(gs.preview_root.get_child(gs.preview_root.get_child_count() - 1).scene_file_path)
+	check(pv.contains("courier"), "look tab shows the courier on the podium (%s, tab %s)" % [pv, GarageScreen.tab])
+	await shot("39_garage_bag_colour")
+	world.screens.close_all()
+	Game.state["look"]["bag"] = Game.BAGS[0]
+	pl.apply_look()
+	# closures on the phone map
+	world.events.fire("roadblock")
+	await wait(0.3)
+	world.screens.open_phone("map")
+	await wait(0.5)
+	check(not world.events.roadblock_nodes.is_empty(), "roadblock placed")
+	await shot("40_map_roadblock")
+	world.screens.close_all()
+	world.events.active_ev["roadblock"] = 0.01
+	await wait(0.3)
+	# flat tyre without a repair kit: call the workshop
+	world.events.flat = true
+	Game.state["items"]["repair_kit"] = 0
+	world.screens.quick_item()
+	await wait(0.3)
+	var called = false
+	for b in world.screens.find_children("*", "Button", true, false):
+		if String(b.text).begins_with("Вызвать мастера"):
+			b.pressed.emit()
+			called = true
+			break
+	check(called, "bag menu offers to call the workshop for a flat")
+	world.screens.close_all()
+	await wait(8.5)
+	check(not world.events.flat, "the workshop fixed the flat")
+	Game.state["xp"] = max(xp0, int(Game.state["xp"]))
+
+
 func _run3_checks() -> void:
 	var pl: Player = world.player
 	if pl.riding():

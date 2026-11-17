@@ -109,7 +109,7 @@ func _ready() -> void:
 		add_child(touch)
 	orders.changed.connect(func(): hud.refresh_orders())
 	started = true
-	Sfx.play_music("music_day")
+	Sfx.play_music(_music_for_hour(int(daynight.hour)))
 	Sfx.set_loop("city_loop", 0.35)
 	_capture_mouse()
 	story.resume_quests()
@@ -683,12 +683,17 @@ func gps_path() -> PackedVector3Array:
 
 
 # ---------------------------------------------------------------- day flow
+func _music_for_hour(h: int) -> String:
+	if h >= 20 or h < 6:
+		return "music_night"
+	if daynight.snow_target > 0.5:
+		return "music_snow"
+	return "music_day"
+
+
 func _on_hour(h: int) -> void:
 	story.on_hour(h)
-	if h >= 20:
-		Sfx.play_music("music_night")
-	else:
-		Sfx.play_music("music_day")
+	Sfx.play_music(_music_for_hour(h))
 	if h == 22:
 		toast("Скоро конец смены (23:00). Доставь, что успеешь!", 3.0)
 

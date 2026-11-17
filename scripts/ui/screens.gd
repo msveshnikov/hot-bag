@@ -239,7 +239,10 @@ func _phone_map(list: VBoxContainer) -> void:
 	mp.world = world
 	mp.custom_minimum_size = Vector2(510, 560)
 	list.add_child(mp)
-	list.add_child(UiKit.label("Зелёная линия — твой маршрут. Красная точка — цель.", 18, Color("5d6670"), true))
+	var legend = "Зелёная линия — твой маршрут. Красная точка — цель."
+	if not world.events.roadblock_nodes.is_empty():
+		legend += " Красный крест — перекрытие: GPS ведёт в объезд."
+	list.add_child(UiKit.label(legend, 18, Color("5d6670"), true))
 
 
 func _phone_profile(list: VBoxContainer) -> void:
@@ -247,10 +250,26 @@ func _phone_profile(list: VBoxContainer) -> void:
 	list.add_child(UiKit.label(world.story.chapter_title(), 26, UiKit.TURQ_D, true))
 	list.add_child(UiKit.label(world.story.objective(), 20, UiKit.INK, true))
 	list.add_child(UiKit.label("Рейтинг: %.2f из 5   (ниже 3,0 — предупреждение, ниже 2,5 — блокировка)" % Game.state["rating"], 19, UiKit.INK, true))
+	var r = Game.rank()
+	list.add_child(UiKit.label("Звание: %s" % Game.rank_title(), 24, UiKit.TURQ_D, true))
+	list.add_child(UiKit.bar(Game.rank_progress(), UiKit.SUN, 480, 16))
+	if r < Game.RANKS.size() - 1:
+		list.add_child(UiKit.label("Опыт %d / %d до «%s»: %s" % [int(Game.state.get("xp", 0)), int(Game.RANKS[r + 1]["xp"]), Game.RANKS[r + 1]["title"], Game.RANKS[r + 1]["perk"]], 17, Color("5d6670"), true))
+	else:
+		list.add_child(UiKit.label("Высшее звание! Опыт: %d" % int(Game.state.get("xp", 0)), 17, Color("5d6670"), true))
 	list.add_child(UiKit.label("Доставлено: %d · опозданий: %d · чаевые: %d · штрафы: %d · падения: %d" % [int(s["delivered"]), int(s["late"]), int(s["tips"]), int(s["fines"]), int(s["falls"])], 18, Color("5d6670"), true))
 	list.add_child(UiKit.label("Задания дня", 24, UiKit.TURQ_D))
 	for t in Game.state["daily"]:
 		list.add_child(UiKit.label("%s %s — %d/%d (+%d)" % ["[готово]" if t["done"] else "•", t["text"], min(int(t["have"]), int(t["goal"])), int(t["goal"]), int(t["reward"])], 19, UiKit.INK if not t["done"] else Color("17807b"), true))
+	list.add_child(UiKit.label("Задания недели (неделя %d)" % (world.story.week() + 1), 24, UiKit.TURQ_D))
+	for t in Game.state.get("weekly", []):
+		list.add_child(UiKit.label("%s %s — %d/%d (+%d)" % ["[готово]" if t["done"] else "•", t["text"], min(int(t["have"]), int(t["goal"])), int(t["goal"]), int(t["reward"])], 19, UiKit.INK if not t["done"] else Color("17807b"), true))
+	var ks: Array = Game.state.get("keepsakes", [])
+	list.add_child(UiKit.label("Подарки для ресторана: %d / %d" % [ks.size(), Game.KEEPSAKES.size()], 24, UiKit.TURQ_D))
+	if ks.is_empty():
+		list.add_child(UiKit.label("Постоянные клиенты дарят их за выполненные квесты. Каждый подарок — +6 монет в день, когда ресторан откроется.", 17, Color("5d6670"), true))
+	for q in ks:
+		list.add_child(UiKit.label("• %s — %s" % Game.KEEPSAKES[q], 17, UiKit.INK, true))
 	list.add_child(UiKit.label("Сумка: перекус %d · энергетик %d · павербанк %d · ремкомплект %d" % [Game.item_count("snack"), Game.item_count("energy_drink"), Game.item_count("powerbank"), Game.item_count("repair_kit")], 18, UiKit.INK, true))
 	list.add_child(UiKit.button("Использовать предмет (X)", func(): close_named("phone"); quick_item(), 480))
 
@@ -274,6 +293,16 @@ class PhoneMap:
 		var mr: Rect2 = lv.map_rect
 		var f = func(p: Vector3) -> Vector2:
 			return Vector2((p.x - mr.position.x) / mr.size.x, (p.z - mr.position.y) / mr.size.y) * dr.size
+		if not world.events.roadblock_nodes.is_empty():
+			# road works / closures (ТЗ §7: traffic map in the app) - red hatched box
+			var rr2: Rect2 = world.events.roadblock_rect
+			var p0: Vector2 = f.call(Vector3(rr2.position.x, 0, rr2.position.y))
+			var p1: Vector2 = f.call(Vector3(rr2.end.x, 0, rr2.end.y))
+			var box = Rect2(p0, p1 - p0).abs().grow(5.0)
+			draw_rect(box, Color(0.93, 0.25, 0.2, 0.45))
+			draw_rect(box, Color(0.85, 0.15, 0.1), false, 3.0)
+			draw_line(box.position, box.end, Color(0.85, 0.15, 0.1), 3.0)
+			draw_line(Vector2(box.position.x, box.end.y), Vector2(box.end.x, box.position.y), Color(0.85, 0.15, 0.1), 3.0)
 		var path: PackedVector3Array = world.gps_path()
 		if path.size() > 1:
 			var pts = PackedVector2Array()
@@ -856,16 +885,27 @@ func quick_item() -> void:
 			p.hunger = min(100.0, p.hunger + 10.0)
 			world.toast("Вжух! Силы +60", 1.2)])
 	if Game.item_count("powerbank") > 0:
-		opts.append(["Павербанк (%d) — телефон 100%%%s" % [Game.item_count("powerbank"), " и самокат +50%" if world.current_vehicle() == "scooter" else ""], func():
+		opts.append(["Павербанк (%d) — телефон 100%%%s" % [Game.item_count("powerbank"), " и заряд транспорта +50%" if Game.is_electric(world.current_vehicle()) else ""], func():
 			Game.use_item("powerbank")
 			p.phone = 100.0
-			if world.current_vehicle() == "scooter":
+			if Game.is_electric(world.current_vehicle()):
 				world.battery = min(100.0, world.battery + 50.0)
 			world.toast("Заряжено!", 1.2)])
 	if Game.item_count("repair_kit") > 0 and world.events.flat:
 		opts.append(["Ремкомплект — заклеить прокол", func():
 			Game.use_item("repair_kit")
 			world.events.fix_flat()])
+	elif world.events.flat:
+		opts.append(["Вызвать мастера из мастерской — 25 мон.", func():
+			if Game.state["money"] < 25:
+				world.toast("Не хватает монет на выезд мастера.", 2.0)
+				Sfx.play("fail")
+				return
+			Game.spend(25)
+			world.toast("Мастер выехал! Подожди немного...", 2.5)
+			get_tree().create_timer(8.0).timeout.connect(func():
+				world.events.fix_flat()
+				world.toast("Мастер заклеил прокол: «Шины бы получше купил, а?»", 3.0))])
 	if opts.is_empty():
 		world.toast("В сумке нет полезных предметов. Загляни в ларёк.", 2.0)
 		return
@@ -921,7 +961,13 @@ func open_ending() -> void:
 	v.add_child(UiKit.label("Критик Аркадий Вилкин написал в колонке: «Лучший ужин сезона. Привёз его сам хозяин — на старом велике и с горячей сумкой за спиной»." , 22, UiKit.INK, true))
 	v.add_child(UiKit.label("Ты приехал в большой город новичком с рейтингом 4,0 — а теперь у тебя свой ресторан на Часовой площади.", 21, UiKit.INK, true))
 	v.add_child(UiKit.label("Дней в городе: %d   ·   доставок: %d   ·   чаевых: %d мон.   ·   падений: %d" % [int(Game.state["day"]), int(st["delivered"]), int(st["tips"]), int(st.get("falls", 0))], 20, Color("5d6670"), true))
-	v.add_child(UiKit.label("Рейтинг: %.2f   ·   лучшая серия без опозданий: %d" % [float(Game.state["rating"]), int(Game.state.get("best_streak", 0))], 20, Color("5d6670")))
+	v.add_child(UiKit.label("Рейтинг: %.2f   ·   лучшая серия без опозданий: %d   ·   звание: %s" % [float(Game.state["rating"]), int(Game.state.get("best_streak", 0)), Game.rank_title()], 20, Color("5d6670"), true))
+	var ks: Array = Game.state.get("keepsakes", [])
+	if not ks.is_empty():
+		var names = []
+		for q in ks:
+			names.append(Game.KEEPSAKES[q][0])
+		v.add_child(UiKit.label("В зале — подарки постоянных клиентов: " + ", ".join(names) + ".", 19, UiKit.INK, true))
 	v.add_child(UiKit.label("Спасибо, что играл! Ресторан приносит доход каждый день, а заказы из него приходят в «Хоп!». Город твой — катайся дальше.", 21, UiKit.TURQ_D, true))
 	var sc = CenterContainer.new()
 	sc.add_child(Icon.stars(5.0, 56.0))

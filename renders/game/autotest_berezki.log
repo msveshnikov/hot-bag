@@ -37,20 +37,20 @@ AUTOTEST OK   grocery: delivered, money 66
 AUTOTEST quest offered: no_lift
 AUTOTEST OK   berezki quest offered
 AUTOTEST shot berezki_10_view_day
-AUTOTEST fps 12.0 at berezki view 0
+AUTOTEST fps 11.0 at berezki view 0
 AUTOTEST shot berezki_10_view_night
-AUTOTEST fps 7.0 at berezki view 0
+AUTOTEST fps 8.0 at berezki view 0
 AUTOTEST shot berezki_11_view_day
-AUTOTEST fps 8.0 at berezki view 1
+AUTOTEST fps 7.0 at berezki view 1
 AUTOTEST shot berezki_11_view_night
-AUTOTEST fps 10.0 at berezki view 1
+AUTOTEST fps 5.0 at berezki view 1
 AUTOTEST shot berezki_12_view_day
-AUTOTEST fps 10.0 at berezki view 2
-AUTOTEST shot berezki_12_view_night
 AUTOTEST fps 8.0 at berezki view 2
+AUTOTEST shot berezki_12_view_night
+AUTOTEST fps 9.0 at berezki view 2
 AUTOTEST OK   travel: arrived in the Old Town
 AUTOTEST OK   travel: player at the entry from berezki (86.0, -62.0)
-AUTOTEST OK   travel: the shift clock kept running (15.51)
+AUTOTEST OK   travel: the shift clock kept running (15.52)
 AUTOTEST OK   travel: the vehicle came along (bicycle)
 AUTOTEST shot berezki_20_arrived_old_town
 AUTOTEST DONE fails=0

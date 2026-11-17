@@ -1,5 +1,6 @@
 extends Node
-## Sounds, loops and music (all procedurally generated WAVs in assets/audio). Autoload "Sfx".
+## Sounds and loops (procedurally generated WAVs in assets/audio), music (Suno mp3s in assets/audio/music),
+## Михалыч's voice (ElevenLabs mp3s). Autoload "Sfx".
 
 const ONE_SHOTS = ["ui", "bell", "coin", "notify", "accept", "fail", "knock", "intercom", "crash", "whistle", "splash",
 	"step", "pickup", "deliver", "phone_open", "ring", "fall", "lock", "brake", "level_up", "tram_bell", "horn"]
@@ -10,6 +11,7 @@ var players: Array[AudioStreamPlayer] = []
 var loops = {}
 var music: AudioStreamPlayer
 var music_name = ""
+var music_tween: Tween
 var voice: AudioStreamPlayer
 
 
@@ -106,31 +108,71 @@ func stop_loops() -> void:
 		p.stop()
 
 
+## Music: Suno tracks in assets/audio/music/<name>.mp3 (looped), the old procedural WAV as a fallback.
+## Several takes of one mood (music_day.mp3, music_day_2.mp3, ...) rotate. Switching fades over ~1.2 s.
+func _music_stream(name: String) -> AudioStream:
+	var takes = []
+	for i in range(1, 6):
+		var p = "res://assets/audio/music/%s.mp3" % name if i == 1 else "res://assets/audio/music/%s_%d.mp3" % [name, i]
+		if ResourceLoader.exists(p):
+			takes.append(p)
+	if not takes.is_empty():
+		var s: AudioStreamMP3 = load(takes[randi() % takes.size()]).duplicate()
+		s.loop = true
+		return s
+	if not streams.has(name):
+		return _music_stream("music_day") if name == "music_snow" else null
+	var w: AudioStreamWAV = streams[name].duplicate()
+	w.loop_mode = AudioStreamWAV.LOOP_FORWARD
+	w.loop_end = w.data.size() / 2
+	return w
+
+
+func _music_db() -> float:
+	return _db(0.5 * float(Game.settings["music"]))
+
+
 func play_music(name: String) -> void:
 	if float(Game.settings["music"]) <= 0.001:
 		music_name = name
 		music.stop()
 		return
 	if name == music_name and music.playing:
-		music.volume_db = _db(0.5 * float(Game.settings["music"]))
+		if not (music_tween and music_tween.is_running()):
+			music.volume_db = _music_db()
 		return
 	music_name = name
-	if not streams.has(name):
+	var s = _music_stream(name)
+	if s == null:
 		music.stop()
 		return
-	var s: AudioStreamWAV = streams[name].duplicate()
-	s.loop_mode = AudioStreamWAV.LOOP_FORWARD
-	s.loop_end = s.data.size() / 2
+	if music_tween:
+		music_tween.kill()
+	if music.playing:
+		music_tween = create_tween()
+		music_tween.tween_property(music, "volume_db", -40.0, 1.2)
+		music_tween.tween_callback(func(): _start_music(s))
+	else:
+		_start_music(s)
+
+
+func _start_music(s: AudioStream) -> void:
 	music.stream = s
-	music.volume_db = _db(0.5 * float(Game.settings["music"]))
+	music.volume_db = -30.0
 	music.play()
+	if music_tween:
+		music_tween.kill()
+	music_tween = create_tween()
+	music_tween.tween_property(music, "volume_db", _music_db(), 1.5)
 
 
 func refresh_volume() -> void:
 	if float(Game.settings["music"]) <= 0.001:
 		music.stop()
 		return
-	music.volume_db = _db(0.5 * float(Game.settings["music"]))
+	if music_tween:
+		music_tween.kill()
+	music.volume_db = _music_db()
 	if not music.playing and music_name != "":
 		var n = music_name
 		music_name = ""

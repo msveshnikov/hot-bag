@@ -1,7 +1,7 @@
 extends Node
 ## Global state: progress, settings, catalogue, save/load, input map. Autoload "Game".
 
-const VERSION = "0.3.0"
+const VERSION = "0.4.0"
 const SAVE_PATH = "user://save.json"
 const SETTINGS_PATH = "user://settings.json"
 const DISTRICTS = {
@@ -79,6 +79,37 @@ const SHOP = {
 }
 const SCOOTER_RENT = 18
 const JACKETS = ["#22b8b0", "#3f7fc9", "#5fae4e", "#f2a7a0", "#f6c945", "#b9a3d8", "#33302e"]
+## Thermal bag colours (ТЗ §4: the bag can be decorated); gold is the «Курьер-легенда» reward.
+const BAGS = ["#22b8b0", "#ef6a5b", "#8a6fd1", "#e0b040"]
+const BAG_GOLD = "#e0b040"
+
+## Courier ranks (ТЗ §9: levels open transport and order types; the top one is «Курьер-легенда»).
+## XP: 10 per delivery, +5 on time, +5 for five stars, +40 per quest.
+const RANKS = [
+	{"xp": 0, "title": "Новичок", "perk": ""},
+	{"xp": 80, "title": "Курьер", "perk": "Открыт электровелосипед. Чаевые +4%."},
+	{"xp": 220, "title": "Опытный курьер", "perk": "Открыт мопед. Конкуренты реже перехватывают заказы."},
+	{"xp": 450, "title": "Профи", "perk": "Открыт электромобиль. Чаевые +12%."},
+	{"xp": 800, "title": "Мастер доставки", "perk": "В приложении появляются VIP-заказы с двойной оплатой."},
+	{"xp": 1300, "title": "Курьер-легенда", "perk": "Золотая термосумка. Чаевые +20%. Тебя знает весь город!"},
+]
+const VEH_RANK = {"ebike": 1, "moped": 2, "ecar": 3}
+const VIP_RANK = 4
+
+## Quest keepsakes for the dream restaurant (ТЗ §12: rewards include items for your future restaurant).
+## Each one hangs in the restaurant and adds to its daily income.
+const KEEPSAKES = {
+	"cake": ["Бабушкин рецепт", "Тетрадка бабушки Зины с рецептом вишнёвого пирога."],
+	"office_lunch": ["Кофемашина «Кубика»", "Офис обновил технику и подарил тебе старую кофемашину."],
+	"guard_coffee": ["Пропуск Виктора в рамке", "Первый пропуск в «Сити» — повесишь у кассы."],
+	"board_lunch": ["Серебряный поднос", "Совет директоров был в восторге от лапши."],
+	"night_gamers": ["Неоновая вывеска «Открыто»", "Геймеры спаяли её из старой клавиатуры."],
+	"hidden_corpus": ["Табличка «7 к.4»", "Тот самый корпус, который не знал даже GPS."],
+	"no_lift": ["Гантели дедушки Семёна", "«Тебе нужнее, ты по лестницам бегаешь»."],
+	"market_fish": ["Медный котёл шефа Льва", "«Уху в нём вари — и о старике вспоминай»."],
+	"park_picnic": ["Клетчатые скатерти", "Для летней веранды твоего ресторана."],
+	"skater_cocoa": ["Коньки фигуристов", "Повесишь на стену — на счастье."],
+}
 const HAIRS = ["short", "ponytail", "curly", "bun"]
 
 var layout: Dictionary
@@ -192,6 +223,7 @@ func new_state() -> void:
 		"progress": {"city": 0, "night": 0, "berezki": 0}, "ending_seen": false,
 		"stats": {"delivered": 0, "late": 0, "tips": 0.0, "fines": 0.0, "earned": 0.0, "spent": 0.0, "falls": 0},
 		"daily": [], "seen_hints": {}, "best_streak": 0,
+		"xp": 0, "keepsakes": [], "weekly": [], "week": -1,
 	}
 
 
@@ -244,6 +276,16 @@ func load_game() -> bool:
 	new_state()
 	for k in d.keys():
 		state[k] = d[k]
+	if not d.has("xp"):
+		# saves from before ranks: give credit for what was already done
+		var qd = 0
+		for q in state["quests"].values():
+			if q == "done":
+				qd += 1
+		state["xp"] = int(state["stats"]["delivered"]) * 14 + qd * 40
+		for q in state["quests"].keys():
+			if state["quests"][q] == "done" and KEEPSAKES.has(q) and not (q in state["keepsakes"]):
+				state["keepsakes"].append(q)
 	return true
 
 
@@ -320,7 +362,7 @@ func can_buy(id: String) -> bool:
 		return false
 	match it["kind"]:
 		"vehicle":
-			return not state["owned"].get(id, false)
+			return not state["owned"].get(id, false) and rank() >= int(VEH_RANK.get(id, 0))
 		"upgrade":
 			if id in ["battery", "motor"] and not owns_electric():
 				return false
@@ -351,6 +393,51 @@ func buy(id: String) -> bool:
 			add_item(id)
 	save_game()
 	return true
+
+
+# ---------------------------------------------------------------- ranks
+func rank() -> int:
+	var r = 0
+	for i in RANKS.size():
+		if int(state.get("xp", 0)) >= int(RANKS[i]["xp"]):
+			r = i
+	return r
+
+
+func rank_title(r = -1) -> String:
+	return RANKS[rank() if r < 0 else r]["title"]
+
+
+## 0..1 progress to the next rank (1 at the top).
+func rank_progress() -> float:
+	var r = rank()
+	if r >= RANKS.size() - 1:
+		return 1.0
+	var a = float(RANKS[r]["xp"])
+	var b = float(RANKS[r + 1]["xp"])
+	return clamp((float(state.get("xp", 0)) - a) / (b - a), 0.0, 1.0)
+
+
+## Returns the new rank index if this XP crossed a rank line, else -1.
+func add_xp(v: int) -> int:
+	var before = rank()
+	state["xp"] = int(state.get("xp", 0)) + v
+	var after = rank()
+	return after if after > before else -1
+
+
+func tip_rank_mult() -> float:
+	return [1.0, 1.04, 1.06, 1.12, 1.15, 1.2][rank()]
+
+
+## Why a shop item can't be bought right now ("" if it can, or only money is missing).
+func buy_block_reason(id: String) -> String:
+	var it: Dictionary = SHOP[id]
+	if it["kind"] == "vehicle" and rank() < int(VEH_RANK.get(id, 0)):
+		return "Нужно звание «%s»." % rank_title(int(VEH_RANK[id]))
+	if it["kind"] == "upgrade" and id in ["battery", "motor"] and not owns_electric():
+		return "Нужен электротранспорт."
+	return ""
 
 
 func earn(v: float) -> void:

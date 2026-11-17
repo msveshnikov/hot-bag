@@ -127,11 +127,17 @@ func make_offer(rest = "", door_id = "", regular = "") -> Dictionary:
 	var o = {
 		"id": next_id, "rest": rest, "rest_name": r["name"], "item": item, "door": door, "customer": cust,
 		"floor": floor_n, "pay": snappedf(pay, 0.5), "limit": limit, "dist": dist, "elapsed": 0.0,
-		"expires": rs.randf_range(rt[0], rt[1]) * (1.6 if not world.events.rivals_active() else 1.0) + 10.0,
+		"expires": rs.randf_range(rt[0], rt[1]) * (1.6 if not world.events.rivals_active() else 1.0 + 0.12 * Game.rank()) + 10.0,
 		"state": "offer", "cook_left": rs.randf_range(cook[0], cook[1]), "condition": 100.0, "temp": 100.0,
 		"wet": 0.0, "flags": {}, "quest": "", "risk": _risk(item, dist),
 	}
 	next_id += 1
+	if Game.rank() >= Game.VIP_RANK and rs.randf() < 0.18:
+		o["vip"] = true
+		o["item"] = o["item"].duplicate()
+		o["item"][1] = "VIP · " + String(o["item"][1])
+		o["pay"] = snappedf(float(o["pay"]) * 2.0, 0.5)
+		o["limit"] = float(o["limit"]) * 0.9
 	return o
 
 
@@ -297,7 +303,7 @@ func deliver(o: Dictionary, reply: String) -> Dictionary:
 	var tip = 0.0
 	var tp: Array = rules["tip_on_time"]
 	if stars >= 4.0 and rs.randf() < float(cust.get("tip", 0.4)) * (1.1 if Game.state.get("helmet", "") == "helmet_retro" else 1.0):
-		tip = snappedf((rs.randf_range(tp[0], tp[1]) + (2.0 if stars >= 5.0 else 0.0)) * float(rules.get("tip_mult", 1.0)), 0.5)
+		tip = snappedf((rs.randf_range(tp[0], tp[1]) + (2.0 if stars >= 5.0 else 0.0)) * float(rules.get("tip_mult", 1.0)) * Game.tip_rank_mult(), 0.5)
 	if late:
 		pay *= 0.7
 	var bonus = 0.0
@@ -321,6 +327,11 @@ func deliver(o: Dictionary, reply: String) -> Dictionary:
 	Sfx.play("coin", 0.7)
 	var res = {"name": o["item"][1], "pay": pay, "tip": tip, "bonus": bonus, "stars": int(stars), "late": late,
 		"total": total, "customer": cust.get("name", ""), "note": "", "quest": o.get("quest", "")}
+	var xp = 10 + (0 if late else 5) + (5 if stars >= 5.0 else 0) + (40 if o.get("quest", "") != "" else 0)
+	res["xp"] = xp
+	var up = Game.add_xp(xp)
+	if up >= 0:
+		world.get_tree().create_timer(2.0).timeout.connect(func(): world.story.on_rank_up(up))
 	day_log.append(res)
 	world.story.on_deliver(o, res)
 	world.events.on_deliver(o, res)

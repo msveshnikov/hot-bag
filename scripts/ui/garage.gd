@@ -79,14 +79,17 @@ func _items() -> Array:
 			return UPGRADES
 		"gear":
 			return GEAR
-	return ["g_m", "g_f", "h_short", "h_ponytail", "h_curly", "h_bun"] + Game.JACKETS + ["cap"]
+	var bags = []
+	for c in Game.BAGS:
+		bags.append("bag" + c)
+	return ["g_m", "g_f", "h_short", "h_ponytail", "h_curly", "h_bun"] + bags + Game.JACKETS + ["cap"]
 
 
 func _build_grids() -> void:
 	var items = _items()
 	var half = int(ceil(items.size() / 2.0))
 	if tab == "look":
-		half = 6
+		half = 6 + Game.BAGS.size()
 	for side in 2:
 		var grid = GridContainer.new()
 		grid.columns = 2
@@ -156,6 +159,8 @@ func _tile(id: String) -> Button:
 	var col = TEAL
 	if tab == "look" and id.begins_with("#"):
 		col = Color(id)
+	if tab == "look" and id.begins_with("bag#"):
+		col = Color(id.substr(3))
 	var st = UiKit.box(col, UiKit.SUN if sel else TEAL_D, 7 if sel else 5, 26, 6)
 	b.add_theme_stylebox_override("normal", st)
 	b.add_theme_stylebox_override("hover", UiKit.box(col.lightened(0.12), UiKit.SUN, 6, 26, 6))
@@ -243,6 +248,8 @@ func _look_text(id: String) -> String:
 		"h_curly": return "Кудри"
 		"h_bun": return "Пучок"
 		"cap": return "Кепка: " + ("да" if Game.state["look"].get("cap", true) else "нет")
+	if id.begins_with("bag#"):
+		return "Сумка" + (" легенды" if id.substr(3) == Game.BAG_GOLD else "")
 	return ""
 
 
@@ -254,6 +261,8 @@ func _look_active(id: String) -> bool:
 		return look["hair"] == id.substr(2)
 	if id.begins_with("#"):
 		return look["jacket"] == id
+	if id.begins_with("bag#"):
+		return look.get("bag", Game.BAGS[0]) == id.substr(3)
 	return false
 
 
@@ -286,6 +295,8 @@ func _select(id: String) -> void:
 		else:
 			action_btn.text = "Купить — %d" % int(it["price"])
 			action_btn.disabled = not Game.can_buy(id)
+			if Game.buy_block_reason(id) != "":
+				info_desc.text += "  " + Game.buy_block_reason(id)
 		if id == "scooter" and not Game.state["owned"].get("scooter", false):
 			var rb = UiKit.button("Аренда на день — %d" % Game.SCOOTER_RENT, func(): _rent(), 250, UiKit.SUN)
 			rb.disabled = Game.state.get("rented_today", false)
@@ -304,8 +315,8 @@ func _select(id: String) -> void:
 		else:
 			action_btn.text = "Купить — %d" % int(it["price"])
 			action_btn.disabled = not Game.can_buy(id)
-			if it.get("kind", "") == "upgrade" and id in ["battery", "motor"] and not Game.owns_electric():
-				info_desc.text += "  Нужен электротранспорт."
+			if Game.buy_block_reason(id) != "":
+				info_desc.text += "  " + Game.buy_block_reason(id)
 	_show_preview()
 	_refresh_tiles()
 
@@ -375,8 +386,16 @@ func _apply_look(id: String) -> void:
 	elif id == "cap":
 		look["cap"] = not look.get("cap", true)
 		world.player.apply_look()
+	elif id.begins_with("bag#"):
+		if id.substr(3) == Game.BAG_GOLD and Game.rank() < Game.RANKS.size() - 1:
+			Sfx.play("fail")
+			info_name.text = "Золотая термосумка"
+			info_desc.text = "Только для звания «Курьер-легенда». Сейчас ты — «%s»." % Game.rank_title()
+			return
+		look["bag"] = id.substr(3)
+		world.player.apply_look()
 	info_name.text = "Внешность курьера"
-	info_desc.text = "Пол, причёска, цвет куртки и кепка. Шлемы — во вкладке «Экипировка»."
+	info_desc.text = "Пол, причёска, цвет куртки и термосумки, кепка. Шлемы — во вкладке «Экипировка»."
 	action_btn.text = "Готово"
 	action_btn.disabled = false
 	selected["look"] = "done"
@@ -480,6 +499,7 @@ func _courier_model() -> Node3D:
 	for h in m.find_children("HELD_*", "", true, false):
 		h.visible = false
 	Chars.set_jacket(m, Color(look["jacket"]))
+	Chars.set_bag(m, Color(look.get("bag", Game.BAGS[0])))
 	var ap: AnimationPlayer = m.find_child("AnimationPlayer", true, false)
 	if ap:
 		Chars.setup_anims(ap)

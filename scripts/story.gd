@@ -45,6 +45,8 @@ func setup(w: Node) -> void:
 	world = w
 	if Game.state.get("daily", []).is_empty() or int(Game.state.get("daily_day", 0)) != int(Game.state["day"]):
 		new_daily()
+	if int(Game.state.get("week", -1)) != week():
+		new_weekly()
 	# saves from v0.1 that already finished chapter 2: open the bridge
 	if chapter() >= 3 and not Game.unlocked("city"):
 		Game.state["unlocked"]["city"] = true
@@ -357,7 +359,7 @@ func buy_dream() -> void:
 
 
 func restaurant_income() -> int:
-	var inc = int(40 + max(0.0, float(Game.state["rating"]) - 4.0) * 60.0)
+	var inc = int(40 + max(0.0, float(Game.state["rating"]) - 4.0) * 60.0 + 6 * Game.state.get("keepsakes", []).size())
 	Game.earn(float(inc))
 	return inc
 
@@ -397,7 +399,13 @@ func on_deliver(o: Dictionary, res: Dictionary) -> void:
 		Game.state["quests"][q] = "done"
 		var qd: Dictionary = Game.orders_data["quests"][q]
 		Game.earn(float(qd["reward"]))
-		world.banner("Квест выполнен: " + qd["title"], "Награда +%d монет. Клиент тебя запомнил!" % int(qd["reward"]))
+		var ks = Game.KEEPSAKES.get(q, [])
+		if not ks.is_empty() and not (q in Game.state["keepsakes"]):
+			Game.state["keepsakes"].append(q)
+			world.banner("Квест выполнен: " + qd["title"], "+%d монет и подарок для будущего ресторана: «%s»." % [int(qd["reward"]), ks[0]])
+		else:
+			world.banner("Квест выполнен: " + qd["title"], "Награда +%d монет. Клиент тебя запомнил!" % int(qd["reward"]))
+		_weekly_add("quest", 1)
 		Sfx.play("level_up")
 		if q == "guard_coffee":
 			Game.state["pass"] = true
@@ -525,6 +533,50 @@ func resume_quests() -> void:
 			_quest_offer(q)
 
 
+# ---------------------------------------------------------------- ranks
+func on_rank_up(r: int) -> void:
+	var rk: Dictionary = Game.RANKS[r]
+	Sfx.play("level_up")
+	world.banner("Новое звание: %s!" % rk["title"], rk["perk"])
+	if r == Game.RANKS.size() - 1:
+		Game.state["look"]["bag"] = Game.BAG_GOLD
+		world.player.apply_look()
+		Game.save_game()
+		world.get_tree().create_timer(4.0).timeout.connect(func(): mentor_call(
+			"Слышал? Весь город говорит: «Курьер-легенда»! Я тридцать лет до такого шёл, а ты — за пару недель. Держи золотую сумку, заслужил!",
+			"Михалыч звонит", "Курьер-легенда"))
+
+
+# ---------------------------------------------------------------- weekly tasks (ТЗ §9: daily and weekly tasks)
+func week() -> int:
+	return int((int(Game.state["day"]) - 1) / 7)
+
+
+func new_weekly() -> void:
+	var w = week()
+	var k = 1.0 + 0.25 * w
+	Game.state["weekly"] = [
+		{"id": "deliver", "text": "Доставь %d заказов за неделю" % int(25 * k), "goal": int(25 * k), "have": 0, "reward": int(80 * k), "done": false},
+		{"id": "ontime", "text": "Доставь %d заказов без опозданий" % int(18 * k), "goal": int(18 * k), "have": 0, "reward": int(60 * k), "done": false},
+		{"id": "quest", "text": "Выполни квест постоянного клиента", "goal": 1, "have": 0, "reward": int(50 * k), "done": false},
+	]
+	Game.state["week"] = w
+
+
+func _weekly_add(id: String, v: int) -> void:
+	if int(Game.state.get("week", -1)) != week():
+		new_weekly()
+	for t in Game.state["weekly"]:
+		if t["done"] or t["id"] != id:
+			continue
+		t["have"] = int(t["have"]) + v
+		if int(t["have"]) >= int(t["goal"]):
+			t["done"] = true
+			Game.earn(float(t["reward"]))
+			world.toast("Задание недели выполнено: %s (+%d)" % [t["text"], int(t["reward"])], 3.5)
+			Sfx.play("level_up", 0.7)
+
+
 # ---------------------------------------------------------------- daily tasks
 func new_daily() -> void:
 	Game.state["daily"] = [
@@ -536,6 +588,9 @@ func new_daily() -> void:
 
 
 func _daily_progress(res: Dictionary) -> void:
+	_weekly_add("deliver", 1)
+	if not res["late"]:
+		_weekly_add("ontime", 1)
 	for t in Game.state["daily"]:
 		if t["done"]:
 			continue

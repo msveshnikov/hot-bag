@@ -30,7 +30,7 @@ AUTOTEST OK   salad: focus on the door Северное кольцо, 14
 AUTOTEST OK   guard stops a courier without a pass
 AUTOTEST salad: going up via lift (floor 18)
 AUTOTEST shot city_04_lift
-AUTOTEST OK   salad: lift leads to the customer (4.5 s)
+AUTOTEST OK   salad: lift leads to the customer (4.0 s)
 AUTOTEST OK   salad: delivered, money 45
 AUTOTEST OK   accept burrito order
 AUTOTEST OK   burrito: focus on the pickup counter
@@ -45,17 +45,17 @@ AUTOTEST OK   tow truck takes the scooter from the red zone
 AUTOTEST quest offered: guard_coffee
 AUTOTEST OK   city quest offered
 AUTOTEST shot city_10_view_day
-AUTOTEST fps 11.0 at city view 0
+AUTOTEST fps 10.0 at city view 0
 AUTOTEST shot city_10_view_night
-AUTOTEST fps 11.0 at city view 0
+AUTOTEST fps 7.0 at city view 0
 AUTOTEST shot city_11_view_day
-AUTOTEST fps 9.0 at city view 1
+AUTOTEST fps 6.0 at city view 1
 AUTOTEST shot city_11_view_night
-AUTOTEST fps 12.0 at city view 1
+AUTOTEST fps 7.0 at city view 1
 AUTOTEST shot city_12_view_day
 AUTOTEST fps 9.0 at city view 2
 AUTOTEST shot city_12_view_night
-AUTOTEST fps 10.0 at city view 2
+AUTOTEST fps 8.0 at city view 2
 AUTOTEST OK   travel: arrived in the Old Town
 AUTOTEST OK   travel: player at the entry from city (58.0, -80.0)
 AUTOTEST OK   travel: the shift clock kept running (15.52)

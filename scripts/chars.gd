@@ -84,6 +84,22 @@ static func play(n: Node, anim: String, blend = 0.2) -> void:
 		ap.play(anim, blend)
 
 
+static func set_bag(n: Node, col: Color) -> void:
+	for mi in n.find_children("*", "MeshInstance3D", true, false):
+		var m: MeshInstance3D = mi
+		if m.mesh == null:
+			continue
+		for s in m.mesh.get_surface_count():
+			var mat = m.mesh.surface_get_material(s)
+			if mat and String(mat.resource_name) == "bag_turq":
+				var d: StandardMaterial3D = mat.duplicate()
+				d.albedo_color = col
+				if col == Color(Game.BAG_GOLD):
+					d.metallic = 0.7
+					d.roughness = 0.3
+				m.set_surface_override_material(s, d)
+
+
 static func set_jacket(n: Node, col: Color) -> void:
 	for mi in n.find_children("*", "MeshInstance3D", true, false):
 		var m: MeshInstance3D = mi

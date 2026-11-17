@@ -166,6 +166,7 @@ func apply_look() -> void:
 	if held_box:
 		held_box.visible = false
 	Chars.set_jacket(model, Color(look["jacket"]))
+	Chars.set_bag(model, Color(look.get("bag", Game.BAGS[0])))
 
 
 # ---------------------------------------------------------------- vehicles
