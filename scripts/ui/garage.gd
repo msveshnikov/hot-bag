@@ -417,7 +417,8 @@ func _build_preview() -> void:
 	var sv = SubViewport.new()
 	sv.transparent_bg = true
 	sv.own_world_3d = true
-	sv.msaa_3d = Viewport.MSAA_4X
+	# no MSAA on the Compatibility renderer: it leaks memory in the Mali driver (see DayNight.apply_quality)
+	sv.msaa_3d = Viewport.MSAA_DISABLED if RenderingServer.get_current_rendering_method() == "gl_compatibility" else Viewport.MSAA_4X
 	sv.size = Vector2i(720, 560)
 	svc.add_child(sv)
 	var env = WorldEnvironment.new()

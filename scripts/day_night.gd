@@ -89,7 +89,11 @@ func apply_quality() -> void:
 	if env:
 		env.ssao_enabled = q >= 2 and RenderingServer.get_current_rendering_method() != "gl_compatibility"
 		env.glow_enabled = q >= 1
-	get_viewport().msaa_3d = Viewport.MSAA_DISABLED if q == 0 else Viewport.MSAA_2X
+	# No MSAA on the Compatibility renderer (phones, web): on a Mali GPU (Redmi, OpenGL ES) every frame with MSAA
+	# leaked ~3.5 MB/s inside the driver until Android killed the game after ~30 min ("Scudo: Out of memory").
+	# Found with `--soak --bisect` on the phone: the native heap stayed flat only while MSAA was off.
+	var compat = RenderingServer.get_current_rendering_method() == "gl_compatibility"
+	get_viewport().msaa_3d = Viewport.MSAA_DISABLED if q == 0 or compat else Viewport.MSAA_2X
 	if level:
 		level.apply_quality(q)
 

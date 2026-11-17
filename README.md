@@ -131,6 +131,10 @@ scp build/web/* build/android/HotBag.apk ubuntu@severance.lol:/var/www/severance
 - **Soak-тест**: `godot --path . -- --soak 16` (или `HotBag.exe -- --soak 16`) — курьер ездит на автопилоте, время ×3,
   переезд в другой район каждые 2,5 мин, после 23:00 — следующий день; счётчики объектов/узлов/«сирот»/ресурсов и
   памяти — в `user://soak.log`. Память процесса снаружи смотреть в диспетчере задач (Private bytes).
+- **Soak на телефоне** (APK debug): флаги — в одноразовом файле, лаунчер теряет extras:
+  `adb shell "run-as com.maxsoft.hotbag sh -c 'echo \"--soak 8\" > files/cmdline.txt'"`, запустить игру, память —
+  `adb shell dumpsys meminfo com.maxsoft.hotbag` (Native Heap). `--soak N --bisect` по очереди выключает подсистемы.
+- MSAA на рендерере Compatibility (телефоны, веб) не включать: на Mali течёт память драйвера (вылет через ~30 мин).
 - `--autotest --only5` — быстрые проверки камеры, прозрачности и «сплошных» домов.
 
 ## Музыка

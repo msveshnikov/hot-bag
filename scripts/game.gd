@@ -1,7 +1,7 @@
 extends Node
 ## Global state: progress, settings, catalogue, save/load, input map. Autoload "Game".
 
-const VERSION = "0.4.2"
+const VERSION = "0.4.3"
 const SAVE_PATH = "user://save.json"
 const SETTINGS_PATH = "user://settings.json"
 const DISTRICTS = {

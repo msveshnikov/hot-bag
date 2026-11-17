@@ -108,7 +108,9 @@ func _process(delta: float) -> void:
 ## so the memory slope of each minute (adb shell dumpsys meminfo) shows which subsystem feeds the growth.
 const PHASES_1 = ["all_on", "no_3d", "no_ui", "no_particles", "no_daynight", "no_label3d", "no_fade", "no_traffic_people", "all_on_again"]
 # round 2 (the growth stopped only with 3D off): which part of the 3D scene
-const PHASES = ["all_on", "no_chars", "no_traffic", "no_gps", "no_water", "no_level", "no_sky", "no_fade", "no_3d"]
+const PHASES_2 = ["all_on", "no_chars", "no_traffic", "no_gps", "no_water", "no_level", "no_sky", "no_fade", "no_3d"]
+# round 3 (growth went on with every part of the scene hidden): the 3D pass settings themselves
+const PHASES = ["all_on", "no_msaa", "no_glow", "no_adjust", "no_shadows", "no_fog", "no_tonemap", "all_off", "no_3d"]
 var _phase = -1
 var _phase_t = 0.0
 
@@ -117,7 +119,7 @@ func _bisect(rd: float) -> void:
 	_phase_t -= rd
 	if _phase_t > 0.0:
 		return
-	_phase_t = 45.0
+	_phase_t = 40.0
 	if _phase >= 0:
 		_set_phase(PHASES[_phase], true)
 	_phase += 1
@@ -146,6 +148,21 @@ func _set_phase(name: String, on: bool) -> void:
 				(l as Label3D).visible = on
 		"no_fade":
 			world.player.set_meta("no_fade", not on)
+		"no_msaa":
+			get_viewport().msaa_3d = Viewport.MSAA_2X if on else Viewport.MSAA_DISABLED
+		"no_glow":
+			world.daynight.env.glow_enabled = on
+		"no_adjust":
+			world.daynight.env.adjustment_enabled = on
+		"no_shadows":
+			world.daynight.sun.shadow_enabled = on
+		"no_fog":
+			world.daynight.env.fog_enabled = on
+		"no_tonemap":
+			world.daynight.env.tonemap_mode = Environment.TONE_MAPPER_FILMIC if on else Environment.TONE_MAPPER_LINEAR
+		"all_off":
+			for ph in ["no_msaa", "no_glow", "no_adjust", "no_shadows", "no_fog", "no_tonemap"]:
+				_set_phase(ph, on)
 		"no_chars":
 			world.people.visible = on
 			world.player.visual.visible = on
