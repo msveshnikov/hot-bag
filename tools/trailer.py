@@ -50,17 +50,19 @@ def shots():
     return re.findall(r'^\t"(s\d\d_\w+)": \{"d": "(\w+)"', src, re.M)
 
 
-def record(only):
+def record(only, vertical=False):
     os.makedirs(RAW, exist_ok=True)
     ov = os.path.join(ROOT, "override.cfg")
-    open(ov, "w").write("[display]\n\nwindow/size/window_width_override=1920\nwindow/size/window_height_override=1080\n")
+    w, h = (1080, 1920) if vertical else (1920, 1080)
+    open(ov, "w").write("[display]\n\nwindow/size/window_width_override=%d\nwindow/size/window_height_override=%d\n" % (w, h))
     try:
         for sid, dist in shots():
             if only and sid not in only:
                 continue
             print("record", sid, dist, flush=True)
-            subprocess.run([GODOT, "--path", ROOT, "--write-movie", os.path.join(RAW, sid + ".avi"), "--fixed-fps", "30",
-                            "--", "--trailer", sid, "--district", dist, "--quality", "2"],
+            name = sid + ("_v" if vertical else "")
+            subprocess.run([GODOT, "--path", ROOT, "--write-movie", os.path.join(RAW, name + ".avi"), "--fixed-fps", "30",
+                            "--", "--trailer", sid, "--district", dist, "--quality", "2"] + (["--vertical"] if vertical else []),
                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=900)
     finally:
         os.remove(ov)
@@ -173,10 +175,76 @@ def edit():
     print("trailer", out, "%.1f s" % total)
 
 
+# ---------------------------------------------------------------- 10-second vertical promo (TikTok / Shorts)
+VCUTS = [("s02_side", 2.6, 2.3, 0.35), ("s12_fall", 1.35, 1.95, 0.9), ("s05_rain", 1.0, 1.3, 0.45),
+         ("s06_snow", 1.2, 1.3, 0.35), ("s13_sunset", 1.5, 1.6, 0.35)]
+VEND = 2.5
+# captions sit in the top third (TikTok covers the bottom and the right edge with its buttons)
+VCAPS = [("Первый день курьером…", 0.15, 2.3, "district"), ("…пошёл не по плану", 2.3, 4.1, "district"),
+         ("ДОЖДЬ", 4.1, 5.4, "big"), ("СНЕГ", 5.4, 6.7, "big"), ("ДОВЕЗИ ГОРЯЧИМ!", 6.7, 8.3, "big")]
+
+
+def vedit():
+    tmp = os.path.join(OUT, "tmpv")
+    os.makedirs(tmp, exist_ok=True)
+    parts = []
+    for i, (sid, off, ln, vol) in enumerate(VCUTS):
+        p = os.path.join(tmp, "c%02d.mp4" % i)
+        run(["-ss", "%.3f" % (start_of(sid) / 30.0 + off), "-t", "%.3f" % ln, "-i", os.path.join(RAW, sid + "_v.avi"),
+             "-vf", "scale=1080:1920,fps=30,format=yuv420p",
+             "-af", "volume=%.2f,aresample=48000,aformat=channel_layouts=stereo" % vol,
+             "-c:v", "libx264", "-crf", "16", "-preset", "fast", "-c:a", "aac", "-b:a", "192k", p])
+        parts.append(p)
+    end = os.path.join(tmp, "end.mp4")
+    run(["-loop", "1", "-framerate", "30", "-t", "%.2f" % VEND, "-i", os.path.join(OUT, "endcard_v.png"),
+         "-f", "lavfi", "-t", "%.2f" % VEND, "-i", "anullsrc=r=48000:cl=stereo",
+         "-vf", "scale=1188:2112,crop=1080:1920:'(in_w-1080)/2':'(in_h-1920)/2-30*t',fade=t=in:d=0.25,format=yuv420p",
+         "-c:v", "libx264", "-crf", "16", "-preset", "fast", "-c:a", "aac", "-b:a", "192k", "-shortest", end])
+    parts.append(end)
+    lst = os.path.join(tmp, "list.txt")
+    open(lst, "w").write("".join("file '%s'\n" % p.replace("\\", "/") for p in parts))
+    cut = os.path.join(tmp, "cut.mp4")
+    run(["-f", "concat", "-safe", "0", "-i", lst, "-c", "copy", cut])
+    total = float(subprocess.check_output(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0",
+                                           cut]).decode().strip())
+    inputs = ["-i", cut, "-i", os.path.join(OUT, "vo_full.mp3"), "-i", MUSIC, "-i", MENTOR_LINE[0]]
+    fc = []
+    v = "0:v"
+    for k, (text, t0, t1, style) in enumerate(VCAPS):
+        png = os.path.join(tmp, "cap%02d.png" % k)
+        _caption_png(text, style, png)
+        inputs += ["-loop", "1", "-framerate", "30", "-t", "%.2f" % total, "-i", png]
+        idx = 4 + k
+        fc.append("[%d:v]format=rgba,scale='min(iw,1000)':-1,fade=t=in:st=%.2f:d=0.12:alpha=1,"
+                  "fade=t=out:st=%.2f:d=0.12:alpha=1[cp%d]" % (idx, t0, t1 - 0.12, k))
+        fc.append("[%s][cp%d]overlay=x='(W-w)/2':y='%s':enable='between(t,%.2f,%.2f)'[v%d]" % (
+            v, k, "330" if style != "big" else "560", t0, t1, k))
+        v = "v%d" % k
+    fc.append("[3:a]aresample=48000,aformat=channel_layouts=stereo,volume=1.5,adelay=250|250[ment]")
+    fc.append("[1:a]atrim=38.45:39.95,asetpts=PTS-STARTPTS,aresample=48000,aformat=channel_layouts=stereo,volume=1.6,"
+              "adelay=8500|8500[name]")
+    fc.append("[ment][name]amix=inputs=2:normalize=0:duration=longest,apad,atrim=0:%.2f,asplit=2[vox][voside]" % total)
+    fc.append("[2:a]atrim=0:%.2f,asetpts=PTS-STARTPTS,aresample=48000,aformat=channel_layouts=stereo,volume=0.6,"
+              "afade=t=out:st=%.2f:d=1.2[mus]" % (total, total - 1.3))
+    fc.append("[mus][voside]sidechaincompress=threshold=0.03:ratio=6:attack=15:release=300[musd]")
+    fc.append("[0:a][musd][vox]amix=inputs=3:normalize=0:duration=first,alimiter=limit=0.95[aout]")
+    script = os.path.join(tmp, "filter.txt")
+    open(script, "w", encoding="utf-8").write(";\n".join(fc))
+    out = os.path.join(OUT, "hot_bag_tiktok.mp4")
+    run(inputs + ["-filter_complex_script", script, "-map", "[%s]" % v, "-map", "[aout]", "-t", "%.2f" % total,
+                  "-c:v", "libx264", "-crf", "20", "-preset", "slow", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "160k",
+                  "-movflags", "+faststart", out])
+    print("vertical", out, "%.1f s" % total)
+
+
 if __name__ == "__main__":
     cmd, rest = sys.argv[1], sys.argv[2:]
     if cmd == "record":
         record(rest)
+    elif cmd == "vrecord":
+        record(rest, vertical=True)
+    elif cmd == "vedit":
+        vedit()
     elif cmd == "sheet":
         sheet(rest)
     elif cmd == "edit":

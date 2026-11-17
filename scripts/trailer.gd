@@ -46,9 +46,11 @@ var t = 0.0
 var cam: Camera3D
 var fell = false
 var started = false
+var vertical = false     # --vertical: 9:16 clips for shorts, the rider stays in the middle of the frame
 
 
 func _ready() -> void:
+	vertical = Game.flag("vertical")
 	process_mode = Node.PROCESS_MODE_ALWAYS   # dialogs pause the tree; the camera and the clock must keep going
 	shot = SHOTS.get(String(Game.flags["trailer"][0]), {}).duplicate(true)
 	_setup.call_deferred()
@@ -224,13 +226,22 @@ func _process(delta: float) -> void:
 				var lk: Array = c["look"]
 				pos = pp + right * o[0] + Vector3.UP * o[1] + f * o[2]
 				look = pp + right * lk[0] + Vector3.UP * lk[1] + f * lk[2]
+				if vertical:
+					look = pp + Vector3.UP * 1.0
 			"world":
 				pos = pp + _v3(c["off"])
 				look = pp + _v3(c["look"])
+				if vertical:
+					look = pp + Vector3.UP * 1.0
 			"orbit":
 				var a = deg_to_rad(lerp(float(c["a0"]), float(c["a1"]), e))
 				pos = pp + Vector3(sin(a) * c["r"], c["h"], cos(a) * c["r"])
 				look = pp + Vector3(0, 1.0, 0)
+		if fell and vertical:
+			# the tumble throws the body ~2 m ahead of the bike: follow it in the narrow frame
+			var sh = f * 2.2 * clamp((t - float(shot["fall_at"])) / 0.6, 0.0, 1.0)
+			pos += sh
+			look += sh + Vector3.DOWN * 0.6 * clamp((t - float(shot["fall_at"])) / 0.6, 0.0, 1.0)
 		if t < 0.05 or c["type"] in ["dolly", "fixed"]:
 			cam.global_position = pos
 		else:
