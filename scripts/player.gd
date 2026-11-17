@@ -51,6 +51,10 @@ var _probe_t = 0.0
 var _faded = {}            # Level.fade_items index -> current see-through amount
 var last_out = Vector3.ZERO  # last floor position outside every building box
 var _inside_t = 0.0
+var _want_move = false      # the player is pushing the stick / WASD this frame
+var _stuck_t = 0.0          # how long they have pushed without getting anywhere while wedged into something
+var _stuck_pos = Vector3.ZERO
+var _probe = {}             # CollisionShape3D -> slightly smaller copy of its shape for _overlapping()
 const CAM_MASK = 1 | 16    # level geometry + camera-only boxes around building bodies (Level.CAM_LAYER)
 const FADE = 0.72
 var foot_shape: CollisionShape3D
@@ -267,6 +271,7 @@ func mount(kind: String, vm: Node3D) -> void:
 
 func dismount() -> Node3D:
 	var vm = vehicle_model
+	var bs: Array = Game.veh(vehicle_kind)["box"] if vehicle_kind != "" else [0.5, 1.0, 1.5]
 	if vm:
 		visual.remove_child(vm)
 	vehicle_model = null
@@ -280,17 +285,74 @@ func dismount() -> Node3D:
 	lean = 0.0
 	visual.rotation = Vector3.ZERO
 	_play("idle", true)
-	# step to the side so the parked vehicle is free — but never through a wall: try right, left, back, shorter
+	# step off to a spot that is clear of walls, props AND the vehicle that is parked right here.
+	# (test_move from the old spot failed when a crash had pressed the rider into a wall: every step "hit" the wall,
+	# the courier stayed put, the bike was parked inside them and they were stuck between it and the wall)
 	var side = Vector3(cos(heading), 0, -sin(heading))
 	var back = -Vector3(sin(heading), 0, cos(heading))
-	var d = 1.35 if vm and vm.find_child("WHEEL_fl", true, false) else 0.75
-	for off in [side * d, -side * d, back * d, side * d * 0.6, -side * d * 0.6, back * d * 0.6]:
-		var o: Vector3 = off
-		if not test_move(global_transform.translated(Vector3(0, 0.05, 0)), o) and not _inside_at(global_position + o):
-			global_position += o
-			break
+	global_position = free_spot(global_position, [side, -side, back, -back], heading, Vector2(bs[0], bs[2]))
+	velocity = Vector3.ZERO
 	last_out = global_position if not _inside_at(global_position) else last_out
 	return vm
+
+
+## Nearest spot around `from` where the courier on foot stands free: the foot capsule touches nothing, it is not
+## inside a building, the ground is about the same height, and it is out of the footprint `box` (x, z) of a vehicle
+## parked at `from` with yaw `yaw`. Tries the `prefer` directions first, then a ring; `from` itself if nothing fits.
+func free_spot(from: Vector3, prefer: Array, yaw = 0.0, box = Vector2.ZERO) -> Vector3:
+	var q = PhysicsShapeQueryParameters3D.new()
+	q.shape = foot_shape.shape
+	q.collision_mask = collision_mask
+	q.exclude = [get_rid()]
+	q.margin = 0.03
+	var space = get_world_3d().direct_space_state
+	var ax = Vector3(cos(yaw), 0, -sin(yaw))
+	var az = Vector3(sin(yaw), 0, cos(yaw))
+	var dirs: Array = prefer.duplicate()
+	for k in 16:
+		dirs.append(Vector3(cos(TAU * k / 16.0), 0, sin(TAU * k / 16.0)))
+	var base = max(box.x * 0.5 + 0.4, 0.6)
+	for dist in [base, base + 0.35, base + 0.8, base + 1.4, base + 2.2]:
+		for dv in dirs:
+			var p: Vector3 = from + (dv as Vector3).normalized() * dist
+			var d = p - from
+			if abs(d.dot(ax)) < box.x * 0.5 + 0.32 and abs(d.dot(az)) < box.y * 0.5 + 0.32:
+				continue
+			if world and world.level:
+				var gh: float = world.level.ground_height(p)
+				if abs(gh - from.y) > 0.7:
+					continue
+				p.y = gh
+			if _inside_at(p):
+				continue
+			q.transform = Transform3D(Basis(), p + Vector3(0, foot_shape.position.y + 0.12, 0))
+			if space.intersect_shape(q, 1).is_empty():
+				return p + Vector3(0, 0.05, 0)
+	return from
+
+
+## True when the active collision shape is pushed into something (a wall, a parked vehicle): not just touching it.
+func _overlapping() -> bool:
+	var cs: CollisionShape3D = foot_shape if mode == Mode.FOOT else (car_shape if mode == Mode.CAR else ride_shape)
+	# a copy shrunk by 6 cm: leaning on a wall is fine, sitting 6+ cm inside one is not
+	if not _probe.has(cs):
+		var s = cs.shape
+		if s is CapsuleShape3D:
+			var c = CapsuleShape3D.new()
+			c.radius = s.radius - 0.06
+			c.height = s.height - 0.12
+			_probe[cs] = c
+		else:
+			var b = BoxShape3D.new()
+			b.size = (s as BoxShape3D).size - Vector3(0.12, 0.12, 0.12)
+			_probe[cs] = b
+	var q = PhysicsShapeQueryParameters3D.new()
+	q.shape = _probe[cs]
+	q.collision_mask = collision_mask
+	q.exclude = [get_rid()]
+	q.margin = 0.0
+	q.transform = global_transform * cs.transform.translated(Vector3(0, 0.08, 0))
+	return not get_world_3d().direct_space_state.intersect_shape(q, 1).is_empty()
 
 
 ## True when a point is inside a solid building box of the level (Level._solidify): the courier must never be there.
@@ -320,6 +382,25 @@ func _guard_inside(delta: float) -> void:
 		hint("inside", "В дома заходить нельзя — только через подъезд (E у двери).", 10.0)
 	elif is_on_floor():
 		last_out = global_position
+	# wedged: pushing for over a second, not moving, and the body sits inside a wall / the parked vehicle
+	var moved = Vector2(global_position.x - _stuck_pos.x, global_position.z - _stuck_pos.z).length()
+	_stuck_pos = global_position
+	if _want_move and busy <= 0.0 and moved < 0.06:
+		_stuck_t += 0.2
+	else:
+		_stuck_t = 0.0
+	# 1 s wedged into something; on foot also 4 s of pushing without moving an inch (whatever holds the courier):
+	# step to the nearest free spot. (Riding against a wall with the throttle on is not "stuck".)
+	var wedged = _stuck_t >= 1.0 and _overlapping()
+	if wedged or (_stuck_t >= 4.0 and not riding()):
+		_stuck_t = 0.0
+		if riding():
+			world.dismount_here()     # free_spot() inside dismount() puts the courier clear of it all
+		else:
+			global_position = free_spot(global_position, [])
+		velocity = Vector3.ZERO
+		speed = 0.0
+		print("unstuck -> ", global_position)
 
 
 func fall(seconds = 2.5) -> void:
@@ -359,6 +440,7 @@ func _physics_process(delta: float) -> void:
 	if ok:
 		ax = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
 		ay = Input.get_action_strength("move_forward") - Input.get_action_strength("move_back")
+	_want_move = Vector2(ax, ay).length() > 0.3
 	if not autopilot.is_empty() and mode != Mode.FOOT:
 		# trailer / demo driving: steer toward the next waypoint
 		var tgt: Vector3 = autopilot[0]

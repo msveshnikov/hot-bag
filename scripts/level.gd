@@ -69,6 +69,7 @@ func build(d: Dictionary) -> void:
 		var gn = g.instantiate()
 		add_child(gn)
 		_scan(gn)
+		_solidify(gn)        # garden / quay walls, bridges, map bounds: solid boxes, not hollow shells
 	var holder = Node3D.new()
 	holder.name = "Instances"
 	add_child(holder)
@@ -90,6 +91,10 @@ func build(d: Dictionary) -> void:
 		if it["group"] == "backdrop":
 			_strip_backdrop(n)
 		_optimize(n, it)
+		# buildings, bridges, stairs and the long quay parapets are solid; other props stay hollow boxes on purpose:
+		# the courier sits down INSIDE a bench box (World._sit), a solid one would shove them off
+		if it["group"] != "prop" or it["asset"] == "parapet":
+			_solidify(n)
 	_water()
 	if d.has("map"):
 		map_tex = load(d["map"]["image"])
@@ -195,7 +200,6 @@ func _optimize(n: Node3D, it: Dictionary) -> void:
 			var a = mi.transform * mi.get_aabb()
 			aabb = a if first else aabb.merge(a)
 			first = false
-		_solidify(n)
 		if not first and aabb.size.x > 3.0 and aabb.size.z > 3.0:
 			_camera_proxy(n, aabb)
 			var occ = OccluderInstance3D.new()
@@ -213,10 +217,11 @@ const CAM_LAYER = 16        # camera-only boxes around building bodies (balconie
 var _convex_cache = {}       # per level: shapes of one load (instance ids are not reused while the scenes live)
 
 
-## Building collision comes from Blender "-colonly" boxes, which Godot imports as hollow trimeshes: a courier
-## pushed through a wall (dismounting next to it) ended up in an empty "room" with no way out. A box made of
-## 8 vertices becomes a solid convex shape instead: nothing can stay inside it, physics pushes the body out.
-func _solidify(n: Node3D) -> void:
+## Blender "-col" / "-colonly" meshes come in as hollow trimeshes: a courier pushed through a face (dismounting
+## by a house, crashing into a garden wall at speed) ended up inside a wall or an empty "room" with no way out.
+## Every closed convex piece of such a mesh becomes its own solid convex shape: nothing can stay inside it, physics
+## pushes the body out. Whatever is not (ground sheets, L-shapes) stays a trimesh.
+func _solidify(n: Node) -> void:
 	for cs in n.find_children("*", "CollisionShape3D", true, false):
 		var c: CollisionShape3D = cs
 		var sh = c.shape
@@ -224,20 +229,112 @@ func _solidify(n: Node3D) -> void:
 			continue
 		var key = sh.get_instance_id()
 		if not _convex_cache.has(key):
-			var pts = {}
-			for v in (sh as ConcavePolygonShape3D).get_faces():
-				pts[v.snapped(Vector3(0.001, 0.001, 0.001))] = true
-				if pts.size() > 8:
-					break
-			if pts.size() == 8:
-				var cv = ConvexPolygonShape3D.new()
-				cv.points = PackedVector3Array(pts.keys())
-				_convex_cache[key] = cv
-			else:
-				_convex_cache[key] = null
-		var conv = _convex_cache[key]
-		if conv:
-			c.shape = conv
+			_convex_cache[key] = _split_boxes(sh)
+		var parts: Array = _convex_cache[key]
+		if parts.is_empty():
+			continue
+		c.shape = parts[0]
+		for k in range(1, parts.size()):
+			var extra = CollisionShape3D.new()
+			extra.shape = parts[k]
+			extra.transform = c.transform
+			c.get_parent().add_child(extra)
+
+
+## The closed convex pieces of a trimesh (house boxes, subdivided garden walls, parapets) as solid convex shapes,
+## plus one trimesh with the faces of everything else (ground sheets, L-shapes), if any. Empty when nothing is solid.
+func _split_boxes(sh: ConcavePolygonShape3D) -> Array:
+	var faces: PackedVector3Array = sh.get_faces()
+	var ids = {}               # snapped vertex -> id
+	var pos: Array = []        # id -> vertex
+	var up: Array = []         # union-find parents
+	var vid = PackedInt32Array()
+	vid.resize(faces.size())
+	for i in faces.size():
+		var k: Vector3 = faces[i].snapped(Vector3(0.001, 0.001, 0.001))
+		if not ids.has(k):
+			ids[k] = pos.size()
+			pos.append(k)
+			up.append(pos.size() - 1)
+		vid[i] = ids[k]
+	for f in range(0, faces.size() - 2, 3):
+		_uf_join(up, vid[f], vid[f + 1])
+		_uf_join(up, vid[f], vid[f + 2])
+	var pts = {}               # root -> [vertices]
+	var tris = {}              # root -> [first index of each triangle in faces]
+	for i in pos.size():
+		var r = _uf_root(up, i)
+		if not pts.has(r):
+			pts[r] = []
+			tris[r] = []
+		pts[r].append(pos[i])
+	for f in range(0, faces.size() - 2, 3):
+		tris[_uf_root(up, vid[f])].append(f)
+	var out: Array = []
+	var rest = PackedVector3Array()
+	for r in pts:
+		if pts[r].size() == 8 or _closed_convex(faces, vid, tris[r], pts[r]):
+			var cv = ConvexPolygonShape3D.new()
+			cv.points = PackedVector3Array(pts[r])
+			out.append(cv)
+		else:
+			for f in tris[r]:
+				rest.append_array([faces[f], faces[f + 1], faces[f + 2]])
+	if out.is_empty():
+		return []
+	if rest.size() > 0:
+		var cc = ConcavePolygonShape3D.new()
+		cc.set_faces(rest)
+		cc.backface_collision = sh.backface_collision
+		out.append(cc)
+	return out
+
+
+## A watertight piece (every edge shared by two triangles) with volume, all of its points on one side of every face.
+func _closed_convex(faces: PackedVector3Array, vid: PackedInt32Array, tri: Array, pts: Array) -> bool:
+	var ab = AABB(pts[0], Vector3.ZERO)
+	for p in pts:
+		ab = ab.expand(p)
+	if ab.size.x < 0.02 or ab.size.y < 0.02 or ab.size.z < 0.02:
+		return false
+	var edges = {}
+	for f in tri:
+		for e in [[f, f + 1], [f + 1, f + 2], [f + 2, f]]:
+			var a = vid[e[0]]
+			var b = vid[e[1]]
+			var key = Vector2i(min(a, b), max(a, b))
+			edges[key] = edges.get(key, 0) + 1
+	for key in edges:
+		if edges[key] != 2:
+			return false
+	for f in tri:
+		var nrm: Vector3 = (faces[f + 1] - faces[f]).cross(faces[f + 2] - faces[f])
+		if nrm.length() < 0.000001:
+			continue
+		nrm = nrm.normalized()
+		var lo = 0.0
+		var hi = 0.0
+		for p in pts:
+			var d = (p - faces[f]).dot(nrm)
+			lo = min(lo, d)
+			hi = max(hi, d)
+		if lo < -0.01 and hi > 0.01:
+			return false
+	return true
+
+
+func _uf_root(up: Array, x: int) -> int:
+	while up[x] != x:
+		up[x] = up[up[x]]
+		x = up[x]
+	return x
+
+
+func _uf_join(up: Array, a: int, b: int) -> void:
+	var ra = _uf_root(up, a)
+	var rb = _uf_root(up, b)
+	if ra != rb:
+		up[ra] = rb
 
 
 func _camera_proxy(n: Node3D, aabb: AABB) -> void:

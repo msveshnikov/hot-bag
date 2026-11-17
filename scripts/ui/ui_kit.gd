@@ -85,11 +85,16 @@ static func theme() -> Theme:
 	t.set_color("font_color", "TooltipLabel", CREAM)
 	var sc = StyleBoxFlat.new()
 	sc.bg_color = Color(0, 0, 0, 0.12)
-	sc.set_corner_radius_all(6)
+	sc.set_corner_radius_all(7)
+	# the bar's width comes from these margins: without them it was 0 px and invisible; wider for a finger
+	var bw = 11 if Game.is_touch() else 7
+	sc.set_content_margin_all(bw)
 	t.set_stylebox("scroll", "VScrollBar", sc)
+	t.set_stylebox("scroll_focus", "VScrollBar", sc)
 	var sg = StyleBoxFlat.new()
 	sg.bg_color = TURQ
-	sg.set_corner_radius_all(6)
+	sg.set_corner_radius_all(7)
+	sg.set_content_margin_all(bw)
 	t.set_stylebox("grabber", "VScrollBar", sg)
 	t.set_stylebox("grabber_highlight", "VScrollBar", sg)
 	t.set_stylebox("grabber_pressed", "VScrollBar", sg)

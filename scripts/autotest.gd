@@ -94,6 +94,7 @@ func _run() -> void:
 	if Game.flag("only5"):
 		await wait(2.0)
 		await _run5_checks()
+		await _run6_checks()
 		_finish()
 		return
 	var pl: Player = world.player
@@ -329,6 +330,7 @@ func _run() -> void:
 	await _run3_checks()
 	await _run4_checks()
 	await _run5_checks()
+	await _run6_checks()
 	# ---------------- views of the town
 	var views = [[-11.0, -2.0, 180.0, "21_square"], [-16.0, 2.0, 180.0, "22_restaurants"], [-20.0, -54.0, 90.0, "23_avenue"], [0.0, -76.0, 90.0, "24_park"]]
 	world.dismount_here()
@@ -445,6 +447,26 @@ func _run5_checks() -> void:
 	if pl.riding():
 		world.dismount_here()
 		await wait(0.5)
+	var hh = _wall_house()
+	var house: Node3D = hh[0]
+	var half: Vector3 = hh[1]
+	var n_conv = 0
+	var n_conc = 0
+	for c in lv.find_children("*", "CollisionShape3D", true, false):
+		if (c as CollisionShape3D).shape is ConvexPolygonShape3D:
+			n_conv += 1
+		elif (c as CollisionShape3D).shape is ConcavePolygonShape3D:
+			n_conc += 1
+	log_line("run5: %d solid boxes, %d trimesh shapes left" % [n_conv, n_conc])
+	check(house != null, "run5: a house with a solid (convex) collision box")
+	if house == null:
+		return
+	await _run5_rest(house, half)
+
+
+## A house with a solid box collision and a walkable street in front of it: [house, half extents] or [null, 0].
+func _wall_house() -> Array:
+	var lv: Level = world.level
 	var house: Node3D = null
 	var half = Vector3.ZERO
 	for i in lv.instances.size():
@@ -466,17 +488,12 @@ func _run5_checks() -> void:
 				break
 			house = null
 			half = Vector3.ZERO
-	var n_conv = 0
-	var n_conc = 0
-	for c in lv.find_children("*", "CollisionShape3D", true, false):
-		if (c as CollisionShape3D).shape is ConvexPolygonShape3D:
-			n_conv += 1
-		elif (c as CollisionShape3D).shape is ConcavePolygonShape3D:
-			n_conc += 1
-	log_line("run5: %d solid boxes, %d trimesh shapes left" % [n_conv, n_conc])
-	check(house != null, "run5: a house with a solid (convex) collision box")
-	if house == null:
-		return
+	return [house, half]
+
+
+func _run5_rest(house: Node3D, half: Vector3) -> void:
+	var pl: Player = world.player
+	var lv: Level = world.level
 	var hb = house.global_transform.basis
 	var spot = house.global_transform * Vector3(0, 0, half.z + 0.6)
 	spot.y = lv.ground_height(spot)
@@ -984,3 +1001,226 @@ func _after_travel() -> void:
 	get_tree().paused = false
 	Game.delete_save()
 	get_tree().quit()
+
+
+## Run 6 (bug fixes): the «Хоп!» list with several offers scrolls down to the last «Принять» (a visible scrollbar,
+## the mouse wheel over a card, the scroll kept when a new offer arrives); a crash into a wall leaves the courier free.
+func _run6_checks() -> void:
+	var pl: Player = world.player
+	if Game.flag("trimesh"):
+		var by = {}
+		var lv: Level = world.level
+		for i in lv.instances.size():
+			var n: Node3D = lv.instances[i]
+			if n == null:
+				continue
+			for c in n.find_children("*", "CollisionShape3D", true, false):
+				var sh = (c as CollisionShape3D).shape
+				if sh is ConcavePolygonShape3D:
+					var pts = {}
+					for v in (sh as ConcavePolygonShape3D).get_faces():
+						pts[v.snapped(Vector3(0.001, 0.001, 0.001))] = true
+					var k = "%s/%s/%s v=%d" % [Game.layout["instances"][i]["group"], Game.layout["instances"][i]["asset"], c.get_parent().name, pts.size()]
+					by[k] = by.get(k, 0) + 1
+		for k in by:
+			log_line("trimesh %s x%d" % [k, by[k]])
+	world.screens.close_all()
+	if pl.riding():
+		world.dismount_here()
+		await wait(0.5)
+	var saved: Array = world.orders.offers.duplicate()
+	world.orders.offers.clear()
+	for k in 4:
+		var o = world.orders.make_offer()
+		if not o.is_empty():
+			o["expires"] = 999.0
+			world.orders.offers.append(o)
+	world.open_phone()
+	world.screens.open_phone("orders")
+	await wait(0.6)
+	var body: ScrollContainer = world.screens.phone_body
+	var vb: VScrollBar = body.get_v_scroll_bar()
+	check(vb.visible and vb.size.x >= 8.0 and vb.max_value > vb.page + 1.0, "run6: phone with %d offers has a visible scrollbar (width %.0f, list %.0f > view %.0f)" % [world.orders.offers.size(), vb.size.x, vb.max_value, vb.page])
+	await shot("54_phone_offers_top")
+	var list: Control = body.get_child(0)
+	var card: Control = list.get_child(0)
+	for k in 6:
+		for pressed in [true, false]:
+			var ev = InputEventMouseButton.new()
+			ev.button_index = MOUSE_BUTTON_WHEEL_DOWN
+			ev.pressed = pressed
+			ev.factor = 1.0
+			ev.position = card.get_global_rect().get_center()
+			ev.global_position = ev.position
+			get_viewport().push_input(ev, true)
+		await wait(0.05)
+	await wait(0.3)
+	check(body.scroll_vertical > 40, "run6: mouse wheel over an offer card scrolls the list (%d px)" % body.scroll_vertical)
+	body.scroll_vertical = int(vb.max_value)
+	await wait(0.3)
+	var last: Control = list.get_child(list.get_child_count() - 1)
+	var acc: Button = null
+	for b in last.find_children("*", "Button", true, false):
+		if (b as Button).text == "Принять":
+			acc = b
+	var view = body.get_global_rect()
+	check(acc != null and view.encloses(acc.get_global_rect()), "run6: scrolled to the end, the last offer's «Принять» is fully on screen")
+	await shot("55_phone_offers_end")
+	var s0 = body.scroll_vertical
+	var extra = world.orders.make_offer()
+	if not extra.is_empty():
+		extra["expires"] = 999.0
+		world.orders.offers.append(extra)
+	world.orders.changed.emit()
+	await wait(0.4)
+	var body2: ScrollContainer = world.screens.phone_body
+	check(body2 != body and abs(body2.scroll_vertical - s0) <= 2, "run6: a new offer arriving keeps the list scrolled (%d -> %d)" % [s0, body2.scroll_vertical])
+	world.screens.close_all()
+	world.orders.offers.clear()
+	world.orders.offers.append_array(saved)
+	await wait(0.3)
+	# ---------------- crash into a wall at speed: never wedged (a house, then the brick garden walls of the ground)
+	var hh = _wall_house()
+	var house: Node3D = hh[0]
+	var half: Vector3 = hh[1]
+	check(house != null, "run6: a house wall to crash into")
+	if house == null:
+		return
+	var hb = house.global_transform.basis
+	var into = -hb.z.normalized()
+	world.traffic.set_physics_process(false)
+	# sitting on a bench still puts the courier on it (props stay hollow on purpose, see Level._solidify)
+	var benches = world._markers("INT_bench")
+	if benches.size() > 0:
+		var bp = world._v(benches[0]["pos"])
+		tp(_free_near(bp + Vector3(1.0, 0, 0)), 0.0)
+		await wait(0.3)
+		world._sit(bp, float(benches[0]["yaw"]))
+		await wait(1.0)
+		var off = Vector2(pl.global_position.x - bp.x, pl.global_position.z - bp.z).length()
+		check(off < 0.35, "run6: sitting on a bench keeps the courier on it (%.2f m off)" % off)
+		await wait(3.5)
+	await _crash_test(house.global_transform * Vector3(0.6, 0, half.z), -into, "house wall", "56_crash_wall")
+	var walls = _garden_walls()
+	check(walls.size() >= 3, "run6: garden walls of the ground are solid boxes (%d)" % walls.size())
+	for k in min(2, walls.size()):
+		await _crash_test(walls[k][0], walls[k][1], "garden wall %d" % k, "57_crash_garden_wall_%d" % k)
+	if walls.size() > 0:
+		# however the courier got into a garden wall, they are put back on the street
+		var wpos: Vector3 = walls[0][0] - (walls[0][1] as Vector3) * 0.3
+		var was_in = pl._inside_at(wpos)
+		pl.global_position = wpos + Vector3(0, 0.1, 0)
+		await wait(0.9)
+		check(was_in and not pl._inside_at(pl.global_position) and not pl._overlapping(), "run6: courier put inside a garden wall is back on the street (inside first: %s)" % was_in)
+	# the old trap on purpose: rider pressed against the wall, dismount right there
+	var spot = house.global_transform * Vector3(-0.5, 0, half.z + 0.45)
+	spot.y = world.level.ground_height(spot)
+	if not pl.riding():
+		if world.parked.is_empty():
+			world.swap_vehicle("bicycle")
+			await wait(0.2)
+		(world.parked["body"] as Node3D).global_position = _free_near(pl.global_position)
+		world.mount_parked()
+	await wait(0.3)
+	pl.global_position = spot + Vector3(0, 0.1, 0)
+	pl.heading = atan2(into.x, into.z)
+	pl.rotation.y = pl.heading
+	await wait(0.3)
+	world.dismount_here()
+	await wait(0.4)
+	var bpos: Vector3 = (world.parked["body"] as Node3D).global_position
+	check(not pl._overlapping() and not pl._inside_at(pl.global_position) and Vector2(pl.global_position.x - bpos.x, pl.global_position.z - bpos.z).length() > 0.5, "run6: dismount pressed against a wall lands clear of the wall and the bike")
+	# the safety net: put the courier inside the parked bike, push into the wall -> freed within ~1.5 s
+	pl.global_position = bpos + Vector3(0, 0.1, 0)
+	await wait(0.1)
+	pl.cyaw = atan2(-into.x, -into.z)
+	pl.cam_idle = 0.0
+	await hold("move_forward", 1.8)
+	check(not pl._overlapping(), "run6: courier stuck inside the bike against a wall is pushed out")
+	world.traffic.set_physics_process(true)
+
+
+## Ride a bicycle at full speed into a wall (face centre `face`, `out` = the wall's outward normal) a bit off square:
+## afterwards the courier must stand free and walk away.
+func _crash_test(face: Vector3, out: Vector3, what: String, shot_name: String) -> void:
+	var pl: Player = world.player
+	if pl.riding():
+		world.dismount_here()
+		await wait(0.3)
+	out = Vector3(out.x, 0, out.z).normalized()
+	var start = face + out * 9.0
+	start.y = world.level.ground_height(start)
+	var yaw = atan2(-out.x, -out.z) + deg_to_rad(12.0)
+	if world.parked.is_empty():
+		world.swap_vehicle("bicycle")
+		await wait(0.2)
+	var bk: Node3D = world.parked["body"]
+	bk.global_position = start
+	bk.rotation.y = yaw
+	tp(_free_near(start), rad_to_deg(yaw))
+	world.mount_parked()
+	await wait(0.6)
+	var falls0 = int(Game.state["stats"]["falls"])
+	Input.action_press("move_forward")
+	Input.action_press("sprint")
+	var tt = 0.0
+	var top = 0.0
+	while tt < 6.0 and pl.riding():
+		top = max(top, pl.speed)
+		await wait(0.1)
+		tt += 0.1
+	Input.action_release("move_forward")
+	Input.action_release("sprint")
+	log_line("run6: %s: top speed %.1f, fell %s, riding %s" % [what, top, int(Game.state["stats"]["falls"]) > falls0, pl.riding()])
+	if pl.riding():
+		world.dismount_here()   # too soft to throw the rider off: get off right at the wall, the same trap
+	await wait(4.5)
+	var side = (pl.global_position - face).dot(out)
+	check(not pl._overlapping() and not pl._inside_at(pl.global_position) and side > 0.0, "run6: %s: after the crash the courier stands free on the street side (%.2f m from the face)" % [what, side])
+	await shot(shot_name)
+	pl.cyaw = atan2(-out.x, -out.z)      # camera boom toward the wall: forward = away from it
+	pl.cam_idle = 0.0
+	var p0 = pl.global_position
+	await hold("move_forward", 1.2)
+	check(p0.distance_to(pl.global_position) > 1.0, "run6: %s: walks away from the crash spot (%.2f m)" % [what, p0.distance_to(pl.global_position)])
+
+
+## Long thin solid boxes of the ground's garden walls with open street in front: [[face centre, outward normal], ...]
+func _garden_walls() -> Array:
+	var lv: Level = world.level
+	var out: Array = []
+	for cs in lv.find_children("*", "CollisionShape3D", true, false):
+		var c: CollisionShape3D = cs
+		var path = str(c.get_path())
+		if not path.contains("garden"):
+			continue
+		var boxes: Array = [c.shape] if c.shape is ConvexPolygonShape3D else []
+		if c.shape is ConcavePolygonShape3D:     # (hollow walls, as before run 6)
+			boxes = lv._split_boxes(c.shape).filter(func(x): return x is ConvexPolygonShape3D)
+		for bx in boxes:
+			_garden_wall_face(c, bx, out)
+	return out
+
+
+func _garden_wall_face(c: CollisionShape3D, bx: ConvexPolygonShape3D, out: Array) -> void:
+	var lv: Level = world.level
+	var ab = AABB(bx.points[0], Vector3.ZERO)
+	for v in bx.points:
+		ab = ab.expand(v)
+	if ab.size.y < 1.0 or max(ab.size.x, ab.size.z) < 4.0 or min(ab.size.x, ab.size.z) > 1.0:
+		return
+	var gt = c.global_transform
+	var ctr = gt * ab.get_center()
+	var thin = (gt.basis.x if ab.size.x < ab.size.z else gt.basis.z).normalized()
+	var th = min(ab.size.x, ab.size.z) * 0.5
+	for sgn in [1.0, -1.0]:
+		var n: Vector3 = thin * sgn
+		var ok = true
+		for d in [1.5, 4.0, 7.0, 9.0]:
+			var p = ctr + n * (th + d)
+			ok = ok and lv.surface_at(p) in ["s", "c", "a", "z", "p", "g", "b"] and not world.player._inside_at(p)
+		if ok:
+			var face = ctr + n * th
+			face.y = lv.ground_height(face)
+			out.append([face, n])
+			break

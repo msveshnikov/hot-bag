@@ -5,6 +5,7 @@ extends Control
 var world: Node
 var stack: Array = []        # [{name, node}]
 var _phone_tab = "orders"
+var phone_body: ScrollContainer   # the scrolling list of the open phone tab
 
 
 func _ready() -> void:
@@ -95,6 +96,10 @@ func open_dialog(who: String, text: String, options: Array) -> void:
 
 # ---------------------------------------------------------------- phone app «Хоп!»
 func open_phone(tab = "") -> void:
+	# a refresh (new offer, «Скрыть») keeps the list where the player scrolled it; another tab starts at the top
+	var keep_scroll = 0
+	if (tab == "" or tab == _phone_tab) and is_instance_valid(phone_body) and top_name() == "phone":
+		keep_scroll = phone_body.scroll_vertical
 	if tab != "":
 		_phone_tab = tab
 	close_named("phone")
@@ -129,7 +134,9 @@ func open_phone(tab = "") -> void:
 	var body = ScrollContainer.new()
 	body.custom_minimum_size = Vector2(520, 600)
 	body.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	body.follow_focus = true     # keyboard / gamepad focus on a lower card scrolls it into view
 	v.add_child(body)
+	phone_body = body
 	var list = UiKit.vbox(10)
 	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	body.add_child(list)
@@ -145,6 +152,8 @@ func open_phone(tab = "") -> void:
 	var close = UiKit.button("Закрыть (Tab)", func(): close_named("phone"), 520, Color("e8dcc4"))
 	v.add_child(close)
 	push("phone", root)
+	if keep_scroll > 0:
+		(func(): if is_instance_valid(body): body.scroll_vertical = keep_scroll).call_deferred()
 	if not world.orders.changed.is_connected(_phone_refresh):
 		world.orders.changed.connect(_phone_refresh)
 
