@@ -959,52 +959,10 @@ func open_controls() -> void:
 
 
 func open_settings() -> void:
-	var m = _modal(Vector2(700, 0), UiKit.CREAM, 0.5)
-	var v: VBoxContainer = m[1]
-	v.add_child(UiKit.title("Настройки", 40))
-	for k in [["music", "Музыка"], ["sfx", "Звуки"], ["mouse_sens", "Чувствительность мыши"]]:
-		var key: String = k[0]
-		var row = UiKit.hbox(10)
-		var l = UiKit.label(k[1], 22)
-		l.custom_minimum_size = Vector2(300, 0)
-		row.add_child(l)
-		var s = HSlider.new()
-		s.custom_minimum_size = Vector2(320, 30)
-		s.min_value = 0.02 if key == "mouse_sens" else 0.0
-		s.max_value = 0.8 if key == "mouse_sens" else 1.0
-		s.step = 0.01
-		s.value = float(Game.settings[key])
-		s.value_changed.connect(func(x): Game.settings[key] = x; Sfx.refresh_volume())
-		row.add_child(s)
-		v.add_child(row)
-	for k in [["invert_y", "Инвертировать камеру по вертикали"], ["shadows", "Тени"], ["fullscreen", "Полный экран"]]:
-		var key: String = k[0]
-		var cb = CheckBox.new()
-		cb.text = k[1]
-		cb.button_pressed = bool(Game.settings[key])
-		cb.toggled.connect(func(x):
-			Game.settings[key] = x
-			if key == "shadows" and world.daynight:
-				world.daynight.apply_quality(); world.player.apply_camera_fx())
-		v.add_child(cb)
-	var qr = UiKit.hbox(8)
-	qr.add_child(UiKit.label("Графика:", 22))
-	for opt in [[0, "Низкая"], [1, "Средняя"], [2, "Высокая"]]:
-		var qid: int = opt[0]
-		qr.add_child(UiKit.button(opt[1], func():
-			Game.settings["quality"] = qid
-			Game.settings["quality_set"] = true
+	var m = _modal(Vector2(720, 0), UiKit.CREAM, 0.5)
+	var first = SettingsPanel.fill(m[1], func():
+		if world.daynight:
 			world.daynight.apply_quality()
-			world.player.apply_camera_fx()
-			Game.save_settings()
-			close_named("settings")
-			open_settings(), 150, UiKit.TURQ if int(Game.settings["quality"]) == qid else Color("e8dcc4")))
-	v.add_child(qr)
-	var tr = UiKit.hbox(8)
-	tr.add_child(UiKit.label("Сенсорное управление:", 22))
-	for opt in [["auto", "Авто"], ["on", "Вкл"], ["off", "Выкл"]]:
-		var oid: String = opt[0]
-		tr.add_child(UiKit.button(opt[1], func(): Game.settings["touch"] = oid; Game.save_settings(); close_named("settings"); open_settings(), 110, UiKit.TURQ if Game.settings["touch"] == oid else Color("e8dcc4")))
-	v.add_child(tr)
-	v.add_child(UiKit.button("Готово", func(): Game.save_settings(); close_named("settings"), 640))
+			world.player.apply_camera_fx(), func(): close_named("settings"))
+	first.grab_focus.call_deferred()
 	push("settings", m[0], true)

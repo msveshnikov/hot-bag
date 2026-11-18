@@ -298,35 +298,7 @@ func _modal() -> Control:
 
 func _settings() -> void:
 	var m = _modal()
-	var v = m.get_meta("box")
-	v.add_child(_text("Настройки", 46, 800, UiKit.INK))
-	var first: Control
-	for k in [["music", "Музыка"], ["sfx", "Звуки"]]:
-		var key: String = k[0]
-		var row = UiKit.hbox(10)
-		var l = UiKit.label(k[1], 26)
-		l.custom_minimum_size = Vector2(200, 0)
-		row.add_child(l)
-		var s = HSlider.new()
-		s.custom_minimum_size = Vector2(340, 34)
-		s.size_flags_vertical = SIZE_SHRINK_CENTER
-		s.max_value = 1.0
-		s.step = 0.01
-		s.value = float(Game.settings[key])
-		s.value_changed.connect(func(x): Game.settings[key] = x; Sfx.refresh_volume())
-		row.add_child(s)
-		v.add_child(row)
-		if first == null:
-			first = s
-	for k in [["shadows", "Тени"], ["fullscreen", "Полный экран"]]:
-		var key: String = k[0]
-		var cb = CheckBox.new()
-		cb.text = k[1]
-		cb.add_theme_font_size_override("font_size", 26)
-		cb.button_pressed = bool(Game.settings[key])
-		cb.toggled.connect(func(x): Game.settings[key] = x)
-		v.add_child(cb)
-	v.add_child(UiKit.button("Готово", func(): Game.save_settings(); m.queue_free(); buttons[0].grab_focus(), 560))
+	var first = SettingsPanel.fill(m.get_meta("box"), Callable(), func(): m.queue_free(); buttons[0].grab_focus())
 	first.grab_focus.call_deferred()
 
 

@@ -1236,6 +1236,30 @@ func _garden_wall_face(c: CollisionShape3D, bx: ConvexPolygonShape3D, out: Array
 func _run7_checks() -> void:
 	var pl: Player = world.player
 	world.screens.close_all()
+	# the in-game settings are the shared SettingsPanel: every option present, the quality choice applies
+	world.screens.open_settings()
+	await wait(0.4)
+	var texts = []
+	var low: Button
+	for n in world.screens.find_children("*", "", true, false):
+		if n is Label or n is Button:
+			texts.append(n.text)
+			if n is Button and n.text == "Низкая":
+				low = n
+	var need = ["Музыка", "Звуки", "Чувствительность мыши", "Инвертировать камеру по вертикали", "Тени", "Графика", "Сенсорное управление", "Авто"]
+	check(need.all(func(x): return x in texts) and low != null, "in-game settings show the full option list")
+	await shot("63_settings")
+	var q0 = int(Game.settings["quality"])
+	var qs0 = Game.settings.get("quality_set", false)
+	low.pressed.emit()
+	await wait(0.3)
+	check(int(Game.settings["quality"]) == 0, "graphics choice applies in place")
+	Game.settings["quality"] = q0
+	Game.settings["quality_set"] = qs0
+	world.daynight.apply_quality()
+	world.player.apply_camera_fx()
+	world.screens.close_all()
+	await wait(0.2)
 	var o = world.orders.make_offer()
 	o["floor"] = 5
 	o["expires"] = 999.0
