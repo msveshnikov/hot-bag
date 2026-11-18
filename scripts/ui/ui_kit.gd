@@ -12,6 +12,19 @@ const MINT = Color("8fd3b0")
 const WHITE = Color("ffffff")
 
 static var _theme: Theme
+static var _fonts := {}
+
+
+## Rubik (OFL, assets/fonts) at a given weight 300–900; the engine font stays as fallback for emoji/symbols.
+static func font(weight := 500) -> FontVariation:
+	if _fonts.has(weight):
+		return _fonts[weight]
+	var fv = FontVariation.new()
+	fv.base_font = load("res://assets/fonts/Rubik-Variable.ttf")
+	fv.variation_opentype = {TextServerManager.get_primary_interface().name_to_tag("wght"): weight}
+	fv.fallbacks = [ThemeDB.fallback_font]
+	_fonts[weight] = fv
+	return fv
 
 
 static func box(bg: Color, border = INK, bw = 4, radius = 22, pad = 14) -> StyleBoxFlat:
@@ -33,9 +46,8 @@ static func theme() -> Theme:
 		return _theme
 	var t = Theme.new()
 	t.default_font_size = 24
-	var fv = FontVariation.new()
-	fv.variation_embolden = 0.6
-	t.default_font = fv
+	t.default_font = font(500)
+	t.set_font("font", "Button", font(600))
 	var n = box(SUN, INK, 4, 20, 10)
 	n.content_margin_left = 22
 	n.content_margin_right = 22
@@ -55,6 +67,8 @@ static func theme() -> Theme:
 	t.set_color("font_color", "Button", INK)
 	t.set_color("font_hover_color", "Button", INK)
 	t.set_color("font_pressed_color", "Button", INK)
+	t.set_color("font_focus_color", "Button", INK)
+	t.set_color("font_hover_pressed_color", "Button", INK)
 	t.set_color("font_disabled_color", "Button", Color("8f8a80"))
 	t.set_font_size("font_size", "Button", 26)
 	t.set_color("font_color", "Label", INK)
@@ -73,6 +87,21 @@ static func theme() -> Theme:
 	t.set_stylebox("grabber_area_highlight", "HSlider", gr)
 	t.set_color("font_color", "CheckBox", INK)
 	t.set_color("font_hover_color", "CheckBox", TURQ_D)
+	t.set_color("font_pressed_color", "CheckBox", INK)
+	t.set_color("font_focus_color", "CheckBox", INK)
+	t.set_color("font_hover_pressed_color", "CheckBox", TURQ_D)
+	var cbe = StyleBoxEmpty.new()
+	cbe.set_content_margin_all(6)
+	for st in ["normal", "hover", "pressed", "hover_pressed", "disabled"]:
+		t.set_stylebox(st, "CheckBox", cbe)
+	var cbf = box(Color(0, 0, 0, 0), TURQ, 3, 12, 6)
+	cbf.shadow_size = 0
+	t.set_stylebox("focus", "CheckBox", cbf)
+	t.set_icon("checked", "CheckBox", _icon_check(true))
+	t.set_icon("unchecked", "CheckBox", _icon_check(false))
+	t.set_constant("h_separation", "CheckBox", 14)
+	t.set_icon("grabber", "HSlider", _icon_knob(false))
+	t.set_icon("grabber_highlight", "HSlider", _icon_knob(true))
 	var pb = box(Color("e8dcc4"), INK, 3, 12, 0)
 	pb.shadow_size = 0
 	var pf = box(TURQ, INK, 0, 10, 0)
@@ -100,6 +129,49 @@ static func theme() -> Theme:
 	t.set_stylebox("grabber_pressed", "VScrollBar", sg)
 	_theme = t
 	return t
+
+
+## 40 px rounded checkbox: cream when off, turquoise with a cream tick when on (drawn per pixel, anti-aliased).
+static func _icon_check(on: bool) -> ImageTexture:
+	var n = 40
+	var img = Image.create(n, n, false, Image.FORMAT_RGBA8)
+	var fill = TURQ if on else CREAM
+	for y in n:
+		for x in n:
+			var p = Vector2(x + 0.5, y + 0.5)
+			var q = (p - Vector2(20, 20)).abs() - Vector2(11, 11)
+			var d = Vector2(maxf(q.x, 0), maxf(q.y, 0)).length() + minf(maxf(q.x, q.y), 0.0) - 8.0
+			var c = Color(0, 0, 0, 0)
+			if d < 0.5:
+				c = INK if d > -4.0 else fill
+				c.a = clampf(0.5 - d, 0.0, 1.0)
+			if on:
+				var dt = minf(_seg(p, Vector2(11, 21), Vector2(17.5, 27.5)), _seg(p, Vector2(17.5, 27.5), Vector2(29.5, 13)))
+				var k = clampf(3.6 - dt, 0.0, 1.0)
+				if k > 0.0:
+					c = c.lerp(CREAM, k)
+			img.set_pixel(x, y, c)
+	return ImageTexture.create_from_image(img)
+
+
+static func _icon_knob(hi: bool) -> ImageTexture:
+	var n = 34
+	var img = Image.create(n, n, false, Image.FORMAT_RGBA8)
+	for y in n:
+		for x in n:
+			var d = Vector2(x + 0.5 - 17, y + 0.5 - 17).length() - 15.0
+			var c = Color(0, 0, 0, 0)
+			if d < 0.5:
+				c = INK if d > -3.5 else (SUN.lightened(0.2) if hi else SUN)
+				c.a = clampf(0.5 - d, 0.0, 1.0)
+			img.set_pixel(x, y, c)
+	return ImageTexture.create_from_image(img)
+
+
+static func _seg(p: Vector2, a: Vector2, b: Vector2) -> float:
+	var ab = b - a
+	var h = clampf((p - a).dot(ab) / ab.length_squared(), 0.0, 1.0)
+	return (p - a - ab * h).length()
 
 
 ## Anchor a control to a screen corner/edge with an offset from that anchor; it grows toward the screen inside.
@@ -161,6 +233,8 @@ static func button(text: String, cb: Callable, min_w = 260, color = SUN) -> Butt
 			b.add_theme_color_override("font_color", WHITE)
 			b.add_theme_color_override("font_hover_color", WHITE)
 			b.add_theme_color_override("font_pressed_color", WHITE)
+			b.add_theme_color_override("font_focus_color", WHITE)
+			b.add_theme_color_override("font_hover_pressed_color", WHITE)
 	b.pressed.connect(func(): Sfx.play("ui"); cb.call())
 	return b
 
